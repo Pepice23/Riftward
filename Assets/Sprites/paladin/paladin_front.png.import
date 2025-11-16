@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxta3kp7mpyc7"
-path="res://.godot/imported/paladin_sprite_front.png-d81ef1b2dd97be3574a89894b4bf55de.ctex"
+uid="uid://bt2j3onxqui50"
+path="res://.godot/imported/paladin_front.png-8f8cd6a963fa6369c964d098f5da51e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/paladin/paladin_sprite_front.png"
-dest_files=["res://.godot/imported/paladin_sprite_front.png-d81ef1b2dd97be3574a89894b4bf55de.ctex"]
+source_file="res://Assets/Sprites/paladin/paladin_front.png"
+dest_files=["res://.godot/imported/paladin_front.png-8f8cd6a963fa6369c964d098f5da51e8.ctex"]
 
 [params]
 

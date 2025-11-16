@@ -33,23 +33,14 @@ public partial class Player : CharacterBody2D
 
             // Change Sprite based on vertical movement
             if (direction.Y < -0.1f) // Moving up (away from camera)
-            {
                 _sprite.Texture = BackSprite;
-            }
             else // Moving down, left, right, or diagonal
-            {
                 _sprite.Texture = FrontSprite;
-            }
 
             // Flip sprite based on horizontal movement
             if (direction.X > 0.01f)
-            {
                 _sprite.FlipH = false; // Moving right
-            }
-            else if (direction.X < -0.01f)
-            {
-                _sprite.FlipH = true; // Moving left
-            }
+            else if (direction.X < -0.01f) _sprite.FlipH = true; // Moving left
             // If only moving up/down, keep current flip state
         }
         else
@@ -59,5 +50,26 @@ public partial class Player : CharacterBody2D
 
         // Actually move the character (Godot handles collision automatically)
         MoveAndSlide();
+    }
+
+    private void OnPaladinButtonPressed()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
+        _sprite.Texture = FrontSprite;
+    }
+
+    private void OnMageButtonPressed()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
+        _sprite.Texture = FrontSprite;
+    }
+
+    private void OnHunterButtonPressed()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
+        _sprite.Texture = FrontSprite;
     }
 }

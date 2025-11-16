@@ -1,8 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://cawvcld7fy85x"]
+[gd_scene load_steps=5 format=3 uid="uid://cawvcld7fy85x"]
 
 [ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://bkxki2yagygtc" path="res://Assets/Art/paladin_art.png" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://b37sjvr8gq8c7" path="res://Assets/Art/mage_art.png" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://dsw6buwxqv1fe" path="res://Assets/Art/hunter_art.png" id="4_1bvp3"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(356, 102)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(300, 50)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PaladinButton" type="TextureButton" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("2_0xm2m")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MageButton" type="TextureButton" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("3_h2yge")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="HunterButton" type="TextureButton" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("4_1bvp3")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="pressed" from="HBoxContainer/PaladinButton" to="Player" method="OnPaladinButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/MageButton" to="Player" method="OnMageButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/HunterButton" to="Player" method="OnHunterButtonPressed"]

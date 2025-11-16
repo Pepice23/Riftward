@@ -72,4 +72,29 @@ public partial class Player : CharacterBody2D
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
         _sprite.Texture = FrontSprite;
     }
+
+    // TEMPORARY - Just for testing
+    public override void _Process(double delta)
+    {
+        // Press SPACE to damage nearby enemies (test only)
+        if (Input.IsActionJustPressed("ui_accept")) // Space bar
+        {
+            TestDamageNearbyEnemies();
+        }
+    }
+
+// TEMPORARY - Delete this later
+    private void TestDamageNearbyEnemies()
+    {
+        // Find all enemies in the scene
+        var enemies = GetTree().GetNodesInGroup("enemies");
+
+        foreach (var node in enemies)
+        {
+            if (node is Enemy enemy)
+            {
+                enemy.TakeDamage(3); // Test: do 3 damage
+            }
+        }
+    }
 }

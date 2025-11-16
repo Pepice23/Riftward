@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ch6p72hqu3vvc"
-path="res://.godot/imported/paladin_art.png-73ce520ec6cbe1d7a2927fbbb4a66169.ctex"
+uid="uid://edk6o5dhp6e"
+path="res://.godot/imported/hunter_back.png-0194b27fe916e52aef794c8046b41616.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/paladin/paladin_art.png"
-dest_files=["res://.godot/imported/paladin_art.png-73ce520ec6cbe1d7a2927fbbb4a66169.ctex"]
+source_file="res://Assets/Sprites/hunter/hunter_back.png"
+dest_files=["res://.godot/imported/hunter_back.png-0194b27fe916e52aef794c8046b41616.ctex"]
 
 [params]
 

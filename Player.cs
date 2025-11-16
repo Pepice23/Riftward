@@ -8,7 +8,12 @@ public partial class Player : CharacterBody2D
     [Export] public Texture2D FrontSprite;
     [Export] public Texture2D BackSprite;
 
+    // NEW: Weapon system
+    [Export] public PackedScene ProjectileScene; // Assign in Inspector!
+    [Export] public float AttackCooldown = 1.0f; // Shoot every 1 second
+
     private Sprite2D _sprite;
+    private float _attackTimer = 1.0f; //Track time until next shot
 
     public override void _Ready()
     {
@@ -52,6 +57,69 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 
+
+    // NEW: Weapon system
+    public override void _Process(double delta)
+    {
+        // Count down the attack timer
+        _attackTimer -= (float)delta;
+
+        // Time to shoot?
+        if (_attackTimer <= 0f)
+        {
+            ShootAtNearestEnemy();
+            _attackTimer = AttackCooldown; // Reset timer
+        }
+    }
+
+    // NEW: Find and shoot at nearest enemy
+    private void ShootAtNearestEnemy()
+    {
+        // Make sure we have a projectile scene assigned
+        if (ProjectileScene == null)
+            return;
+
+        // Find all enemies
+        var enemies = GetTree().GetNodesInGroup("enemies");
+        if (enemies.Count == 0)
+            return; // No enemies to shoot
+
+        // Find the closest enemy
+        Enemy nearestEnemy = null;
+        var nearestDistance = float.MaxValue;
+
+        foreach (var node in enemies)
+            if (node is Enemy enemy)
+            {
+                var distance = GlobalPosition.DistanceTo(enemy.GlobalPosition);
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearestEnemy = enemy;
+                }
+            }
+
+        // Shoot at the nearest enemy
+        if (nearestEnemy != null) SpawnProjectile(nearestEnemy.GlobalPosition);
+    }
+
+    // NEW: Actually create and fire the projectile
+    private void SpawnProjectile(Vector2 targetPosition)
+    {
+        // Create the projectile
+        var projectile = ProjectileScene.Instantiate<Projectile>();
+
+        // Spawn it at player's position
+        projectile.GlobalPosition = GlobalPosition;
+
+        // Aim it at the target
+        var direction = (targetPosition - GlobalPosition).Normalized();
+        projectile.SetDirection(direction);
+
+        // Add it to the scene (as child of main scene, not player!)
+        GetParent().AddChild(projectile);
+    }
+
     private void OnPaladinButtonPressed()
     {
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
@@ -71,30 +139,5 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
         _sprite.Texture = FrontSprite;
-    }
-
-    // TEMPORARY - Just for testing
-    public override void _Process(double delta)
-    {
-        // Press SPACE to damage nearby enemies (test only)
-        if (Input.IsActionJustPressed("ui_accept")) // Space bar
-        {
-            TestDamageNearbyEnemies();
-        }
-    }
-
-// TEMPORARY - Delete this later
-    private void TestDamageNearbyEnemies()
-    {
-        // Find all enemies in the scene
-        var enemies = GetTree().GetNodesInGroup("enemies");
-
-        foreach (var node in enemies)
-        {
-            if (node is Enemy enemy)
-            {
-                enemy.TakeDamage(3); // Test: do 3 damage
-            }
-        }
     }
 }

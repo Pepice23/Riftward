@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://di7irm71fk7ad"]
+
+[ext_resource type="Script" uid="uid://dmkh0mymp5a0a" path="res://Projectile.cs" id="1_a85iw"]
+
+[sub_resource type="Gradient" id="Gradient_akgne"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a85iw"]
+gradient = SubResource("Gradient_akgne")
+width = 20
+height = 10
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_akgne"]
+size = Vector2(20, 10)
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_a85iw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_a85iw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_akgne")

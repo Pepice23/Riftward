@@ -7,6 +7,10 @@ public partial class Player : CharacterBody2D
     [Signal]
     public delegate void XPUpdatedEventHandler(int xpNeededForNextLevel, int currentXP);
 
+    [Signal]
+    public delegate void GamePausedEventHandler();
+
+
     #region Exports
 
     // Movement
@@ -49,14 +53,6 @@ public partial class Player : CharacterBody2D
     // XP
     private int _xpNeededForNextLevel;
 
-
-    // Upgrade Buttons
-    private Button _upgrade1;
-    private Button _upgrade2;
-    private Button _upgrade3;
-
-    // Character Changing Buttons
-
     #endregion
 
 
@@ -69,18 +65,11 @@ public partial class Player : CharacterBody2D
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
-        _upgrade1 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton1");
-        _upgrade2 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton2");
-        _upgrade3 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton3");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
         CalculateXPNeeded();
-        // Connect upgrade buttons
-        _upgrade1.Pressed += OnUpgrade1Selected;
-        _upgrade2.Pressed += OnUpgrade2Selected;
-        _upgrade3.Pressed += OnUpgrade3Selected;
 
         if (hud != null)
         {
@@ -362,48 +351,12 @@ public partial class Player : CharacterBody2D
         GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 
         PauseGame();
-        // TODO: Show upgrade UI (we'll do this next)
     }
 
     #endregion
-
-    #region Pause and Resume
-
+    
     private void PauseGame()
     {
-        GetTree().Paused = true;
-        LevelUpUi.Visible = true;
+        EmitSignal(SignalName.GamePaused);
     }
-
-    private void ResumeGame()
-    {
-        GetTree().Paused = false;
-    }
-
-    #endregion
-
-    #region Upgrade Buttons
-
-    private void OnUpgrade1Selected()
-    {
-        GD.Print("Player chose Upgrade 1");
-        LevelUpUi.Visible = false;
-        ResumeGame();
-    }
-
-    private void OnUpgrade2Selected()
-    {
-        GD.Print("Player chose Upgrade 2");
-        LevelUpUi.Visible = false;
-        ResumeGame();
-    }
-
-    private void OnUpgrade3Selected()
-    {
-        GD.Print("Player chose Upgrade 3");
-        LevelUpUi.Visible = false;
-        ResumeGame();
-    }
-
-    #endregion
 }

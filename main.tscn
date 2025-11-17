@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cawvcld7fy85x"]
+[gd_scene load_steps=9 format=3 uid="uid://cawvcld7fy85x"]
 
 [ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://bkxki2yagygtc" path="res://Assets/Art/paladin_art.png" id="2_0xm2m"]
@@ -7,12 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://dsw6buwxqv1fe" path="res://Assets/Art/hunter_art.png" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://q80clbsplep6" path="res://enemy.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://enemy_spawner.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://chkttgdg2scpn" path="res://level_up_ui.tscn" id="8_5vw27"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
+[node name="Player" parent="." node_paths=PackedStringArray("LevelUpUI") instance=ExtResource("1_ig7tw")]
 position = Vector2(356, 102)
 ProjectileScene = ExtResource("2_7mycd")
+LevelUpUI = NodePath("../LevelUpUI")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(300, 50)
@@ -42,7 +44,10 @@ stretch_mode = 5
 
 [node name="EnemySpawner" parent="." instance=ExtResource("6_7mycd")]
 EnemyScene = ExtResource("5_lquwl")
-SpawnCooldown = 5.0
+SpawnCooldown = 3.0
+
+[node name="LevelUpUI" parent="." instance=ExtResource("8_5vw27")]
+visible = false
 
 [connection signal="pressed" from="HBoxContainer/PaladinButton" to="Player" method="OnPaladinButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/MageButton" to="Player" method="OnMageButtonPressed"]

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 
 
@@ -182,7 +183,8 @@ public partial class Player : CharacterBody2D
         _currentHealth -= damage;
         _damageCooldown = DamageCooldownTime; // Start invulnerability
 
-        UpdatePlayerHP();
+        _ = FlashDamage(); // Start the flash dont wait
+        UpdatePlayerHP(); // Update immediately
 
         // Did we die?
         if (_currentHealth <= 0)
@@ -207,6 +209,18 @@ public partial class Player : CharacterBody2D
     {
         _healthBar.MaxValue = MaxHealth;
         _healthBar.Value = _currentHealth;
+    }
+
+    private async Task FlashDamage()
+    {
+        // Turn red
+        _sprite.Modulate = new Color(1, 0, 0); // Pure red (R=1, G=0, B=0)
+
+        // Wait 0.1 seconds
+        await ToSignal(GetTree().CreateTimer(DamageFlashDuration), SceneTreeTimer.SignalName.Timeout);
+
+        // Return to normal (white)
+        _sprite.Modulate = new Color(1, 1, 1); // White (R=1, G=1, B=1)
     }
 
 

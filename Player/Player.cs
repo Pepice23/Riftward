@@ -4,6 +4,9 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
+    [Signal]
+    public delegate void XPUpdatedEventHandler(int xpNeededForNextLevel, int currentXP);
+
     #region Exports
 
     // Movement
@@ -45,9 +48,7 @@ public partial class Player : CharacterBody2D
 
     // XP
     private int _xpNeededForNextLevel;
-    private ProgressBar _xpBar;
-    private Label _currentXpLabel;
-    private Label _maxXpLabel;
+
 
     // Upgrade Buttons
     private Button _upgrade1;
@@ -55,9 +56,6 @@ public partial class Player : CharacterBody2D
     private Button _upgrade3;
 
     // Character Changing Buttons
-    private TextureButton _changeToPaladin;
-    private TextureButton _changeToMage;
-    private TextureButton _changeToHunter;
 
     #endregion
 
@@ -66,32 +64,30 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
+        var hud = Hud as Hud;
+
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
         _upgrade1 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton1");
         _upgrade2 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton2");
         _upgrade3 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton3");
-        _changeToPaladin = Hud.GetNode<TextureButton>("%PaladinButton");
-        _changeToMage = Hud.GetNode<TextureButton>("%MageButton");
-        _changeToHunter = Hud.GetNode<TextureButton>("%HunterButton");
-        _xpBar = Hud.GetNode<ProgressBar>("%XPProgressBar");
-        _currentXpLabel = Hud.GetNode<Label>("%CurrentXP");
-        _maxXpLabel = Hud.GetNode<Label>("%MaxXP");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
         _xpNeededForNextLevel = CalculateXPNeeded();
-        UpdateXP();
         // Connect upgrade buttons
         _upgrade1.Pressed += OnUpgrade1Selected;
         _upgrade2.Pressed += OnUpgrade2Selected;
         _upgrade3.Pressed += OnUpgrade3Selected;
-        // Connect the class changing buttons
-        _changeToPaladin.Pressed += OnPaladinButtonPressed;
-        _changeToMage.Pressed += OnMageButtonPressed;
-        _changeToHunter.Pressed += OnHunterButtonPressed;
+
+        if (hud != null)
+        {
+            hud.PaladinSelected += ChangeToPaladin;
+            hud.MageSelected += ChangeToMage;
+            hud.HunterSelected += ChangeToHunter;
+        }
     }
 
     // This runs every physics frame (60 times per second)
@@ -304,21 +300,21 @@ public partial class Player : CharacterBody2D
 
     #region Character Switching
 
-    private void OnPaladinButtonPressed()
+    private void ChangeToPaladin()
     {
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
         _sprite.Texture = FrontSprite;
     }
 
-    private void OnMageButtonPressed()
+    private void ChangeToMage()
     {
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
         _sprite.Texture = FrontSprite;
     }
 
-    private void OnHunterButtonPressed()
+    private void ChangeToHunter()
     {
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
@@ -348,7 +344,7 @@ public partial class Player : CharacterBody2D
         // Did we level up?
         if (CurrentXP >= _xpNeededForNextLevel) LevelUp();
 
-        UpdateXP();
+        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
     }
 
     private void LevelUp()
@@ -361,20 +357,12 @@ public partial class Player : CharacterBody2D
 
         // Recalculate XP needed for next level
         _xpNeededForNextLevel = CalculateXPNeeded();
-        UpdateXP();
+        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
 
         GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 
         PauseGame();
         // TODO: Show upgrade UI (we'll do this next)
-    }
-
-    private void UpdateXP()
-    {
-        _xpBar.MaxValue = _xpNeededForNextLevel;
-        _xpBar.Value = CurrentXP;
-        _currentXpLabel.Text = CurrentXP.ToString();
-        _maxXpLabel.Text = _xpNeededForNextLevel.ToString();
     }
 
     #endregion

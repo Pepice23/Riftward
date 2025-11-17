@@ -256,11 +256,11 @@ Godot uses a **scene tree** - everything is a node in a hierarchy.
 ```csharp
 public partial class PlayerSprite : Sprite2D
 {
-    public override void _Ready()
-    {
-        // Load and assign texture
-        Texture = GD.Load<Texture2D>("res://Assets/Sprites/player.png");
-    }
+	public override void _Ready()
+	{
+		// Load and assign texture
+		Texture = GD.Load<Texture2D>("res://Assets/Sprites/player.png");
+	}
 }
 ```
 
@@ -272,19 +272,19 @@ public partial class PlayerSprite : Sprite2D
 ```csharp
 public partial class Player : CharacterBody2D
 {
-    [Export] public float Speed = 300f;
+	[Export] public float Speed = 300f;
 
-    public override void _PhysicsProcess(double delta)
-    {
-        Vector2 velocity = Velocity;
+	public override void _PhysicsProcess(double delta)
+	{
+		Vector2 velocity = Velocity;
 
-        // Get input and move
-        Vector2 direction = Input.GetVector("left", "right", "up", "down");
-        velocity = direction * Speed;
+		// Get input and move
+		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		velocity = direction * Speed;
 
-        Velocity = velocity;
-        MoveAndSlide(); // Godot handles collision automatically
-    }
+		Velocity = velocity;
+		MoveAndSlide(); // Godot handles collision automatically
+	}
 }
 ```
 
@@ -296,18 +296,18 @@ public partial class Player : CharacterBody2D
 ```csharp
 public partial class Weapon : Area2D
 {
-    public override void _Ready()
-    {
-        BodyEntered += OnBodyEntered;
-    }
+	public override void _Ready()
+	{
+		BodyEntered += OnBodyEntered;
+	}
 
-    private void OnBodyEntered(Node2D body)
-    {
-        if (body is Enemy enemy)
-        {
-            enemy.TakeDamage(10);
-        }
-    }
+	private void OnBodyEntered(Node2D body)
+	{
+		if (body is Enemy enemy)
+		{
+			enemy.TakeDamage(10);
+		}
+	}
 }
 ```
 
@@ -386,15 +386,15 @@ Autoloads are globally accessible nodes - perfect for managers and services.
 ```csharp
 public partial class GameManager : Node
 {
-    // Singleton pattern for easy access
-    public static GameManager Instance { get; private set; }
+	// Singleton pattern for easy access
+	public static GameManager Instance { get; private set; }
 
-    public override void _Ready()
-    {
-        Instance = this;
-    }
+	public override void _Ready()
+	{
+		Instance = this;
+	}
 
-    // Your manager logic here
+	// Your manager logic here
 }
 
 // Access from anywhere:
@@ -410,10 +410,10 @@ Use `[Export]` to expose properties in the Godot editor:
 ```csharp
 public partial class Enemy : CharacterBody2D
 {
-    [Export] public int MaxHealth = 100;
-    [Export] public float MoveSpeed = 150f;
-    [Export] public PackedScene LootDrop; // Reference to another scene
-    [Export] public Texture2D Sprite;
+	[Export] public int MaxHealth = 100;
+	[Export] public float MoveSpeed = 150f;
+	[Export] public PackedScene LootDrop; // Reference to another scene
+	[Export] public Texture2D Sprite;
 }
 ```
 
@@ -554,28 +554,28 @@ For Vampire Survivors-style combat:
 ```csharp
 public partial class Player : CharacterBody2D
 {
-    [Export] public float AttackRange = 100f;
-    [Export] public float AttackCooldown = 1f;
+	[Export] public float AttackRange = 100f;
+	[Export] public float AttackCooldown = 1f;
 
-    private float _attackTimer = 0f;
+	private float _attackTimer = 0f;
 
-    public override void _Process(double delta)
-    {
-        _attackTimer -= (float)delta;
+	public override void _Process(double delta)
+	{
+		_attackTimer -= (float)delta;
 
-        if (_attackTimer <= 0f)
-        {
-            AttackNearestEnemy();
-            _attackTimer = AttackCooldown;
-        }
-    }
+		if (_attackTimer <= 0f)
+		{
+			AttackNearestEnemy();
+			_attackTimer = AttackCooldown;
+		}
+	}
 
-    private void AttackNearestEnemy()
-    {
-        // Find enemies in range
-        // Apply damage
-        // Spawn projectile or effect
-    }
+	private void AttackNearestEnemy()
+	{
+		// Find enemies in range
+		// Apply damage
+		// Spawn projectile or effect
+	}
 }
 ```
 
@@ -591,24 +591,24 @@ public partial class Player : CharacterBody2D
 // Data structure for an upgrade
 public class Upgrade
 {
-    public string Name;
-    public string Description;
-    public Action<Player> ApplyEffect;
+	public string Name;
+	public string Description;
+	public Action<Player> ApplyEffect;
 }
 
 // Upgrade manager
 public partial class UpgradeManager : Node
 {
-    private List<Upgrade> _availableUpgrades = new();
+	private List<Upgrade> _availableUpgrades = new();
 
-    public List<Upgrade> GetRandomUpgrades(int count)
-    {
-        // Shuffle and return X random upgrades
-        return _availableUpgrades
-            .OrderBy(x => GD.Randf())
-            .Take(count)
-            .ToList();
-    }
+	public List<Upgrade> GetRandomUpgrades(int count)
+	{
+		// Shuffle and return X random upgrades
+		return _availableUpgrades
+			.OrderBy(x => GD.Randf())
+			.Take(count)
+			.ToList();
+	}
 }
 ```
 
@@ -625,29 +625,29 @@ public partial class UpgradeManager : Node
 ```csharp
 public partial class EnemySpawner : Node2D
 {
-    [Export] public PackedScene EnemyScene;
-    [Export] public float SpawnInterval = 2f;
-    [Export] public int MaxEnemies = 50;
+	[Export] public PackedScene EnemyScene;
+	[Export] public float SpawnInterval = 2f;
+	[Export] public int MaxEnemies = 50;
 
-    private float _spawnTimer = 0f;
+	private float _spawnTimer = 0f;
 
-    public override void _Process(double delta)
-    {
-        _spawnTimer -= (float)delta;
+	public override void _Process(double delta)
+	{
+		_spawnTimer -= (float)delta;
 
-        if (_spawnTimer <= 0f && GetChildCount() < MaxEnemies)
-        {
-            SpawnEnemy();
-            _spawnTimer = SpawnInterval;
-        }
-    }
+		if (_spawnTimer <= 0f && GetChildCount() < MaxEnemies)
+		{
+			SpawnEnemy();
+			_spawnTimer = SpawnInterval;
+		}
+	}
 
-    private void SpawnEnemy()
-    {
-        var enemy = EnemyScene.Instantiate<Enemy>();
-        enemy.Position = GetRandomSpawnPosition();
-        AddChild(enemy);
-    }
+	private void SpawnEnemy()
+	{
+		var enemy = EnemyScene.Instantiate<Enemy>();
+		enemy.Position = GetRandomSpawnPosition();
+		AddChild(enemy);
+	}
 }
 ```
 
@@ -662,22 +662,22 @@ public partial class EnemySpawner : Node2D
 ```csharp
 public partial class GameManager : Node
 {
-    public float RunTime { get; private set; } = 0f;
-    public bool IsRunActive { get; private set; } = false;
+	public float RunTime { get; private set; } = 0f;
+	public bool IsRunActive { get; private set; } = false;
 
-    public override void _Process(double delta)
-    {
-        if (IsRunActive)
-        {
-            RunTime += (float)delta;
+	public override void _Process(double delta)
+	{
+		if (IsRunActive)
+		{
+			RunTime += (float)delta;
 
-            // Check win condition (e.g., 15 minutes)
-            if (RunTime >= 900f)
-            {
-                WinRun();
-            }
-        }
-    }
+			// Check win condition (e.g., 15 minutes)
+			if (RunTime >= 900f)
+			{
+				WinRun();
+			}
+		}
+	}
 }
 ```
 
@@ -688,12 +688,12 @@ public partial class GameManager : Node
 ```
 CanvasLayer (stays on screen during camera movement)
 └── UI (Control node)
-    ├── HUD (margin container)
-    │   ├── HealthBar
-    │   ├── XPBar
-    │   └── Timer
-    └── LevelUpPanel (popup)
-        └── UpgradeChoices
+	├── HUD (margin container)
+	│   ├── HealthBar
+	│   ├── XPBar
+	│   └── Timer
+	└── LevelUpPanel (popup)
+		└── UpgradeChoices
 ```
 
 ### Anchors and Margins
@@ -737,14 +737,14 @@ Based on your GAME_PLAN.md, you're starting with 3-4 classes. Here's a structure
 ```csharp
 public class PlayerClass
 {
-    public string Name;
-    public Texture2D Icon;
-    public float BaseHealth;
-    public float BaseDamage;
-    public string StartingWeapon;
+	public string Name;
+	public Texture2D Icon;
+	public float BaseHealth;
+	public float BaseDamage;
+	public string StartingWeapon;
 
-    // Unique ability
-    public Action<Player> SpecialAbility;
+	// Unique ability
+	public Action<Player> SpecialAbility;
 }
 ```
 
@@ -779,15 +779,15 @@ public class PlayerClass
 ```csharp
 public partial class Player : CharacterBody2D
 {
-    [Export] public PlayerClass CurrentClass;
+	[Export] public PlayerClass CurrentClass;
 
-    private List<Weapon> _equippedWeapons = new();
+	private List<Weapon> _equippedWeapons = new();
 
-    public void EquipWeapon(Weapon weapon)
-    {
-        _equippedWeapons.Add(weapon);
-        AddChild(weapon); // Weapon handles its own attack logic
-    }
+	public void EquipWeapon(Weapon weapon)
+	{
+		_equippedWeapons.Add(weapon);
+		AddChild(weapon); // Weapon handles its own attack logic
+	}
 }
 ```
 
@@ -808,7 +808,7 @@ Godot C# doesn't fully support namespaces for node scripts. Stick to global name
 // ❌ Can cause issues
 namespace MyGame.Characters
 {
-    public partial class Player : CharacterBody2D { }
+	public partial class Player : CharacterBody2D { }
 }
 
 // ✅ Safe approach
@@ -822,12 +822,12 @@ public partial class Player : CharacterBody2D { }
 
 public override void _Ready()
 {
-    // ❌ Crash if not assigned in editor!
-    PlayerSprite.Texture = newTexture;
+	// ❌ Crash if not assigned in editor!
+	PlayerSprite.Texture = newTexture;
 
-    // ✅ Defensive coding
-    if (PlayerSprite != null)
-        PlayerSprite.Texture = newTexture;
+	// ✅ Defensive coding
+	if (PlayerSprite != null)
+		PlayerSprite.Texture = newTexture;
 }
 ```
 

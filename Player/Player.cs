@@ -76,7 +76,7 @@ public partial class Player : CharacterBody2D
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
-        _xpNeededForNextLevel = CalculateXPNeeded();
+        CalculateXPNeeded();
         // Connect upgrade buttons
         _upgrade1.Pressed += OnUpgrade1Selected;
         _upgrade2.Pressed += OnUpgrade2Selected;
@@ -326,13 +326,14 @@ public partial class Player : CharacterBody2D
     #region XP & Level Up
 
     // Calculate how much XP is needed for the next level
-    private int CalculateXPNeeded()
+    private void CalculateXPNeeded()
     {
         // Formula: Base * (1.15 ^ (Level - 1))
         // Level 2: 10 * 1.15^0 = 10
         // Level 3: 10 * 1.15^1 = 11.5 → 12
         // Level 4: 10 * 1.15^2 = 13.2 → 14
-        return Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.15f, CurrentLevel - 1));
+        _xpNeededForNextLevel = Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.15f, CurrentLevel - 1));
+        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
     }
 
     // Call this when player should gain XP
@@ -356,8 +357,7 @@ public partial class Player : CharacterBody2D
         CurrentLevel++;
 
         // Recalculate XP needed for next level
-        _xpNeededForNextLevel = CalculateXPNeeded();
-        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
+        CalculateXPNeeded();
 
         GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 

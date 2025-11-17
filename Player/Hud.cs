@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Hud : CanvasLayer
 {
@@ -30,7 +29,10 @@ public partial class Hud : CanvasLayer
         _xpBar = GetNode<ProgressBar>("%XPProgressBar");
         _currentXpLabel = GetNode<Label>("%CurrentXP");
         _maxXpLabel = GetNode<Label>("%MaxXP");
-        Player.XPUpdated += UpdateXP;
+        if (Player != null)
+        {
+            Player.XPUpdated += UpdateXP;
+        }
     }
 
     private void OnPaladinButtonPressed()
@@ -57,5 +59,13 @@ public partial class Hud : CanvasLayer
         _xpBar.Value = currentXP;
         _currentXpLabel.Text = currentXP.ToString();
         _maxXpLabel.Text = xpNeededForNextLevel.ToString();
+    }
+
+    public override void _ExitTree()
+    {
+        if (Player != null)
+        {
+            Player.XPUpdated -= UpdateXP;
+        }
     }
 }

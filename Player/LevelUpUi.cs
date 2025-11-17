@@ -8,7 +8,10 @@ public partial class LevelUpUi : CanvasLayer
     public override void _Ready()
     {
         Hide();
-        Player.GamePaused += ShowUpgradeUi;
+        if (Player != null)
+        {
+            Player.GamePaused += ShowUpgradeUi;
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,5 +47,13 @@ public partial class LevelUpUi : CanvasLayer
     {
         GD.Print("Player chose Upgrade 3");
         HideUpgradeUi();
+    }
+
+    public override void _ExitTree()
+    {
+        if (Player != null)
+        {
+            Player.GamePaused -= ShowUpgradeUi;
+        }
     }
 }

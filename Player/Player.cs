@@ -30,8 +30,8 @@ public partial class Player : CharacterBody2D
     [Export] public int CurrentLevel = 1;
     [Export] public int CurrentXP;
     [Export] public int BaseXPNeeded = 10; // XP needed for level 2
-    [Export] public CanvasLayer LevelUpUi;
-    [Export] public CanvasLayer Hud;
+    [Export] public LevelUpUi LevelUpUi;
+    [Export] public Hud Hud;
 
     #endregion
 
@@ -60,7 +60,7 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-        var hud = Hud as Hud;
+        var hud = Hud;
 
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
@@ -354,9 +354,20 @@ public partial class Player : CharacterBody2D
     }
 
     #endregion
-    
+
     private void PauseGame()
     {
         EmitSignal(SignalName.GamePaused);
+    }
+
+    public override void _ExitTree()
+    {
+        var hud = Hud;
+        if (hud != null)
+        {
+            hud.PaladinSelected -= ChangeToPaladin;
+            hud.MageSelected -= ChangeToMage;
+            hud.HunterSelected -= ChangeToHunter;
+        }
     }
 }

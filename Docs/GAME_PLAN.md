@@ -1,8 +1,9 @@
 # Riftward - Project Plan
 
-**Title:** Riftward  
-**Created:** November 15, 2025  
-**Status:** Planning / Pre-Development
+**Title:** Riftward
+**Created:** November 15, 2025
+**Updated:** November 17, 2025
+**Status:** Active Development - Core Loop Implementation
 
 ---
 
@@ -21,6 +22,51 @@
 - Focus on build choices over twitch reactions
 - "One more run" loop with satisfying progression
 - Run-based structure with meta progression
+
+---
+
+## Current Progress
+
+### âœ… Completed Systems
+
+**Foundation (Phase 1-2):**
+- âœ… Project setup with Godot 4.5 + C#
+- âœ… Player movement (WASD controls, sprite direction)
+- âœ… Enemy spawning system with basic AI
+- âœ… Auto-attack combat (projectile-based)
+- âœ… Collision detection and damage
+
+**Core Loop (Phase 3):**
+- âœ… XP system with scaling requirements
+- âœ… Level up triggers and UI pause
+- âœ… Health system with damage flash feedback
+- âœ… Class selection system (Paladin, Mage, Hunter)
+- âœ… Signal-based UI architecture (HUD + LevelUpUI)
+
+**Code Quality:**
+- âœ… Player.cs refactored and organized with regions
+- âœ… Separated UI into dedicated components (Hud.cs, LevelUpUi.cs)
+- âœ… Signal connections with proper cleanup (_ExitTree)
+- âœ… ~100 lines removed from Player.cs while maintaining functionality
+
+### đŸ"„ In Progress
+
+- Level-up upgrade selection (UI shows, needs upgrade data structure)
+- Upgrade application system
+
+### 📋 Next Up
+
+**Immediate (Phase 4):**
+- Define upgrade data structure
+- Implement 3-4 starter upgrades per class
+- Apply upgrades to player stats/abilities
+- Test full level-up loop with actual effects
+
+**Soon (Phase 4-5):**
+- Refined enemy spawning (waves, difficulty scaling)
+- Different enemy types
+- Run timer and win condition (15 min survival)
+- Class-specific starting weapons/abilities
 
 ---
 
@@ -66,52 +112,72 @@ This is the fantasy VS-like I would want to play:
 
 ---
 
-## Core Game Loop (To Define)
+## Core Game Loop
 
-**Basic Run Structure:**
-- Player controls a character (class-based)
-- Enemies spawn in waves
-- Auto-attacking with abilities
-- Level up â†’ choose upgrades
-- Run ends after X minutes or death
-- Meta progression unlocks between runs
+**Basic Run Structure:** *(Mostly Implemented)*
+- âœ… Player controls a character (class-based)
+- âœ… Enemies spawn continuously
+- âœ… Auto-attacking with projectile weapons
+- âœ… Level up triggers and pauses game
+- ⏳ Choose upgrades (UI ready, needs upgrade data)
+- ⏳ Run ends after X minutes or death (death works, timer pending)
+- 📋 Meta progression unlocks between runs (future scope)
 
-**Classes (To Design):**
-Starting with 3-4 distinct classes:
-- Ideas: Mage, Paladin, Hunter, Rogue?
-- Each with signature abilities and upgrade paths
-- WoW-style fantasy archetypes
+**Classes:** *(3 Implemented)*
+- âœ… **Paladin** - Tank archetype (sprites + switching implemented)
+- âœ… **Mage** - Spellcaster archetype (sprites + switching implemented)
+- âœ… **Hunter** - Ranged archetype (sprites + switching implemented)
+- 📋 **Rogue** - Melee/stealth archetype (potential 4th class)
 
-**Upgrade System:**
-- Level up â†’ choose 1 of 3 upgrades
-- Simple talent-tree style choices
-- Class-specific upgrade pools
-- Not building one massive system - small focused trees per class
+*Note: All classes currently share base stats/attacks. Class-specific abilities pending.*
 
-**Meta Progression:**
-- Unlock new classes?
-- Permanent stat boosts?
-- New starting abilities?
-- (To define based on what keeps runs fresh)
+**Upgrade System:** *(UI Complete, Data Pending)*
+- âœ… UI shows on level up with 3 upgrade buttons
+- ⏳ Define upgrade data structure
+- ⏳ Create upgrade pools (start class-agnostic, then specialize)
+- ⏳ Apply selected upgrades to player stats
+- Examples to implement:
+  - Damage boost (+10% projectile damage)
+  - Fire rate (+attack speed)
+  - Movement speed (+15% speed)
+  - Health boost (+20 max HP)
+  - Multi-shot (fire multiple projectiles)
+
+**Meta Progression:** *(Future Scope)*
+- 📋 Unlock new classes
+- 📋 Permanent stat boosts
+- 📋 New starting abilities
+- *(To define after core loop is solid)*
 
 ---
 
-## Day 1 Goals (When Ready)
+## Development Milestones
 
-**Planning Day 1:**
-- âœ… Define core identity (DONE)
-- âœ… Establish scope boundaries (DONE)
-- Define 3-4 starting classes
-- Sketch basic run structure
-- List meta progression ideas
+**Week 1: Foundation** âœ… COMPLETE
+- âœ… Define core identity
+- âœ… Establish scope boundaries
+- âœ… Install Godot 4.5 with .NET support
+- âœ… Create project and player movement
+- âœ… Basic enemy spawning and combat
 
-**Working Day 1:**
-- Install Godot 4.5 with .NET support
-- Create new C# project
-- Make a character sprite move with keyboard input
-- See it work on screen
+**Week 2: Core Loop** âœ… COMPLETE
+- âœ… XP and level-up system
+- âœ… Health and damage
+- âœ… UI foundation (HUD, LevelUpUI)
+- âœ… Class selection system
+- âœ… Code refactoring and organization
 
-**One visible win to start.**
+**Week 3: Upgrades** ⏳ IN PROGRESS
+- ⏳ Upgrade data structure
+- ⏳ Implement starter upgrades
+- ⏳ Apply upgrades to player
+- 📋 Test full progression loop
+
+**Week 4+: Polish & Expand**
+- 📋 Enemy variety and waves
+- 📋 Run timer and win condition
+- 📋 Class-specific abilities
+- 📋 Visual polish and effects
 
 ---
 
@@ -125,14 +191,27 @@ Starting with 3-4 distinct classes:
 
 ---
 
-## Next Steps (When Ready)
+## Next Steps
 
-- Set up project folder
-- Collect reference images (fantasy art, WoW screenshots, VS-like gameplay)
-- Design starting classes (3-4 to begin)
-- Define core upgrade types
-- Sketch meta progression system
-- Install Godot and start Day 1 Working
+**Immediate Priority:**
+1. Define upgrade data structure (class/struct to hold upgrade info)
+2. Create 4-5 simple upgrades (damage, speed, health, fire rate)
+3. Wire upgrades to LevelUpUI buttons
+4. Apply upgrade effects when selected
+5. Test: Kill enemies â†' gain XP â†' level up â†' choose upgrade â†' see effect
+
+**After Upgrades Work:**
+1. Add run timer (15-minute survival goal)
+2. Improve enemy spawning (waves, difficulty scaling)
+3. Create 2-3 enemy types with different behaviors
+4. Add visual polish (damage numbers, particle effects)
+5. Implement class-specific starting abilities
+
+**Code Quality Goals:**
+- Continue refactoring as systems grow
+- Keep Player.cs manageable (consider weapon system extraction)
+- Document complex systems
+- Add signal cleanup wherever needed
 
 ---
 
@@ -149,3 +228,18 @@ Starting with 3-4 distinct classes:
 ---
 
 **Remember:** Small wins compound. Build something you understand. Make what you'd want to play.
+
+---
+
+## Recent Session Notes
+
+**November 17, 2025 - Refactoring & Signals:**
+- Refactored Player.cs, removed ~100 lines while keeping functionality
+- Separated UI into Hud.cs and LevelUpUi.cs
+- Implemented proper signal architecture (XPUpdated, GamePaused, class selection)
+- Added signal cleanup with _ExitTree methods
+- Fixed type safety with typed exports (LevelUpUi, Hud instead of CanvasLayer)
+- Learned about signal memory leaks and proper cleanup patterns
+- Player.cs now well-organized with regions (Movement, Combat, Health, XP, etc.)
+
+**Key Learning:** Signal connections need cleanup! Always disconnect in _ExitTree what you connect in _Ready.

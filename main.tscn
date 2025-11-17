@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://cawvcld7fy85x"]
 
 [ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://Player/player.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://di7irm71fk7ad" path="res://projectile.tscn" id="2_7mycd"]
-[ext_resource type="PackedScene" uid="uid://q80clbsplep6" path="res://enemy.tscn" id="5_lquwl"]
-[ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://enemy_spawner.tscn" id="6_7mycd"]
-[ext_resource type="PackedScene" uid="uid://c17k7nhx0uckv" path="res://hud.tscn" id="6_272bh"]
-[ext_resource type="PackedScene" uid="uid://chkttgdg2scpn" path="res://level_up_ui.tscn" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://di7irm71fk7ad" path="res://Player/projectile.tscn" id="2_7mycd"]
+[ext_resource type="PackedScene" uid="uid://q80clbsplep6" path="res://Enemy/enemy.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://Enemy/enemy_spawner.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://c17k7nhx0uckv" path="res://Player/hud.tscn" id="6_272bh"]
+[ext_resource type="PackedScene" uid="uid://chkttgdg2scpn" path="res://Player/level_up_ui.tscn" id="8_5vw27"]
 
 [node name="Main" type="Node2D"]
 
@@ -19,8 +19,9 @@ Hud = NodePath("../HUD")
 EnemyScene = ExtResource("5_lquwl")
 SpawnCooldown = 3.0
 
-[node name="LevelUpUI" parent="." instance=ExtResource("8_5vw27")]
+[node name="LevelUpUI" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("8_5vw27")]
 visible = false
+Player = NodePath("../Player")
 
 [node name="HUD" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("6_272bh")]
 Player = NodePath("../Player")

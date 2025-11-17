@@ -1,7 +1,10 @@
-[gd_scene format=3 uid="uid://chkttgdg2scpn"]
+[gd_scene load_steps=2 format=3 uid="uid://chkttgdg2scpn"]
+
+[ext_resource type="Script" uid="uid://cj4el5qo5jd1p" path="res://Player/LevelUpUi.cs" id="1_v3sp3"]
 
 [node name="LevelUpUI" type="CanvasLayer"]
 process_mode = 2
+script = ExtResource("1_v3sp3")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 8
@@ -35,3 +38,7 @@ text = "Upgrade 2"
 [node name="UpgradeButton3" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Upgrade 3"
+
+[connection signal="pressed" from="Panel/VBoxContainer/UpgradeButton1" to="." method="OnUpgrade1Selected"]
+[connection signal="pressed" from="Panel/VBoxContainer/UpgradeButton2" to="." method="OnUpgrade2Selected"]
+[connection signal="pressed" from="Panel/VBoxContainer/UpgradeButton3" to="." method="OnUpgrade3Selected"]

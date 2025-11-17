@@ -63,6 +63,17 @@ public partial class Player : CharacterBody2D
         CheckEnemyCollisions();
     }
 
+    public override void _Process(double delta)
+    {
+        // NEW: Don't attack if dead
+        if (_isDead)
+            return;
+
+        UpdateCooldowns(delta);
+
+        HandleAttacking();
+    }
+
     #endregion
 
     #region Movement
@@ -108,23 +119,19 @@ public partial class Player : CharacterBody2D
 
     #endregion
 
+    #region Combat System
 
-// Weapon system
-    public override void _Process(double delta)
+    private void UpdateCooldowns(double delta)
     {
-        // NEW: Don't attack if dead
-        if (_isDead)
-            return;
-
         //  Count down damage cooldown
-        if (_damageCooldown > 0f)
-        {
-            _damageCooldown -= (float)delta;
-        }
+        if (_damageCooldown > 0f) _damageCooldown -= (float)delta;
 
         // Count down the attack timer
         _attackTimer -= (float)delta;
+    }
 
+    private void HandleAttacking()
+    {
         // Time to shoot?
         if (_attackTimer <= 0f)
         {
@@ -133,7 +140,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-//  Find and shoot at nearest enemy
+    //  Find and shoot at nearest enemy
     private void ShootAtNearestEnemy()
     {
         // Make sure we have a projectile scene assigned
@@ -181,7 +188,11 @@ public partial class Player : CharacterBody2D
         GetParent().AddChild(projectile);
     }
 
-//  Separate method to keep things organized
+    #endregion
+
+    #region Health & Damage
+
+    //  Separate method to keep things organized
     private void CheckEnemyCollisions()
     {
         // Can't take damage yet? Skip checking
@@ -203,7 +214,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-// Take damage method
+    // Take damage method
     private void TakeDamage(int damage)
     {
         _currentHealth -= damage;
@@ -213,13 +224,10 @@ public partial class Player : CharacterBody2D
         UpdatePlayerHP(); // Update immediately
 
         // Did we die?
-        if (_currentHealth <= 0)
-        {
-            Die();
-        }
+        if (_currentHealth <= 0) Die();
     }
 
-// Death method
+    // Death method
     private void Die()
     {
         if (_isDead) return; // Already dead dont die twice
@@ -249,6 +257,9 @@ public partial class Player : CharacterBody2D
         _sprite.Modulate = new Color(1, 1, 1); // White (R=1, G=1, B=1)
     }
 
+    #endregion
+
+    #region Character Switching
 
     private void OnPaladinButtonPressed()
     {
@@ -270,4 +281,6 @@ public partial class Player : CharacterBody2D
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
         _sprite.Texture = FrontSprite;
     }
+
+    #endregion
 }

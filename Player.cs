@@ -5,26 +5,47 @@ public partial class Player : CharacterBody2D
 {
     // How fast the player moves
     [Export] public float Speed = 300.0f;
+
+    // Sprites of the character front and back
     [Export] public Texture2D FrontSprite;
     [Export] public Texture2D BackSprite;
 
-    // NEW: Weapon system
+    // Weapon system
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
     [Export] public float AttackCooldown = 1.0f; // Shoot every 1 second
 
+    //Player health
+    [Export] public int MaxHealth = 100;
+    [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
+
+    // Reference to the progressbar
+    private ProgressBar _healthBar;
+
     private Sprite2D _sprite;
     private float _attackTimer = 1.0f; //Track time until next shot
+    private int _currentHealth;
+    private float _damageCooldown;
+    private const float DamageCooldownTime = 0.5f;
+    private bool _isDead;
 
     public override void _Ready()
     {
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
+        _healthBar = GetNode<ProgressBar>("%ProgressBar");
+        // Initialize health
+        _currentHealth = MaxHealth;
+        UpdatePlayerHP();
     }
 
 
     // This runs every physics frame (60 times per second)
     public override void _PhysicsProcess(double delta)
     {
+        // NEW: Don't move if dead
+        if (_isDead)
+            return;
+
         // Get input direction (WASD or arrow keys)
         // Returns Vector2 like (-1, 0) for left, (1, 0) for right, etc.
         var direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
@@ -55,12 +76,25 @@ public partial class Player : CharacterBody2D
 
         // Actually move the character (Godot handles collision automatically)
         MoveAndSlide();
+
+        // Continuously check for collisions with enemies
+        CheckEnemyCollisions();
     }
 
 
-    // NEW: Weapon system
+    // Weapon system
     public override void _Process(double delta)
     {
+        // NEW: Don't attack if dead
+        if (_isDead)
+            return;
+
+        //  Count down damage cooldown
+        if (_damageCooldown > 0f)
+        {
+            _damageCooldown -= (float)delta;
+        }
+
         // Count down the attack timer
         _attackTimer -= (float)delta;
 
@@ -72,7 +106,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    // NEW: Find and shoot at nearest enemy
+    //  Find and shoot at nearest enemy
     private void ShootAtNearestEnemy()
     {
         // Make sure we have a projectile scene assigned
@@ -103,7 +137,7 @@ public partial class Player : CharacterBody2D
         if (nearestEnemy != null) SpawnProjectile(nearestEnemy.GlobalPosition);
     }
 
-    // NEW: Actually create and fire the projectile
+    //  Actually create and fire the projectile
     private void SpawnProjectile(Vector2 targetPosition)
     {
         // Create the projectile
@@ -119,6 +153,62 @@ public partial class Player : CharacterBody2D
         // Add it to the scene (as child of main scene, not player!)
         GetParent().AddChild(projectile);
     }
+
+    //  Separate method to keep things organized
+    private void CheckEnemyCollisions()
+    {
+        // Can't take damage yet? Skip checking
+        if (_damageCooldown > 0f)
+            return;
+
+        // Loop through everything we just collided with
+        for (var i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var collision = GetSlideCollision(i);
+            var collider = collision.GetCollider();
+
+            // Is it an enemy?
+            if (collider is Enemy enemy)
+            {
+                TakeDamage(10);
+                return; // Stop checking - we already got hurt this frame
+            }
+        }
+    }
+
+    // Take damage method
+    private void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+        _damageCooldown = DamageCooldownTime; // Start invulnerability
+
+        UpdatePlayerHP();
+
+        // Did we die?
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    // Death method
+    private void Die()
+    {
+        if (_isDead) return; // Already dead dont die twice
+
+        _isDead = true;
+        GD.Print("Player died!");
+
+        // Stop moving
+        Velocity = Vector2.Zero;
+    }
+
+    private void UpdatePlayerHP()
+    {
+        _healthBar.MaxValue = MaxHealth;
+        _healthBar.Value = _currentHealth;
+    }
+
 
     private void OnPaladinButtonPressed()
     {

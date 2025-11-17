@@ -23,7 +23,8 @@ public partial class Player : CharacterBody2D
     [Export] public int CurrentLevel = 1;
     [Export] public int CurrentXP;
     [Export] public int BaseXPNeeded = 10; // XP needed for level 2
-    [Export] public CanvasLayer LevelUpUI;
+    [Export] public CanvasLayer LevelUpUi;
+    [Export] public CanvasLayer Hud;
 
     #endregion
 
@@ -44,6 +45,19 @@ public partial class Player : CharacterBody2D
 
     // XP
     private int _xpNeededForNextLevel;
+    private ProgressBar _xpBar;
+    private Label _currentXpLabel;
+    private Label _maxXpLabel;
+
+    // Upgrade Buttons
+    private Button _upgrade1;
+    private Button _upgrade2;
+    private Button _upgrade3;
+
+    // Character Changing Buttons
+    private TextureButton _changeToPaladin;
+    private TextureButton _changeToMage;
+    private TextureButton _changeToHunter;
 
     #endregion
 
@@ -55,11 +69,29 @@ public partial class Player : CharacterBody2D
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
+        _upgrade1 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton1");
+        _upgrade2 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton2");
+        _upgrade3 = LevelUpUi.GetNode<Button>("Panel/VBoxContainer/UpgradeButton3");
+        _changeToPaladin = Hud.GetNode<TextureButton>("%PaladinButton");
+        _changeToMage = Hud.GetNode<TextureButton>("%MageButton");
+        _changeToHunter = Hud.GetNode<TextureButton>("%HunterButton");
+        _xpBar = Hud.GetNode<ProgressBar>("%XPProgressBar");
+        _currentXpLabel = Hud.GetNode<Label>("%CurrentXP");
+        _maxXpLabel = Hud.GetNode<Label>("%MaxXP");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
         _xpNeededForNextLevel = CalculateXPNeeded();
+        UpdateXP();
+        // Connect upgrade buttons
+        _upgrade1.Pressed += OnUpgrade1Selected;
+        _upgrade2.Pressed += OnUpgrade2Selected;
+        _upgrade3.Pressed += OnUpgrade3Selected;
+        // Connect the class changing buttons
+        _changeToPaladin.Pressed += OnPaladinButtonPressed;
+        _changeToMage.Pressed += OnMageButtonPressed;
+        _changeToHunter.Pressed += OnHunterButtonPressed;
     }
 
     // This runs every physics frame (60 times per second)
@@ -315,6 +347,8 @@ public partial class Player : CharacterBody2D
 
         // Did we level up?
         if (CurrentXP >= _xpNeededForNextLevel) LevelUp();
+
+        UpdateXP();
     }
 
     private void LevelUp()
@@ -327,11 +361,20 @@ public partial class Player : CharacterBody2D
 
         // Recalculate XP needed for next level
         _xpNeededForNextLevel = CalculateXPNeeded();
+        UpdateXP();
 
         GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 
         PauseGame();
         // TODO: Show upgrade UI (we'll do this next)
+    }
+
+    private void UpdateXP()
+    {
+        _xpBar.MaxValue = _xpNeededForNextLevel;
+        _xpBar.Value = CurrentXP;
+        _currentXpLabel.Text = CurrentXP.ToString();
+        _maxXpLabel.Text = _xpNeededForNextLevel.ToString();
     }
 
     #endregion
@@ -341,7 +384,7 @@ public partial class Player : CharacterBody2D
     private void PauseGame()
     {
         GetTree().Paused = true;
-        LevelUpUI.Visible = true;
+        LevelUpUi.Visible = true;
     }
 
     private void ResumeGame()
@@ -356,21 +399,21 @@ public partial class Player : CharacterBody2D
     private void OnUpgrade1Selected()
     {
         GD.Print("Player chose Upgrade 1");
-        LevelUpUI.Visible = false;
+        LevelUpUi.Visible = false;
         ResumeGame();
     }
 
     private void OnUpgrade2Selected()
     {
         GD.Print("Player chose Upgrade 2");
-        LevelUpUI.Visible = false;
+        LevelUpUi.Visible = false;
         ResumeGame();
     }
 
     private void OnUpgrade3Selected()
     {
         GD.Print("Player chose Upgrade 3");
-        LevelUpUI.Visible = false;
+        LevelUpUi.Visible = false;
         ResumeGame();
     }
 

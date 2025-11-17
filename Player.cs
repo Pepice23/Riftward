@@ -4,30 +4,42 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-    // How fast the player moves
-    [Export] public float Speed = 300.0f;
+    #region Exports
 
-    // Sprites of the character front and back
+    // Movement
+    [Export] public float Speed = 300.0f;
     [Export] public Texture2D FrontSprite;
     [Export] public Texture2D BackSprite;
 
-    // Weapon system
+    // Combat
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
     [Export] public float AttackCooldown = 1.0f; // Shoot every 1 second
 
-    //Player health
+    // Health
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
 
-    // Reference to the progressbar
-    private ProgressBar _healthBar;
+    #endregion
 
+    #region Private Fields
+
+    // References
+    private ProgressBar _healthBar;
     private Sprite2D _sprite;
+
+    // Combat state
     private float _attackTimer = 1.0f; //Track time until next shot
+
+    // Health State
     private int _currentHealth;
     private float _damageCooldown;
     private const float DamageCooldownTime = 0.5f;
     private bool _isDead;
+
+    #endregion
+
+
+    #region Lifecycle Methods
 
     public override void _Ready()
     {
@@ -39,7 +51,6 @@ public partial class Player : CharacterBody2D
         UpdatePlayerHP();
     }
 
-
     // This runs every physics frame (60 times per second)
     public override void _PhysicsProcess(double delta)
     {
@@ -47,6 +58,17 @@ public partial class Player : CharacterBody2D
         if (_isDead)
             return;
 
+        HandleMovement(delta);
+        // Continuously check for collisions with enemies
+        CheckEnemyCollisions();
+    }
+
+    #endregion
+
+    #region Movement
+
+    private void HandleMovement(double delta)
+    {
         // Get input direction (WASD or arrow keys)
         // Returns Vector2 like (-1, 0) for left, (1, 0) for right, etc.
         var direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
@@ -57,19 +79,9 @@ public partial class Player : CharacterBody2D
         {
             // Move the character
             Velocity = direction.Normalized() * Speed;
-
-            // Change Sprite based on vertical movement
-            if (direction.Y < -0.1f) // Moving up (away from camera)
-                _sprite.Texture = BackSprite;
-            else // Moving down, left, right, or diagonal
-                _sprite.Texture = FrontSprite;
-
-            // Flip sprite based on horizontal movement
-            if (direction.X > 0.01f)
-                _sprite.FlipH = false; // Moving right
-            else if (direction.X < -0.01f) _sprite.FlipH = true; // Moving left
-            // If only moving up/down, keep current flip state
+            UpdateSpriteDirection(direction);
         }
+
         else
         {
             Velocity = Vector2.Zero; // Stop when no input
@@ -77,13 +89,27 @@ public partial class Player : CharacterBody2D
 
         // Actually move the character (Godot handles collision automatically)
         MoveAndSlide();
-
-        // Continuously check for collisions with enemies
-        CheckEnemyCollisions();
     }
 
+    private void UpdateSpriteDirection(Vector2 direction)
+    {
+        // Change Sprite based on vertical movement
+        if (direction.Y < -0.1f) // Moving up (away from camera)
+            _sprite.Texture = BackSprite;
+        else // Moving down, left, right, or diagonal
+            _sprite.Texture = FrontSprite;
 
-    // Weapon system
+        // Flip sprite based on horizontal movement
+        if (direction.X > 0.01f)
+            _sprite.FlipH = false; // Moving right
+        else if (direction.X < -0.01f) _sprite.FlipH = true; // Moving left
+        // If only moving up/down, keep current flip state
+    }
+
+    #endregion
+
+
+// Weapon system
     public override void _Process(double delta)
     {
         // NEW: Don't attack if dead
@@ -107,7 +133,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    //  Find and shoot at nearest enemy
+//  Find and shoot at nearest enemy
     private void ShootAtNearestEnemy()
     {
         // Make sure we have a projectile scene assigned
@@ -138,7 +164,7 @@ public partial class Player : CharacterBody2D
         if (nearestEnemy != null) SpawnProjectile(nearestEnemy.GlobalPosition);
     }
 
-    //  Actually create and fire the projectile
+//  Actually create and fire the projectile
     private void SpawnProjectile(Vector2 targetPosition)
     {
         // Create the projectile
@@ -155,7 +181,7 @@ public partial class Player : CharacterBody2D
         GetParent().AddChild(projectile);
     }
 
-    //  Separate method to keep things organized
+//  Separate method to keep things organized
     private void CheckEnemyCollisions()
     {
         // Can't take damage yet? Skip checking
@@ -177,7 +203,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    // Take damage method
+// Take damage method
     private void TakeDamage(int damage)
     {
         _currentHealth -= damage;
@@ -193,7 +219,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    // Death method
+// Death method
     private void Die()
     {
         if (_isDead) return; // Already dead dont die twice

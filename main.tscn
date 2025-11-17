@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cawvcld7fy85x"]
 
-[ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://Player/player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://di7irm71fk7ad" path="res://projectile.tscn" id="2_7mycd"]
 [ext_resource type="PackedScene" uid="uid://q80clbsplep6" path="res://enemy.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://enemy_spawner.tscn" id="6_7mycd"]

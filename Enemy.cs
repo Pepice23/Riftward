@@ -9,7 +9,7 @@ public partial class Enemy : CharacterBody2D
     private int _currentHealth;
 
     // Reference to the player (we'll find this automatically)
-    private Node2D _player;
+    private Player _player;
 
     // Reference to the progressbar
     private ProgressBar _healthBar;
@@ -18,7 +18,7 @@ public partial class Enemy : CharacterBody2D
     {
         // Find the player in the scene
         // We'll look for any node named "Player"
-        _player = GetTree().Root.FindChild("Player", true, false) as Node2D;
+        _player = GetTree().Root.FindChild("Player", true, false) as Player;
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
         // Initialize health
         _currentHealth = MaxHealth;
@@ -47,15 +47,13 @@ public partial class Enemy : CharacterBody2D
 
         GD.Print($"Kobold took {amount} damage! Health: {_currentHealth}/{MaxHealth}");
 
-        if (_currentHealth <= 0)
-        {
-            Die();
-        }
+        if (_currentHealth <= 0) Die();
     }
 
     private void Die()
     {
         GD.Print("Kobold died!");
+        _player?.GainXP(1);
         QueueFree(); // Remove from scene
     }
 

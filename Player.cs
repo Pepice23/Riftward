@@ -19,6 +19,11 @@ public partial class Player : CharacterBody2D
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
 
+    // XP
+    [Export] public int CurrentLevel = 1;
+    [Export] public int CurrentXP = 0;
+    [Export] public int BaseXPNeeded = 10; // XP needed for level 2
+
     #endregion
 
     #region Private Fields
@@ -36,6 +41,9 @@ public partial class Player : CharacterBody2D
     private const float DamageCooldownTime = 0.5f;
     private bool _isDead;
 
+    // XP
+    private int _xpNeededForNextLevel;
+
     #endregion
 
 
@@ -49,6 +57,8 @@ public partial class Player : CharacterBody2D
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
+        // Initialize XP
+        _xpNeededForNextLevel = CalculateXPNeeded();
     }
 
     // This runs every physics frame (60 times per second)
@@ -280,6 +290,46 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
         _sprite.Texture = FrontSprite;
+    }
+
+    #endregion
+
+    #region XP & Level Up
+
+    // Calculate how much XP is needed for the next level
+    private int CalculateXPNeeded()
+    {
+        // Formula: Base * (1.15 ^ (Level - 1))
+        // Level 2: 10 * 1.15^0 = 10
+        // Level 3: 10 * 1.15^1 = 11.5 → 12
+        // Level 4: 10 * 1.15^2 = 13.2 → 14
+        return Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.15f, CurrentLevel - 1));
+    }
+
+    // Call this when player should gain XP
+    public void GainXP(int amount)
+    {
+        CurrentXP += amount;
+        GD.Print($"Gained {amount} XP! Total: {CurrentXP}/{_xpNeededForNextLevel}");
+
+        // Did we level up?
+        if (CurrentXP >= _xpNeededForNextLevel) LevelUp();
+    }
+
+    private void LevelUp()
+    {
+        // Subtract the XP cost (carry over extra XP)
+        CurrentXP -= _xpNeededForNextLevel;
+
+        // Increase level
+        CurrentLevel++;
+
+        // Recalculate XP needed for next level
+        _xpNeededForNextLevel = CalculateXPNeeded();
+
+        GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
+
+        // TODO: Show upgrade UI (we'll do this next)
     }
 
     #endregion

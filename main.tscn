@@ -42,6 +42,7 @@ stretch_mode = 5
 
 [node name="EnemySpawner" parent="." instance=ExtResource("6_7mycd")]
 EnemyScene = ExtResource("5_lquwl")
+SpawnCooldown = 5.0
 
 [connection signal="pressed" from="HBoxContainer/PaladinButton" to="Player" method="OnPaladinButtonPressed"]
 [connection signal="pressed" from="HBoxContainer/MageButton" to="Player" method="OnMageButtonPressed"]

@@ -53,7 +53,7 @@ public partial class Enemy : CharacterBody2D
     private void Die()
     {
         GD.Print("Kobold died!");
-        _player?.GainXP(1);
+        _player?.GainXP(5);
         QueueFree(); // Remove from scene
     }
 

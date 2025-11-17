@@ -329,6 +329,54 @@ public partial class Player : CharacterBody2D
 
     #region XP & Level Up
 
+    // Calculate how much XP is needed for the next level
+    private int CalculateXPNeeded()
+    {
+        // Formula: Base * (1.15 ^ (Level - 1))
+        // Level 2: 10 * 1.15^0 = 10
+        // Level 3: 10 * 1.15^1 = 11.5 → 12
+        // Level 4: 10 * 1.15^2 = 13.2 → 14
+        return Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.15f, CurrentLevel - 1));
+    }
+
+    // Call this when player should gain XP
+    public void GainXP(int amount)
+    {
+        CurrentXP += amount;
+        GD.Print($"Gained {amount} XP! Total: {CurrentXP}/{_xpNeededForNextLevel}");
+
+        // Did we level up?
+        if (CurrentXP >= _xpNeededForNextLevel) LevelUp();
+
+        UpdateXP();
+    }
+
+    private void LevelUp()
+    {
+        // Subtract the XP cost (carry over extra XP)
+        CurrentXP -= _xpNeededForNextLevel;
+
+        // Increase level
+        CurrentLevel++;
+
+        // Recalculate XP needed for next level
+        _xpNeededForNextLevel = CalculateXPNeeded();
+        UpdateXP();
+
+        GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
+
+        PauseGame();
+        // TODO: Show upgrade UI (we'll do this next)
+    }
+
+    private void UpdateXP()
+    {
+        _xpBar.MaxValue = _xpNeededForNextLevel;
+        _xpBar.Value = CurrentXP;
+        _currentXpLabel.Text = CurrentXP.ToString();
+        _maxXpLabel.Text = _xpNeededForNextLevel.ToString();
+    }
+
     #endregion
 
     #region Pause and Resume

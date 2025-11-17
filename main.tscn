@@ -22,4 +22,5 @@ SpawnCooldown = 3.0
 [node name="LevelUpUI" parent="." instance=ExtResource("8_5vw27")]
 visible = false
 
-[node name="HUD" parent="." instance=ExtResource("6_272bh")]
+[node name="HUD" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("6_272bh")]
+Player = NodePath("../Player")

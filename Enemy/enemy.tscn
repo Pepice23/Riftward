@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://q80clbsplep6"]
 
-[ext_resource type="Script" uid="uid://dlkj5cm2c7xo5" path="res://Enemy.cs" id="1_4gyqm"]
+[ext_resource type="Script" uid="uid://dlkj5cm2c7xo5" path="res://Enemy/Enemy.cs" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://ciavqqbqbao1" path="res://Assets/Sprites/enemies/kobold.png" id="1_7k104"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gyqm"]

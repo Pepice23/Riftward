@@ -21,8 +21,9 @@ public partial class Player : CharacterBody2D
 
     // XP
     [Export] public int CurrentLevel = 1;
-    [Export] public int CurrentXP = 0;
+    [Export] public int CurrentXP;
     [Export] public int BaseXPNeeded = 10; // XP needed for level 2
+    [Export] public CanvasLayer LevelUpUI;
 
     #endregion
 
@@ -329,7 +330,48 @@ public partial class Player : CharacterBody2D
 
         GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 
+        PauseGame();
         // TODO: Show upgrade UI (we'll do this next)
+    }
+
+    #endregion
+
+    #region Pause and Resume
+
+    private void PauseGame()
+    {
+        GetTree().Paused = true;
+        LevelUpUI.Visible = true;
+    }
+
+    private void ResumeGame()
+    {
+        GetTree().Paused = false;
+    }
+
+    #endregion
+
+    #region Upgrade Buttons
+
+    private void OnUpgrade1Selected()
+    {
+        GD.Print("Player chose Upgrade 1");
+        LevelUpUI.Visible = false;
+        ResumeGame();
+    }
+
+    private void OnUpgrade2Selected()
+    {
+        GD.Print("Player chose Upgrade 2");
+        LevelUpUI.Visible = false;
+        ResumeGame();
+    }
+
+    private void OnUpgrade3Selected()
+    {
+        GD.Print("Player chose Upgrade 3");
+        LevelUpUI.Visible = false;
+        ResumeGame();
     }
 
     #endregion

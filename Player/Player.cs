@@ -21,10 +21,14 @@ public partial class Player : CharacterBody2D
     // Combat
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
     [Export] public float AttackCooldown = 1.0f; // Shoot every 1 second
+    [Export] public int Damage = 3;
+    [Export] public int ProjectileSpeed = 400;
+    [Export] public int ProjectileCount = 1;
 
     // Health
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
+    [Export] public float HealthRegen;
 
     // XP
     [Export] public int CurrentLevel = 1;
@@ -211,6 +215,10 @@ public partial class Player : CharacterBody2D
         // Aim it at the target
         var direction = (targetPosition - GlobalPosition).Normalized();
         projectile.SetDirection(direction);
+
+        // Set the projectile Damage and Speed
+        projectile.Damage = Damage;
+        projectile.Speed = ProjectileSpeed;
 
         // Add it to the scene (as child of main scene, not player!)
         GetParent().AddChild(projectile);

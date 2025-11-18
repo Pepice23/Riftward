@@ -10,6 +10,7 @@ public partial class Hud : CanvasLayer
     private ProgressBar _xpBar;
     private Label _currentXpLabel;
     private Label _maxXpLabel;
+    private Label _levelNumber;
 
     // Define the signal at class level
     [Signal]
@@ -29,9 +30,11 @@ public partial class Hud : CanvasLayer
         _xpBar = GetNode<ProgressBar>("%XPProgressBar");
         _currentXpLabel = GetNode<Label>("%CurrentXP");
         _maxXpLabel = GetNode<Label>("%MaxXP");
+        _levelNumber = GetNode<Label>("%LevelNumber");
         if (Player != null)
         {
             Player.XPUpdated += UpdateXP;
+            Player.LevelUpdated += UpdateLevelNumber;
         }
     }
 
@@ -61,11 +64,17 @@ public partial class Hud : CanvasLayer
         _maxXpLabel.Text = xpNeededForNextLevel.ToString();
     }
 
+    private void UpdateLevelNumber(int levelNumber)
+    {
+        _levelNumber.Text = levelNumber.ToString();
+    }
+
     public override void _ExitTree()
     {
         if (Player != null)
         {
             Player.XPUpdated -= UpdateXP;
+            Player.LevelUpdated -= UpdateLevelNumber;
         }
     }
 }

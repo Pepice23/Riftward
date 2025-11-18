@@ -8,6 +8,9 @@ public partial class Player : CharacterBody2D
     public delegate void XPUpdatedEventHandler(int xpNeededForNextLevel, int currentXP);
 
     [Signal]
+    public delegate void LevelUpdatedEventHandler(int currentLevel);
+
+    [Signal]
     public delegate void GamePausedEventHandler();
 
 
@@ -355,8 +358,8 @@ public partial class Player : CharacterBody2D
 
         // Recalculate XP needed for next level
         CalculateXPNeeded();
+        EmitSignal(SignalName.LevelUpdated, CurrentLevel);
 
-        GD.Print($"LEVEL UP! Now level {CurrentLevel}. Need {_xpNeededForNextLevel} XP for next level.");
 
         PauseGame();
     }

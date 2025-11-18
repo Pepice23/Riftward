@@ -84,6 +84,8 @@ public partial class Player : CharacterBody2D
             hud.MageSelected += ChangeToMage;
             hud.HunterSelected += ChangeToHunter;
         }
+
+        GameManager.Instance.StartRun();
     }
 
     // This runs every physics frame (60 times per second)
@@ -272,6 +274,7 @@ public partial class Player : CharacterBody2D
         if (_isDead) return; // Already dead dont die twice
 
         _isDead = true;
+        GameManager.Instance.EndRun(false);
         GD.Print("Player died!");
 
         // Stop moving

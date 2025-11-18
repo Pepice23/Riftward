@@ -11,6 +11,8 @@ public partial class Hud : CanvasLayer
     private Label _currentXpLabel;
     private Label _maxXpLabel;
     private Label _levelNumber;
+    private ProgressBar _timerBar;
+    private Label _currentTime;
 
     // Define the signal at class level
     [Signal]
@@ -31,10 +33,17 @@ public partial class Hud : CanvasLayer
         _currentXpLabel = GetNode<Label>("%CurrentXP");
         _maxXpLabel = GetNode<Label>("%MaxXP");
         _levelNumber = GetNode<Label>("%LevelNumber");
+        _timerBar = GetNode<ProgressBar>("%TimerProgressBar");
+        _currentTime = GetNode<Label>("%SecondsNumber");
         if (Player != null)
         {
             Player.XPUpdated += UpdateXP;
             Player.LevelUpdated += UpdateLevelNumber;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TimeUpdated += UpdateTimerBar;
         }
     }
 
@@ -69,12 +78,26 @@ public partial class Hud : CanvasLayer
         _levelNumber.Text = levelNumber.ToString();
     }
 
+    private void UpdateTimerBar(float seconds)
+    {
+        _timerBar.MaxValue = 600;
+        _timerBar.Value = seconds;
+        var mins = (int)(seconds / 60);
+        var secs = (int)(seconds % 60);
+        _currentTime.Text = $"{mins}:{secs:D2}";
+    }
+
     public override void _ExitTree()
     {
         if (Player != null)
         {
             Player.XPUpdated -= UpdateXP;
             Player.LevelUpdated -= UpdateLevelNumber;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TimeUpdated -= UpdateTimerBar;
         }
     }
 }

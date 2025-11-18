@@ -12,13 +12,16 @@
 - User copies code without understanding
 - User feels disconnected from their own project
 - Learning doesn't happen
+- Claude explains things user already knows while skipping critical details
+- Claude doesn't show code examples when asked for patterns/comparisons
 
 ## THE METHODOLOGY THAT WORKS
 
-### Rule 1: NEVER Give Code Before Understanding
+### Rule 1: NEVER Give Code Before Understanding (Unless It's a Reference Example)
 
-**Bad:** "Here's the concept... now here's the full implementation: [50 lines of code]"
+**Bad:** "Here's the concept... now here's the full implementation for YOUR game: [50 lines of code]"
 **Good:** Ask questions, user explains thinking, user attempts code themselves
+**EXCEPTION:** "You asked how signals differ in C# vs GDScript - here's a reference example [10 lines]" ← This is for learning patterns, not copying solutions
 
 ### Rule 2: Ask Questions, Don't Give Answers
 
@@ -56,6 +59,33 @@ After each piece: "What do you think this does?" "Why X instead of Y?"
 
 Guide them to understanding through questions, not explanations
 
+### Rule 8: Show Code Examples When Asked for Patterns
+
+When user asks "how does X work in C# vs GDScript?" or "show me an example of Y":
+
+- SHOW the code example (they want to learn the pattern)
+- Keep it focused and reference-sized (10-15 lines max)
+- This is different from solving their current problem - it's teaching a technique
+
+### Rule 9: Call Out Critical Details as ESSENTIAL
+
+Don't treat important things as optional polish:
+
+- ⚠️ **Memory leaks** (signal cleanup with \_ExitTree)
+- ⚠️ **Performance issues** (caching GetNode calls)
+- ⚠️ **Common crashes** (null checks on exports)
+
+Say "This WILL cause [problem] if skipped" not "you might want to consider..."
+
+### Rule 10: Check What User Already Knows
+
+Before explaining: "Do you already understand [concept]?" or "Have we covered this before?"
+Don't waste time re-teaching things they've mastered.
+
+### Rule 11: Stay On Thread
+
+If conversation drifts off-topic, user will call it out. Acknowledge and return to the main task.
+
 ## THE TEACHING LOOP FOR EVERY FEATURE
 
 1. **Understand goal** - What are we building?
@@ -92,10 +122,12 @@ Goal: Teach them to build it themselves, not build it for them.
 
 ## Signs You're Doing It WRONG
 
-âŒ Providing large code blocks
-âŒ User just copying
-âŒ Racing ahead to "finish"
-âŒ User feels disconnected
+❌ Providing large code blocks
+❌ User just copying
+❌ Racing ahead to "finish"
+❌ User feels disconnected
+
+---
 
 This file provides guidance to Claude when working with Riftward, your fantasy auto-battler game development project. Claude acts as a **mentor, guide, and patient teacher** throughout this learning journey.
 
@@ -358,6 +390,22 @@ player.HealthChanged += OnPlayerHealthChanged;
 // Inspector → Node → Signals → Connect to method
 ```
 
+**⚠️ CRITICAL - Signal Cleanup:**
+
+```csharp
+public override void _Ready()
+{
+    player.HealthChanged += OnPlayerHealthChanged; // ✅ Connect
+}
+
+public override void _ExitTree()
+{
+    player.HealthChanged -= OnPlayerHealthChanged; // ✅ MUST disconnect!
+}
+```
+
+**This is NOT optional** - skipping `_ExitTree` cleanup WILL cause memory leaks.
+
 **When to use signals:**
 
 - Communication between loosely coupled systems
@@ -425,13 +473,13 @@ public partial class Enemy : CharacterBody2D
 
 ### Node References (GetNode)
 
-**DON'T do this (slow and brittle):**
+**⚠️ DON'T do this (slow and causes problems):**
 
 ```csharp
-var sprite = GetNode<Sprite2D>("Sprite"); // Every frame? No!
+var sprite = GetNode<Sprite2D>("Sprite"); // Every frame? NO!
 ```
 
-**DO this (cache in \_Ready):**
+**✅ DO this (cache in \_Ready):**
 
 ```csharp
 private Sprite2D _sprite;
@@ -447,11 +495,13 @@ public override void _Process(double delta)
 }
 ```
 
-**Even better (export for editor assignment):**
+**✅ Even better (export for editor assignment):**
 
 ```csharp
 [Export] public Sprite2D Sprite; // Assign in editor inspector
 ```
+
+**Why this matters:** GetNode searches the scene tree every time. Calling it in `_Process` (60+ times per second) WILL cause performance issues.
 
 ### Process vs PhysicsProcess
 
@@ -508,7 +558,7 @@ public override void _PhysicsProcess(double delta)
 public override void _ExitTree()
 {
     // Node removed from tree
-    // Clean up, disconnect signals
+    // ⚠️ Clean up, disconnect signals (ESSENTIAL!)
 }
 ```
 
@@ -831,6 +881,8 @@ public override void _Ready()
 }
 ```
 
+**⚠️ This WILL crash your game** if the export isn't assigned in the editor. Always add null checks for exports.
+
 ### Pitfall 4: Instancing scenes incorrectly
 
 ```csharp
@@ -861,6 +913,8 @@ public override void _ExitTree()
     button.Pressed -= OnButtonPressed; // ✅ Always disconnect!
 }
 ```
+
+**⚠️ Forgetting to disconnect signals WILL cause memory leaks** - nodes stay in memory even after being removed from the tree.
 
 ## 📚 Learning Path for This Project
 
@@ -970,10 +1024,10 @@ Claude will:
 
 From GAME_PLAN.md:
 
-- âŒ No pixel art (exhausting for you)
-- âŒ No dark/horror (not your vibe)
-- âŒ No overly complex economies
-- âŒ No "revolutionary" features
+- ❌ No pixel art (exhausting for you)
+- ❌ No dark/horror (not your vibe)
+- ❌ No overly complex economies
+- ❌ No "revolutionary" features
 - ✅ Clear, colorful fantasy aesthetic
 - ✅ Understandable systems
 - ✅ Build for fun, not to prove anything

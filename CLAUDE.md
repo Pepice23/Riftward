@@ -395,12 +395,12 @@ player.HealthChanged += OnPlayerHealthChanged;
 ```csharp
 public override void _Ready()
 {
-    player.HealthChanged += OnPlayerHealthChanged; // ✅ Connect
+	player.HealthChanged += OnPlayerHealthChanged; // ✅ Connect
 }
 
 public override void _ExitTree()
 {
-    player.HealthChanged -= OnPlayerHealthChanged; // ✅ MUST disconnect!
+	player.HealthChanged -= OnPlayerHealthChanged; // ✅ MUST disconnect!
 }
 ```
 
@@ -905,12 +905,12 @@ AddChild(enemy); // Now it's active
 ```csharp
 public override void _Ready()
 {
-    button.Pressed += OnButtonPressed; // ✅ Connect
+	button.Pressed += OnButtonPressed; // ✅ Connect
 }
 
 public override void _ExitTree()
 {
-    button.Pressed -= OnButtonPressed; // ✅ Always disconnect!
+	button.Pressed -= OnButtonPressed; // ✅ Always disconnect!
 }
 ```
 

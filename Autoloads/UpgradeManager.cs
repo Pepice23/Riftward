@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public partial class UpgradeManager : Node
 {
-    public static UpgradeManager Instance;
-    public List<Upgrade> AllUpgrades = [];
+    public static UpgradeManager Instance { get; private set; }
+    public readonly List<Upgrade> AllUpgrades = [];
 
     public override void _Ready()
     {

@@ -98,8 +98,8 @@ public partial class Player : CharacterBody2D
         HandleMovement(delta);
         // Clamping player to the scene
         Position = new Vector2(
-            Mathf.Clamp(Position.X, 50, GetViewportRect().Size.X - 50),
-            Mathf.Clamp(Position.Y, 50, GetViewportRect().Size.Y - 50)
+            Mathf.Clamp(Position.X, 45, GetViewportRect().Size.X - 45),
+            Mathf.Clamp(Position.Y, 45, GetViewportRect().Size.Y - 45)
         );
         // Continuously check for collisions with enemies
         CheckEnemyCollisions();

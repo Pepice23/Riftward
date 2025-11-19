@@ -7,7 +7,8 @@ public partial class EnemySpawner : Node2D
 
     private float _spawnTimer = 1.0f; //Track time until next spawn
 
-    // NEW: Spawn system
+
+// NEW: Spawn system
     public override void _Process(double delta)
     {
         // Count down the spawn timer
@@ -51,8 +52,13 @@ public partial class EnemySpawner : Node2D
         // Create the enemy
         var enemy = EnemyScene.Instantiate<Enemy>();
 
+        // Set the enemy's health to the current scaled value
+        enemy.MaxHealth = GameManager.Instance.CurrentEnemyMaxHealth;
+
+
         // Spawn it at player's position
         enemy.GlobalPosition = position;
+
 
         // Add it to the scene (as child of main scene, not player!)
         AddChild(enemy);

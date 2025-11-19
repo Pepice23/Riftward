@@ -8,6 +8,10 @@ public partial class GameManager : Node
     public static GameManager Instance { get; private set; }
     public bool IsRunActive;
     public float RunTime;
+    public int CurrentEnemyMaxHealth = 10;
+
+    private float _lastUpdateTime; // Track when we last updated
+
 
     public override void _Ready()
     {
@@ -23,6 +27,13 @@ public partial class GameManager : Node
             if (RunTime >= 600f)
             {
                 EndRun(true);
+            }
+
+            // Check if 10 seconds have passed since last update
+            if (RunTime - _lastUpdateTime >= 10f)
+            {
+                CurrentEnemyMaxHealth += 1;
+                _lastUpdateTime = RunTime; // Remember this time for next check
             }
         }
     }

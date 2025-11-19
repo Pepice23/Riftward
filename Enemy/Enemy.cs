@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public partial class Enemy : CharacterBody2D
@@ -5,6 +6,8 @@ public partial class Enemy : CharacterBody2D
     // How fast the enemy moves
     [Export] public float Speed = 100.0f;
     [Export] public int MaxHealth = 10;
+
+    [Export] public Texture2D EnemySprite;
 
     private int _currentHealth;
 
@@ -14,15 +17,25 @@ public partial class Enemy : CharacterBody2D
     // Reference to the progressbar
     private ProgressBar _healthBar;
 
+    private Sprite2D _sprite;
+
+    private readonly List<string> _enemySpritePaths =
+    [
+        "res://Assets/Sprites/enemies/bandit.png", "res://Assets/Sprites/enemies/gnoll.png",
+        "res://Assets/Sprites/enemies/kobold.png"
+    ];
+
     public override void _Ready()
     {
+        _sprite = GetNode<Sprite2D>("%EnemySprite");
+        UpdateSprite();
         // Find the player in the scene
         // We'll look for any node named "Player"
         _player = GetTree().Root.FindChild("Player", true, false) as Player;
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
         // Initialize health
         _currentHealth = MaxHealth;
-        UpdateEnemyHP();
+        UpdateEnemyHPBar();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -43,7 +56,7 @@ public partial class Enemy : CharacterBody2D
     public void TakeDamage(int amount)
     {
         _currentHealth -= amount;
-        UpdateEnemyHP();
+        UpdateEnemyHPBar();
 
         GD.Print($"Kobold took {amount} damage! Health: {_currentHealth}/{MaxHealth}");
 
@@ -57,9 +70,22 @@ public partial class Enemy : CharacterBody2D
         QueueFree(); // Remove from scene
     }
 
-    private void UpdateEnemyHP()
+    private void UpdateEnemyHPBar()
     {
-        _healthBar.MaxValue = MaxHealth;
-        _healthBar.Value = _currentHealth;
+        if (_healthBar != null)
+        {
+            _healthBar.MaxValue = MaxHealth;
+            _healthBar.Value = _currentHealth;
+        }
+    }
+
+
+    private void UpdateSprite()
+    {
+        //Get random sprite from list
+        var randomNumber = GD.RandRange(0, _enemySpritePaths.Count - 1);
+        var path = _enemySpritePaths[randomNumber];
+        EnemySprite = GD.Load<Texture2D>(path);
+        _sprite.Texture = EnemySprite;
     }
 }

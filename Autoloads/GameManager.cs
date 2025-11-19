@@ -32,7 +32,7 @@ public partial class GameManager : Node
             // Check if 10 seconds have passed since last update
             if (RunTime - _lastUpdateTime >= 10f)
             {
-                CurrentEnemyMaxHealth += 1;
+                CurrentEnemyMaxHealth += 3;
                 _lastUpdateTime = RunTime; // Remember this time for next check
             }
         }

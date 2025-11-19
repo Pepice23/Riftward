@@ -11,9 +11,10 @@
 [node name="Main" type="Node2D"]
 
 [node name="Floor" type="Sprite2D" parent="."]
-position = Vector2(513, 243)
-scale = Vector2(2.0019531, 1.4746094)
+position = Vector2(-221, -340)
+scale = Vector2(1.64, 1.5)
 texture = ExtResource("1_272bh")
+centered = false
 
 [node name="Player" parent="." node_paths=PackedStringArray("LevelUpUi", "Hud") instance=ExtResource("1_ig7tw")]
 position = Vector2(356, 102)

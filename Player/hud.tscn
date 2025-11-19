@@ -9,7 +9,7 @@
 bg_color = Color(0, 0, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epe4c"]
-bg_color = Color(0.98039216, 0.98039216, 0, 0.3137255)
+bg_color = Color(0.98039216, 0.98039216, 0, 0.39215687)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_640wx")

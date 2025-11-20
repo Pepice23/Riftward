@@ -5,11 +5,19 @@ public partial class GameManager : Node
     [Signal]
     public delegate void TimeUpdatedEventHandler(float time);
 
+    public enum PlayerClass
+    {
+        Paladin,
+        Mage,
+        Hunter
+    }
+
     public static GameManager Instance { get; private set; }
     public bool IsRunActive;
     public float RunTime;
     public int CurrentEnemyMaxHealth = 10;
     public int CurrentEliteEnemyMaxHealth = 40;
+    public PlayerClass SelectedClass = PlayerClass.Paladin;
 
 
     private float _lastUpdateTime; // Track when we last updated
@@ -26,10 +34,7 @@ public partial class GameManager : Node
         {
             RunTime += (float)delta;
             EmitSignal(SignalName.TimeUpdated, RunTime);
-            if (RunTime >= 600f)
-            {
-                EndRun(true);
-            }
+            if (RunTime >= 600f) EndRun(true);
 
             // Check if 10 seconds have passed since last update
             if (RunTime - _lastUpdateTime >= 10f)
@@ -46,15 +51,11 @@ public partial class GameManager : Node
         IsRunActive = false; // Stop counting
 
         if (victory)
-        {
             GD.Print("Victory! You survived 10 minutes!");
-            // Later: Show victory screen
-        }
+        // Later: Show victory screen
         else
-        {
             GD.Print("Game Over!");
-            // Later: Show game over screen
-        }
+        // Later: Show game over screen
     }
 
     public void StartRun()

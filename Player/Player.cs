@@ -25,6 +25,7 @@ public partial class Player : CharacterBody2D
     // Combat
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
     [Export] public float AttackCooldown = 1.0f; // Shoot every 1 second
+    [Export] public float AuraDamageCooldown = 0.5f;
     [Export] public int Damage = 3;
     [Export] public int ProjectileSpeed = 400;
     [Export] public int ProjectileCount = 1;
@@ -56,6 +57,7 @@ public partial class Player : CharacterBody2D
 
     // Combat state
     private float _attackTimer = 1.0f; //Track time until next shot
+    private float _auraDamageTimer = 0.5f;
 
     // Health State
     private int _currentHealth;
@@ -75,8 +77,6 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-        var hud = Hud;
-
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
@@ -87,12 +87,23 @@ public partial class Player : CharacterBody2D
         UpdatePlayerHP();
         // Initialize XP
         CalculateXPNeeded();
-        if (hud != null)
+
+        switch (GameManager.Instance.SelectedClass)
         {
-            hud.PaladinSelected += ChangeToPaladin;
-            hud.MageSelected += ChangeToMage;
-            hud.HunterSelected += ChangeToHunter;
+            case GameManager.PlayerClass.Paladin:
+                SetupPaladin();
+                break;
+            case GameManager.PlayerClass.Mage:
+                SetupMage();
+                break;
+            case GameManager.PlayerClass.Hunter:
+                SetupHunter();
+                break;
+            default:
+                SetupPaladin();
+                break;
         }
+
 
         GameManager.Instance.StartRun();
         _area.BodyEntered += AddEnemiesToAura;
@@ -141,14 +152,35 @@ public partial class Player : CharacterBody2D
             return;
 
         UpdateCooldowns(delta);
+        // Only shoot projectiles if NOT Paladin
+        if (GameManager.Instance.SelectedClass != GameManager.PlayerClass.Paladin)
+            HandleAttacking(); // Your projectile shooting
 
-        // Rotate hammer aura
-        if (_hammerAura != null)
+        // Only do aura damage if IS Paladin
+        if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Paladin)
         {
-            _hammerAura.Rotation += HammerRotationSpeed * Mathf.Tau * (float)delta;
-        }
+            if (_auraDamageTimer <= 0f)
+            {
+                DamageAuraEnemies();
+                _auraDamageTimer = AuraDamageCooldown;
+            }
 
-        HandleAttacking();
+
+            // Show hammer aura for Paladin
+            if (_hammerAura != null)
+            {
+                _hammerAura.Visible = true;
+            }
+            else
+            {
+                // Hide hammer for non-Paladin
+                if (_hammerAura != null)
+                    _hammerAura.Visible = false;
+            }
+
+            // Rotate hammer aura
+            if (_hammerAura != null) _hammerAura.Rotation += HammerRotationSpeed * Mathf.Tau * (float)delta;
+        }
     }
 
     #endregion
@@ -205,6 +237,7 @@ public partial class Player : CharacterBody2D
 
         // Count down the attack timer
         _attackTimer -= (float)delta;
+        _auraDamageTimer -= (float)delta;
     }
 
     private void HandleAttacking()
@@ -280,6 +313,14 @@ public partial class Player : CharacterBody2D
 
         // Add it to the scene (as child of main scene, not player!)
         GetParent().AddChild(projectile);
+    }
+
+    private void DamageAuraEnemies()
+    {
+        foreach (var enemy in _enemiesInAura)
+            if (enemy is Enemy regularEnemy)
+                regularEnemy.TakeDamage(Damage);
+            else if (enemy is EliteEnemy eliteEnemy) eliteEnemy.TakeDamage(Damage);
     }
 
     #endregion
@@ -361,42 +402,6 @@ public partial class Player : CharacterBody2D
 
     #endregion
 
-    #region Character Switching
-
-    private void ChangeToPaladin()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
-        _sprite.Texture = FrontSprite;
-
-        // Show hammer aura for Paladin
-        if (_hammerAura != null)
-            _hammerAura.Visible = true;
-    }
-
-    private void ChangeToMage()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
-        _sprite.Texture = FrontSprite;
-
-        // Hide hammer aura for non-Paladin
-        if (_hammerAura != null)
-            _hammerAura.Visible = false;
-    }
-
-    private void ChangeToHunter()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
-        _sprite.Texture = FrontSprite;
-
-        // Hide hammer aura for non-Paladin
-        if (_hammerAura != null)
-            _hammerAura.Visible = false;
-    }
-
-    #endregion
 
     #region XP & Level Up
 
@@ -441,19 +446,29 @@ public partial class Player : CharacterBody2D
 
     #endregion
 
+    private void SetupPaladin()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
+        _sprite.Texture = FrontSprite;
+    }
+
+    private void SetupMage()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
+        _sprite.Texture = FrontSprite;
+    }
+
+    private void SetupHunter()
+    {
+        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
+        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
+        _sprite.Texture = FrontSprite;
+    }
+
     private void PauseGame()
     {
         EmitSignal(SignalName.GamePaused);
-    }
-
-    public override void _ExitTree()
-    {
-        var hud = Hud;
-        if (hud != null)
-        {
-            hud.PaladinSelected -= ChangeToPaladin;
-            hud.MageSelected -= ChangeToMage;
-            hud.HunterSelected -= ChangeToHunter;
-        }
     }
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://q80clbsplep6"]
 
 [ext_resource type="Script" uid="uid://dlkj5cm2c7xo5" path="res://Enemy/Enemy.cs" id="1_4gyqm"]
-[ext_resource type="Texture2D" uid="uid://ciavqqbqbao1" path="res://Assets/Sprites/enemies/kobold.png" id="1_7k104"]
+[ext_resource type="Texture2D" uid="uid://cv5do6sy2p2sj" path="res://Assets/Sprites/enemies/swarm/kobold.png" id="2_px1sc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gyqm"]
 bg_color = Color(1, 0, 0, 1)
@@ -11,7 +11,6 @@ radius = 23.021729
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_4gyqm")
-EnemySprite = ExtResource("1_7k104")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
@@ -29,7 +28,7 @@ show_percentage = false
 [node name="EnemySprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("1_7k104")
+texture = ExtResource("2_px1sc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_7k104")

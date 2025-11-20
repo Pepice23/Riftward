@@ -21,7 +21,9 @@ public partial class EliteEnemy : CharacterBody2D
 
     private readonly List<string> _enemySpritePaths =
     [
-        "res://Assets/Sprites/enemies/death_knight.png"
+        "res://Assets/Sprites/enemies/elite/death_knight.png",
+        "res://Assets/Sprites/enemies/elite/corrupted_paladin.png",
+        "res://Assets/Sprites/enemies/elite/fel_warlock.png", "res://Assets/Sprites/enemies/elite/beastmaster.png"
     ];
 
     public override void _Ready()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dngq7wfty3sla"]
 
-[ext_resource type="Texture2D" uid="uid://ce52gqso7pnuv" path="res://Assets/Sprites/enemies/death_knight.png" id="1_0gwgn"]
 [ext_resource type="Script" uid="uid://b3nwb630xi3yu" path="res://Enemy/EliteEnemy.cs" id="1_pv0ii"]
+[ext_resource type="Texture2D" uid="uid://bpi2afrilpvfr" path="res://Assets/Sprites/enemies/elite/death_knight.png" id="2_pv0ii"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gyqm"]
 bg_color = Color(1, 0, 0, 1)
@@ -28,7 +28,7 @@ show_percentage = false
 [node name="EnemySprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_0gwgn")
+texture = ExtResource("2_pv0ii")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(5, 15)

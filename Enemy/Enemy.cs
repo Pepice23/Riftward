@@ -7,8 +7,6 @@ public partial class Enemy : CharacterBody2D
     [Export] public float Speed = 100.0f;
     [Export] public int MaxHealth = 10;
 
-    [Export] public Texture2D EnemySprite;
-
     private int _currentHealth;
 
     // Reference to the player (we'll find this automatically)
@@ -21,8 +19,8 @@ public partial class Enemy : CharacterBody2D
 
     private readonly List<string> _enemySpritePaths =
     [
-        "res://Assets/Sprites/enemies/bandit.png", "res://Assets/Sprites/enemies/gnoll.png",
-        "res://Assets/Sprites/enemies/kobold.png"
+        "res://Assets/Sprites/enemies/swarm/bandit.png", "res://Assets/Sprites/enemies/swarm/gnoll.png",
+        "res://Assets/Sprites/enemies/swarm/kobold.png"
     ];
 
     public override void _Ready()
@@ -85,7 +83,6 @@ public partial class Enemy : CharacterBody2D
         //Get random sprite from list
         var randomNumber = GD.RandRange(0, _enemySpritePaths.Count - 1);
         var path = _enemySpritePaths[randomNumber];
-        EnemySprite = GD.Load<Texture2D>(path);
-        _sprite.Texture = EnemySprite;
+        _sprite.Texture = GD.Load<Texture2D>(path);
     }
 }

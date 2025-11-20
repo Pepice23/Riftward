@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce52gqso7pnuv"
-path="res://.godot/imported/death_knight.png-8175ae6c329c84854a4aa3ff2ce39cdc.ctex"
+uid="uid://va8i50v46ihn"
+path="res://.godot/imported/corrupted_paladin.png-7603d972e6a03704457bccf49366fb75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/enemies/death_knight.png"
-dest_files=["res://.godot/imported/death_knight.png-8175ae6c329c84854a4aa3ff2ce39cdc.ctex"]
+source_file="res://Assets/Sprites/enemies/elite/corrupted_paladin.png"
+dest_files=["res://.godot/imported/corrupted_paladin.png-7603d972e6a03704457bccf49366fb75.ctex"]
 
 [params]
 

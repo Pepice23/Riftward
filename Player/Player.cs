@@ -195,22 +195,35 @@ public partial class Player : CharacterBody2D
             return; // No enemies to shoot
 
         // Find the closest enemy
-        Enemy nearestEnemy = null;
+        CharacterBody2D nearestTarget = null;
         var nearestDistance = float.MaxValue;
 
         foreach (var node in enemies)
+        {
             if (node is Enemy enemy)
             {
                 var distance = GlobalPosition.DistanceTo(enemy.GlobalPosition);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
-                    nearestEnemy = enemy;
+                    nearestTarget = enemy;
                 }
             }
 
+            if (node is EliteEnemy eliteEnemy)
+            {
+                var distance = GlobalPosition.DistanceTo(eliteEnemy.GlobalPosition);
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearestTarget = eliteEnemy;
+                }
+            }
+        }
+
+
         // Shoot at the nearest enemy
-        if (nearestEnemy != null) SpawnProjectile(nearestEnemy.GlobalPosition);
+        if (nearestTarget != null) SpawnProjectile(nearestTarget.GlobalPosition);
     }
 
 //  Actually create and fire the projectile

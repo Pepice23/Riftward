@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnxsi7ve4hv4s"
-path="res://.godot/imported/bandit.png-453330b5b0efd011183a8437215070e1.ctex"
+uid="uid://bt8hjaak5q268"
+path="res://.godot/imported/bandit.png-8039325b77cfc77a09a6f23c5eac353a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/enemies/bandit.png"
-dest_files=["res://.godot/imported/bandit.png-453330b5b0efd011183a8437215070e1.ctex"]
+source_file="res://Assets/Sprites/enemies/swarm/bandit.png"
+dest_files=["res://.godot/imported/bandit.png-8039325b77cfc77a09a6f23c5eac353a.ctex"]
 
 [params]
 

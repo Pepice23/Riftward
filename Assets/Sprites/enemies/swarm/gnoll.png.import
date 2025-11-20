@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcux3bxunu7ns"
-path="res://.godot/imported/gnoll.png-e87f64d5324f9aa92d984944908d70b1.ctex"
+uid="uid://cgy561lbgdcjp"
+path="res://.godot/imported/gnoll.png-dc5f9ccc572e0c63050244fb21ba431f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/enemies/gnoll.png"
-dest_files=["res://.godot/imported/gnoll.png-e87f64d5324f9aa92d984944908d70b1.ctex"]
+source_file="res://Assets/Sprites/enemies/swarm/gnoll.png"
+dest_files=["res://.godot/imported/gnoll.png-dc5f9ccc572e0c63050244fb21ba431f.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ciavqqbqbao1"
-path="res://.godot/imported/kobold.png-75f6f5d4abbe3ef7bc8e0008673ed346.ctex"
+uid="uid://cv5do6sy2p2sj"
+path="res://.godot/imported/kobold.png-b6cc69c5a5a99e5a95669c62a5966acd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/enemies/kobold.png"
-dest_files=["res://.godot/imported/kobold.png-75f6f5d4abbe3ef7bc8e0008673ed346.ctex"]
+source_file="res://Assets/Sprites/enemies/swarm/kobold.png"
+dest_files=["res://.godot/imported/kobold.png-b6cc69c5a5a99e5a95669c62a5966acd.ctex"]
 
 [params]
 

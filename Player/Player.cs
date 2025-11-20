@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 
@@ -47,6 +48,7 @@ public partial class Player : CharacterBody2D
     // References
     private ProgressBar _healthBar;
     private Sprite2D _sprite;
+    private Area2D _area;
 
     // Combat state
     private float _attackTimer = 1.0f; //Track time until next shot
@@ -60,6 +62,8 @@ public partial class Player : CharacterBody2D
     // XP
     private int _xpNeededForNextLevel;
 
+    private List<CharacterBody2D> _enemiesInAura;
+
     #endregion
 
 
@@ -72,12 +76,12 @@ public partial class Player : CharacterBody2D
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
+        _area = GetNode<Area2D>("Area2D");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
         CalculateXPNeeded();
-
         if (hud != null)
         {
             hud.PaladinSelected += ChangeToPaladin;
@@ -86,6 +90,26 @@ public partial class Player : CharacterBody2D
         }
 
         GameManager.Instance.StartRun();
+        _area.BodyEntered += AddEnemiesToAura;
+        _area.BodyExited += RemoveEnemiesFromAura;
+    }
+
+    private void AddEnemiesToAura(Node2D body)
+    {
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        {
+            _enemiesInAura.Add(character);
+            GD.Print("Enemies entered the area");
+        }
+    }
+
+    private void RemoveEnemiesFromAura(Node2D body)
+    {
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        {
+            _enemiesInAura.Remove(character);
+            GD.Print("Enemies exited the area");
+        }
     }
 
     // This runs every physics frame (60 times per second)

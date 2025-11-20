@@ -41,6 +41,9 @@ public partial class Player : CharacterBody2D
     [Export] public LevelUpUi LevelUpUi;
     [Export] public Hud Hud;
 
+    // Paladin Aura
+    [Export] public float HammerRotationSpeed = 2.0f; // Rotations per second
+
     #endregion
 
     #region Private Fields
@@ -49,6 +52,7 @@ public partial class Player : CharacterBody2D
     private ProgressBar _healthBar;
     private Sprite2D _sprite;
     private Area2D _area;
+    private Node2D _hammerAura;
 
     // Combat state
     private float _attackTimer = 1.0f; //Track time until next shot
@@ -62,7 +66,7 @@ public partial class Player : CharacterBody2D
     // XP
     private int _xpNeededForNextLevel;
 
-    private List<CharacterBody2D> _enemiesInAura;
+    private List<CharacterBody2D> _enemiesInAura = [];
 
     #endregion
 
@@ -77,6 +81,7 @@ public partial class Player : CharacterBody2D
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
         _area = GetNode<Area2D>("Area2D");
+        _hammerAura = GetNode<Node2D>("HammerAura");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
@@ -136,6 +141,12 @@ public partial class Player : CharacterBody2D
             return;
 
         UpdateCooldowns(delta);
+
+        // Rotate hammer aura
+        if (_hammerAura != null)
+        {
+            _hammerAura.Rotation += HammerRotationSpeed * Mathf.Tau * (float)delta;
+        }
 
         HandleAttacking();
     }
@@ -357,6 +368,10 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
         _sprite.Texture = FrontSprite;
+
+        // Show hammer aura for Paladin
+        if (_hammerAura != null)
+            _hammerAura.Visible = true;
     }
 
     private void ChangeToMage()
@@ -364,6 +379,10 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
         _sprite.Texture = FrontSprite;
+
+        // Hide hammer aura for non-Paladin
+        if (_hammerAura != null)
+            _hammerAura.Visible = false;
     }
 
     private void ChangeToHunter()
@@ -371,6 +390,10 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
         _sprite.Texture = FrontSprite;
+
+        // Hide hammer aura for non-Paladin
+        if (_hammerAura != null)
+            _hammerAura.Visible = false;
     }
 
     #endregion

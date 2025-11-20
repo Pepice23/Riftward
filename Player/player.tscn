@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b26qscjpqbcd2" path="res://Player/Player.cs" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://c4ub6vcdyvuv3" path="res://Assets/Sprites/paladin/paladin_back.png" id="3_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://bt2j3onxqui50" path="res://Assets/Sprites/paladin/paladin_front.png" id="4_hqtel"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/projectiles/paladin_hammer.png" id="5_hammer"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3pqv"]
 bg_color = Color(0, 1, 0, 1)
@@ -43,3 +44,36 @@ shape = SubResource("CircleShape2D_4flbx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_btcbx")
 debug_color = Color(1, 1, 0, 0.41960785)
+
+[node name="HammerAura" type="Node2D" parent="."]
+visible = false
+
+[node name="Hammer0" type="Sprite2D" parent="HammerAura"]
+position = Vector2(120, 0)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")
+
+[node name="Hammer1" type="Sprite2D" parent="HammerAura"]
+position = Vector2(60, 104)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")
+
+[node name="Hammer2" type="Sprite2D" parent="HammerAura"]
+position = Vector2(-60, 104)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")
+
+[node name="Hammer3" type="Sprite2D" parent="HammerAura"]
+position = Vector2(-120, 0)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")
+
+[node name="Hammer4" type="Sprite2D" parent="HammerAura"]
+position = Vector2(-60, -104)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")
+
+[node name="Hammer5" type="Sprite2D" parent="HammerAura"]
+position = Vector2(60, -104)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("5_hammer")

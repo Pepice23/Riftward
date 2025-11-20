@@ -63,6 +63,8 @@ public partial class EnemySpawner : Node2D
         // Create the enemy
         var enemy = EliteEnemyScene.Instantiate<EliteEnemy>();
 
+        enemy.MaxHealth = GameManager.Instance.CurrentEliteEnemyMaxHealth;
+
 
         // Spawn it at player's position
         enemy.GlobalPosition = position;

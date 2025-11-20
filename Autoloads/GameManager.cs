@@ -9,6 +9,8 @@ public partial class GameManager : Node
     public bool IsRunActive;
     public float RunTime;
     public int CurrentEnemyMaxHealth = 10;
+    public int CurrentEliteEnemyMaxHealth = 40;
+
 
     private float _lastUpdateTime; // Track when we last updated
 
@@ -33,6 +35,7 @@ public partial class GameManager : Node
             if (RunTime - _lastUpdateTime >= 10f)
             {
                 CurrentEnemyMaxHealth += 3;
+                CurrentEliteEnemyMaxHealth += 3;
                 _lastUpdateTime = RunTime; // Remember this time for next check
             }
         }

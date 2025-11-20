@@ -40,5 +40,11 @@ public partial class Projectile : Area2D
             enemy.TakeDamage(Damage);
             QueueFree(); // Destroy the projectile
         }
+
+        if (body is EliteEnemy eliteEnemy)
+        {
+            eliteEnemy.TakeDamage(Damage);
+            QueueFree(); // Destroy the projectile
+        }
     }
 }

@@ -257,6 +257,13 @@ public partial class Player : CharacterBody2D
                 TakeDamage(10);
                 return; // Stop checking - we already got hurt this frame
             }
+
+            // Is it an elite enemy?
+            if (collider is EliteEnemy eliteEnemy)
+            {
+                TakeDamage(20);
+                return; // Stop checking - we already got hurt this frame
+            }
         }
     }
 

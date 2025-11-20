@@ -242,7 +242,7 @@ public override void _ExitTree()
 //  DON'T - slow, called 60+ times/second
 public override void _Process(double delta)
 {
-    var sprite = GetNode<Sprite2D>("Sprite");
+	var sprite = GetNode<Sprite2D>("Sprite");
 }
 
 //  DO - cache in _Ready
@@ -250,7 +250,7 @@ private Sprite2D _sprite;
 
 public override void _Ready()
 {
-    _sprite = GetNode<Sprite2D>("Sprite");
+	_sprite = GetNode<Sprite2D>("Sprite");
 }
 
 //  EVEN BETTER - use [Export] and assign in editor

@@ -29,7 +29,7 @@ public partial class EnemySpawner : Node2D
         {
             for (var i = 0; i < 3; i++)
             {
-                SpawnEliteEnemyInTheCorner();
+                SpawnEliteEnemy();
             }
 
             _eliteSpawnTimer = EliteSpawnCooldown; // Reset timer
@@ -38,30 +38,7 @@ public partial class EnemySpawner : Node2D
 
     private void SpawnInTheCorner()
     {
-        var spawnX = 0;
-        var spawnY = 0;
-        var edge = GD.RandRange(1, 4);
-        switch (edge)
-        {
-            case 1:
-                spawnX = -50;
-                spawnY = (int)GD.RandRange(0, GetViewportRect().Size.Y);
-                break;
-            case 2:
-                spawnX = (int)GetViewportRect().Size.X + 50; // Just off-screen to the right
-                spawnY = (int)GD.RandRange(0, GetViewportRect().Size.Y); // Random along height
-                break;
-            case 3:
-                spawnX = (int)GD.RandRange(0, GetViewportRect().Size.X);
-                spawnY = -50; // Just off-screen above
-                break;
-            case 4:
-                spawnX = (int)GD.RandRange(0, GetViewportRect().Size.X); // Random along width
-                spawnY = (int)GetViewportRect().Size.Y + 50; // Just off-screen below
-                break;
-        }
-
-        var position = new Vector2(spawnX, spawnY);
+        var position = SetSpawnPosition();
 
         // Create the enemy
         var enemy = EnemyScene.Instantiate<Enemy>();
@@ -78,7 +55,24 @@ public partial class EnemySpawner : Node2D
         AddChild(enemy);
     }
 
-    private void SpawnEliteEnemyInTheCorner()
+
+    private void SpawnEliteEnemy()
+    {
+        var position = SetSpawnPosition();
+
+        // Create the enemy
+        var enemy = EliteEnemyScene.Instantiate<EliteEnemy>();
+
+
+        // Spawn it at player's position
+        enemy.GlobalPosition = position;
+
+
+        // Add it to the scene (as child of main scene, not player!)
+        AddChild(enemy);
+    }
+
+    private Vector2 SetSpawnPosition()
     {
         var spawnX = 0;
         var spawnY = 0;
@@ -104,16 +98,6 @@ public partial class EnemySpawner : Node2D
         }
 
         var position = new Vector2(spawnX, spawnY);
-
-        // Create the enemy
-        var enemy = EliteEnemyScene.Instantiate<EliteEnemy>();
-
-
-        // Spawn it at player's position
-        enemy.GlobalPosition = position;
-
-
-        // Add it to the scene (as child of main scene, not player!)
-        AddChild(enemy);
+        return position;
     }
 }

@@ -18,10 +18,11 @@ texture = ExtResource("1_272bh")
 centered = false
 
 [node name="Player" parent="." node_paths=PackedStringArray("LevelUpUi", "Hud") instance=ExtResource("1_ig7tw")]
-position = Vector2(356, 102)
+position = Vector2(670, 333)
 ProjectileScene = ExtResource("2_7mycd")
 LevelUpUi = NodePath("../LevelUpUI")
 Hud = NodePath("../HUD")
+HammerRotationSpeed = 0.5
 
 [node name="EnemySpawner" parent="." instance=ExtResource("6_7mycd")]
 EnemyScene = ExtResource("5_lquwl")

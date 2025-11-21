@@ -1,10 +1,13 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
 
 
+#pragma warning disable CA1050
 public partial class Player : CharacterBody2D
+#pragma warning restore CA1050
 {
+    #region Signals
+
     [Signal]
     public delegate void XPUpdatedEventHandler(int xpNeededForNextLevel, int currentXP);
 
@@ -14,6 +17,7 @@ public partial class Player : CharacterBody2D
     [Signal]
     public delegate void GamePausedEventHandler();
 
+    #endregion
 
     #region Exports
 
@@ -70,7 +74,7 @@ public partial class Player : CharacterBody2D
     // XP
     private int _xpNeededForNextLevel;
 
-    private List<CharacterBody2D> _enemiesInAura = [];
+    private readonly List<CharacterBody2D> _enemiesInAura = [];
     private CollisionShape2D _collisionShape;
 
     #endregion
@@ -114,22 +118,11 @@ public partial class Player : CharacterBody2D
         _area.BodyExited += RemoveEnemiesFromAura;
     }
 
-    private void AddEnemiesToAura(Node2D body)
+    public override void _ExitTree()
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
-        {
-            _enemiesInAura.Add(character);
-            GD.Print("Enemies entered the area");
-        }
-    }
-
-    private void RemoveEnemiesFromAura(Node2D body)
-    {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
-        {
-            _enemiesInAura.Remove(character);
-            GD.Print("Enemies exited the area");
-        }
+        // Clean up signal connections to prevent memory leaks
+        _area.BodyEntered -= AddEnemiesToAura;
+        _area.BodyExited -= RemoveEnemiesFromAura;
     }
 
     // This runs every physics frame (60 times per second)
@@ -188,315 +181,4 @@ public partial class Player : CharacterBody2D
     }
 
     #endregion
-
-    #region Movement
-
-    private void HandleMovement(double delta)
-    {
-        // Get input direction (WASD or arrow keys)
-        // Returns Vector2 like (-1, 0) for left, (1, 0) for right, etc.
-        var direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-
-        // Set velocity based on direction and speed
-        // Normalized() makes diagonal movement same speed as straight
-        if (direction != Vector2.Zero)
-        {
-            // Move the character
-            Velocity = direction.Normalized() * Speed;
-            UpdateSpriteDirection(direction);
-        }
-
-        else
-        {
-            Velocity = Vector2.Zero; // Stop when no input
-        }
-
-        // Actually move the character (Godot handles collision automatically)
-        MoveAndSlide();
-    }
-
-    private void UpdateSpriteDirection(Vector2 direction)
-    {
-        // Change Sprite based on vertical movement
-        if (direction.Y < -0.1f) // Moving up (away from camera)
-            _sprite.Texture = BackSprite;
-        else // Moving down, left, right, or diagonal
-            _sprite.Texture = FrontSprite;
-
-        // Flip sprite based on horizontal movement
-        if (direction.X > 0.01f)
-            _sprite.FlipH = false; // Moving right
-        else if (direction.X < -0.01f) _sprite.FlipH = true; // Moving left
-        // If only moving up/down, keep current flip state
-    }
-
-    #endregion
-
-    #region Combat System
-
-    private void UpdateCooldowns(double delta)
-    {
-        //  Count down damage cooldown
-        if (_damageCooldown > 0f) _damageCooldown -= (float)delta;
-
-        // Count down the attack timer
-        _attackTimer -= (float)delta;
-        _auraDamageTimer -= (float)delta;
-    }
-
-    private void HandleAttacking()
-    {
-        // Time to shoot?
-        if (_attackTimer <= 0f)
-        {
-            ShootAtNearestEnemy();
-            _attackTimer = AttackCooldown; // Reset timer
-        }
-    }
-
-    //  Find and shoot at nearest enemy
-    private void ShootAtNearestEnemy()
-    {
-        // Make sure we have a projectile scene assigned
-        if (ProjectileScene == null)
-            return;
-
-        // Find all enemies
-        var enemies = GetTree().GetNodesInGroup("enemies");
-        if (enemies.Count == 0)
-            return; // No enemies to shoot
-
-        // Find the closest enemy
-        CharacterBody2D nearestTarget = null;
-        var nearestDistance = float.MaxValue;
-
-        foreach (var node in enemies)
-        {
-            if (node is Enemy enemy)
-            {
-                var distance = GlobalPosition.DistanceTo(enemy.GlobalPosition);
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearestTarget = enemy;
-                }
-            }
-
-            if (node is EliteEnemy eliteEnemy)
-            {
-                var distance = GlobalPosition.DistanceTo(eliteEnemy.GlobalPosition);
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearestTarget = eliteEnemy;
-                }
-            }
-        }
-
-
-        // Shoot at the nearest enemy
-        if (nearestTarget != null) SpawnProjectile(nearestTarget.GlobalPosition);
-    }
-
-//  Actually create and fire the projectile
-    private void SpawnProjectile(Vector2 targetPosition)
-    {
-        // Create the projectile
-        var projectile = ProjectileScene.Instantiate<Projectile>();
-
-        // Spawn it at player's position
-        projectile.GlobalPosition = GlobalPosition;
-
-        // Aim it at the target
-        var direction = (targetPosition - GlobalPosition).Normalized();
-        projectile.SetDirection(direction);
-
-        // Set the projectile Damage and Speed
-        projectile.Damage = Damage;
-        projectile.Speed = ProjectileSpeed;
-
-        // Add it to the scene (as child of main scene, not player!)
-        GetParent().AddChild(projectile);
-    }
-
-    private void DamageAuraEnemies()
-    {
-        foreach (var enemy in _enemiesInAura)
-            if (enemy is Enemy regularEnemy)
-                regularEnemy.TakeDamage(Damage);
-            else if (enemy is EliteEnemy eliteEnemy) eliteEnemy.TakeDamage(Damage);
-    }
-
-    #endregion
-
-    #region Health & Damage
-
-    //  Separate method to keep things organized
-    private void CheckEnemyCollisions()
-    {
-        // Can't take damage yet? Skip checking
-        if (_damageCooldown > 0f)
-            return;
-
-        // Loop through everything we just collided with
-        for (var i = 0; i < GetSlideCollisionCount(); i++)
-        {
-            var collision = GetSlideCollision(i);
-            var collider = collision.GetCollider();
-
-            // Is it an enemy?
-            if (collider is Enemy enemy)
-            {
-                TakeDamage(10);
-                return; // Stop checking - we already got hurt this frame
-            }
-
-            // Is it an elite enemy?
-            if (collider is EliteEnemy eliteEnemy)
-            {
-                TakeDamage(20);
-                return; // Stop checking - we already got hurt this frame
-            }
-        }
-    }
-
-    // Take damage method
-    private void TakeDamage(int damage)
-    {
-        _currentHealth -= damage;
-        _damageCooldown = DamageCooldownTime; // Start invulnerability
-
-        _ = FlashDamage(); // Start the flash dont wait
-        UpdatePlayerHP(); // Update immediately
-
-        // Did we die?
-        if (_currentHealth <= 0) Die();
-    }
-
-    // Death method
-    private void Die()
-    {
-        if (_isDead) return; // Already dead dont die twice
-
-        _isDead = true;
-        GameManager.Instance.EndRun(false);
-        GD.Print("Player died!");
-
-        // Stop moving
-        Velocity = Vector2.Zero;
-    }
-
-    private void UpdatePlayerHP()
-    {
-        _healthBar.MaxValue = MaxHealth;
-        _healthBar.Value = _currentHealth;
-    }
-
-    private async Task FlashDamage()
-    {
-        // Turn red
-        _sprite.Modulate = new Color(1, 0, 0); // Pure red (R=1, G=0, B=0)
-
-        // Wait 0.1 seconds
-        await ToSignal(GetTree().CreateTimer(DamageFlashDuration), SceneTreeTimer.SignalName.Timeout);
-
-        // Return to normal (white)
-        _sprite.Modulate = new Color(1, 1, 1); // White (R=1, G=1, B=1)
-    }
-
-    #endregion
-
-
-    #region XP & Level Up
-
-    // Calculate how much XP is needed for the next level
-    private void CalculateXPNeeded()
-    {
-        // Formula: Base * (1.15 ^ (Level - 1))
-        // Level 2: 10 * 1.15^0 = 10
-        // Level 3: 10 * 1.15^1 = 11.5 → 12
-        // Level 4: 10 * 1.15^2 = 13.2 → 14
-        _xpNeededForNextLevel = Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.15f, CurrentLevel - 1));
-        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
-    }
-
-    // Call this when player should gain XP
-    public void GainXP(int amount)
-    {
-        CurrentXP += amount;
-        GD.Print($"Gained {amount} XP! Total: {CurrentXP}/{_xpNeededForNextLevel}");
-
-        // Did we level up?
-        if (CurrentXP >= _xpNeededForNextLevel) LevelUp();
-
-        EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
-    }
-
-    private void LevelUp()
-    {
-        // Subtract the XP cost (carry over extra XP)
-        CurrentXP -= _xpNeededForNextLevel;
-
-        // Increase level
-        CurrentLevel++;
-
-        // Recalculate XP needed for next level
-        CalculateXPNeeded();
-        EmitSignal(SignalName.LevelUpdated, CurrentLevel);
-
-
-        PauseGame();
-    }
-
-    #endregion
-
-    private void SetupPaladin()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
-        _sprite.Texture = FrontSprite;
-
-        UpdateHammerPositions(AuraRadius);
-    }
-
-    private void SetupMage()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
-        _sprite.Texture = FrontSprite;
-    }
-
-    private void SetupHunter()
-    {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
-        _sprite.Texture = FrontSprite;
-    }
-
-    private void PauseGame()
-    {
-        EmitSignal(SignalName.GamePaused);
-    }
-
-    private void UpdateHammerPositions(float radius)
-    {
-        var hammers = _hammerAura.GetChildren();
-        var hammerCount = hammers.Count;
-
-        for (var i = 0; i < hammerCount; i++)
-        {
-            // Calculate angle for this hammer (evenly distributed)
-            var angle = i * (Mathf.Tau / hammerCount);
-
-            // Calculate position on circle
-            var x = radius * Mathf.Cos(angle);
-            var y = radius * Mathf.Sin(angle);
-
-            // Set the hammer's position
-            if (hammers[i] is Node2D hammer)
-            {
-                hammer.Position = new Vector2(x, y);
-            }
-        }
-    }
 }

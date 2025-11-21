@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://drm5h67iy80tm"]
 
 [ext_resource type="Texture2D" uid="uid://bkxki2yagygtc" path="res://Assets/Art/paladin_art.png" id="1_5bvf1"]
-[ext_resource type="Script" uid="uid://coket51olt38" path="res://ClassSelection.cs" id="1_ggp4q"]
+[ext_resource type="Script" uid="uid://coket51olt38" path="res://UI/ClassSelection.cs" id="1_ggp4q"]
 [ext_resource type="Texture2D" uid="uid://b37sjvr8gq8c7" path="res://Assets/Art/mage_art.png" id="2_ggp4q"]
 [ext_resource type="Texture2D" uid="uid://dsw6buwxqv1fe" path="res://Assets/Art/hunter_art.png" id="3_7iqaf"]
 

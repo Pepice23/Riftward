@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-UpgradeManager="*res://Autoloads/UpgradeManager.cs"
 GameManager="*res://Autoloads/GameManager.cs"
+UpgradeManager="*res://Autoloads/UpgradeManager.cs"
 
 [display]
 

@@ -9,7 +9,7 @@ public partial class EliteEnemy : CharacterBody2D
     // How fast the enemy moves
     [Export] public float Speed = 70.0f;
     [Export] public int MaxHealth = 40;
-    [Export] public int StopDistance = 50;
+    [Export] public int StopDistance = 90;
 
     [Export] public Texture2D EnemySprite;
 

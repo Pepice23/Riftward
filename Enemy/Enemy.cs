@@ -9,7 +9,7 @@ public partial class Enemy : CharacterBody2D
     // How fast the enemy moves
     [Export] public float Speed = 100.0f;
     [Export] public int MaxHealth = 10;
-    [Export] public int StopDistance = 50;
+    [Export] public int StopDistance = 70;
 
     private int _currentHealth;
 

@@ -29,7 +29,7 @@ public partial class Player
     }
 
 
-    private void UpdateHammerPositions(float radius)
+    public void UpdateHammerPositions(float radius)
     {
         var hammers = _hammerAura.GetChildren();
         var hammerCount = hammers.Count;

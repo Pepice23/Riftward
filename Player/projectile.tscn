@@ -1,13 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://di7irm71fk7ad"]
+[gd_scene load_steps=4 format=3 uid="uid://di7irm71fk7ad"]
 
 [ext_resource type="Script" uid="uid://dmkh0mymp5a0a" path="res://Player/Projectile.cs" id="1_a85iw"]
-
-[sub_resource type="Gradient" id="Gradient_akgne"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_a85iw"]
-gradient = SubResource("Gradient_akgne")
-width = 20
-height = 10
+[ext_resource type="Texture2D" uid="uid://bff5xb7jet0xg" path="res://Assets/Sprites/projectiles/mage_bolt.png" id="2_7k6uo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_akgne"]
 size = Vector2(20, 10)
@@ -18,7 +12,11 @@ Speed = 200.0
 Damage = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_a85iw")
+unique_name_in_owner = true
+position = Vector2(-0.5, 0)
+rotation = 0.7853982
+scale = Vector2(0.016, 0.016)
+texture = ExtResource("2_7k6uo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_akgne")

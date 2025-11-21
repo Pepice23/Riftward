@@ -11,6 +11,8 @@ public partial class Projectile : Area2D
     // Which direction it's flying
     private Vector2 _direction;
 
+    private Sprite2D _sprite;
+
     // Call this when spawning the projectile to set its direction
     public void SetDirection(Vector2 direction)
     {
@@ -19,6 +21,17 @@ public partial class Projectile : Area2D
 
     public override void _Ready()
     {
+        _sprite = GetNode<Sprite2D>("%Sprite2D");
+        if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Mage)
+        {
+            _sprite.Texture = GD.Load<Texture2D>("res://Assets/Sprites/projectiles/mage_bolt.png");
+        }
+
+        if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Hunter)
+        {
+            _sprite.Texture = GD.Load<Texture2D>("res://Assets/Sprites/projectiles/hunter_arrow.png");
+        }
+
         // When projectile hits something, call this function
         BodyEntered += OnBodyEntered;
 

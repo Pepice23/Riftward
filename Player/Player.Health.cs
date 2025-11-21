@@ -76,4 +76,22 @@ public partial class Player
         // Return to normal (white)
         _sprite.Modulate = new Color(1, 1, 1); // White (R=1, G=1, B=1)
     }
+
+    private void HPRegeneration()
+    {
+        _regenAccumulator += HealthRegen;
+
+        // Only heal when we've accumulated at least 1 HP
+        if (_regenAccumulator >= 1f)
+        {
+            var healAmount = (int)_regenAccumulator;
+            _currentHealth += healAmount;
+            UpdatePlayerHP();
+            _regenAccumulator -= healAmount; // Keep the leftover fraction
+        }
+
+        // Don't overheal
+        if (_currentHealth > MaxHealth)
+            _currentHealth = MaxHealth;
+    }
 }

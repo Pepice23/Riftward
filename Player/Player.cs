@@ -38,7 +38,7 @@ public partial class Player : CharacterBody2D
     // Health
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
-    [Export] public float HealthRegen;
+    [Export] public float HealthRegen = 0.05f;
 
     // XP
     [Export] public int CurrentLevel = 1;
@@ -70,6 +70,7 @@ public partial class Player : CharacterBody2D
     private float _damageCooldown;
     private const float DamageCooldownTime = 0.5f;
     private bool _isDead;
+    private float _regenAccumulator;
 
     // XP
     private int _xpNeededForNextLevel;
@@ -147,6 +148,11 @@ public partial class Player : CharacterBody2D
         // NEW: Don't attack if dead
         if (_isDead)
             return;
+
+        if (_currentHealth < MaxHealth)
+        {
+            HPRegeneration();
+        }
 
         UpdateCooldowns(delta);
         // Only shoot projectiles if NOT Paladin

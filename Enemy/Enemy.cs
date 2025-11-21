@@ -56,13 +56,13 @@ public partial class Enemy : CharacterBody2D
         if (distance > StopDistance)
         {
             Velocity = direction * Speed;
+            MoveAndSlide();
         }
+
         else
         {
             Velocity = Vector2.Zero;
         }
-
-        MoveAndSlide();
     }
 
     // This method will be called when the enemy takes damage
@@ -79,7 +79,7 @@ public partial class Enemy : CharacterBody2D
     private void Die()
     {
         GD.Print("Kobold died!");
-        _player?.GainXP(5);
+        _player?.GainXP(3);
         QueueFree(); // Remove from scene
     }
 

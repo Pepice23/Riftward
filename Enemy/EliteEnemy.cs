@@ -59,13 +59,12 @@ public partial class EliteEnemy : CharacterBody2D
         if (distance > StopDistance)
         {
             Velocity = direction * Speed;
+            MoveAndSlide();
         }
         else
         {
             Velocity = Vector2.Zero;
         }
-
-        MoveAndSlide();
     }
 
     // This method will be called when the enemy takes damage
@@ -82,7 +81,7 @@ public partial class EliteEnemy : CharacterBody2D
     private void Die()
     {
         GD.Print("Elite enemy died!");
-        _player?.GainXP(25);
+        _player?.GainXP(15);
         QueueFree(); // Remove from scene
     }
 

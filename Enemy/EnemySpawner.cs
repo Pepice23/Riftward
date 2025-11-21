@@ -1,5 +1,7 @@
 ﻿using Godot;
 
+// ReSharper disable CheckNamespace
+
 #pragma warning disable CA1050
 public partial class EnemySpawner : Node2D
 #pragma warning restore CA1050
@@ -23,8 +25,14 @@ public partial class EnemySpawner : Node2D
         // Time to spawn?
         if (_spawnTimer <= 0f)
         {
-            SpawnInTheCorner();
-            _spawnTimer = SpawnCooldown; // Reset timer
+            var enemiesToSpawn = CalculateSpawnCount();
+
+            for (var i = 0; i < enemiesToSpawn; i++)
+            {
+                SpawnInTheCorner();
+            }
+
+            _spawnTimer = SpawnCooldown; //Reset timer
         }
 
         if (_eliteSpawnTimer <= 0f)
@@ -103,5 +111,20 @@ public partial class EnemySpawner : Node2D
 
         var position = new Vector2(spawnX, spawnY);
         return position;
+    }
+
+    private int CalculateSpawnCount()
+    {
+        var minutes = GameManager.Instance.RunTime / 60f; // Convert seconds to minutes
+
+        if (minutes < 2f)
+            return 1;
+        if (minutes < 4f)
+            return 2;
+        if (minutes < 6f)
+            return 3;
+        if (minutes < 8f)
+            return 4;
+        return 5; // Minute 8+s
     }
 }

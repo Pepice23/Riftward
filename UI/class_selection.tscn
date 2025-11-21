@@ -1,19 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://drm5h67iy80tm"]
+[gd_scene load_steps=8 format=3 uid="uid://drm5h67iy80tm"]
 
 [ext_resource type="Texture2D" uid="uid://bkxki2yagygtc" path="res://Assets/Art/paladin_art.png" id="1_5bvf1"]
 [ext_resource type="Script" uid="uid://coket51olt38" path="res://UI/ClassSelection.cs" id="1_ggp4q"]
+[ext_resource type="Texture2D" uid="uid://bx3is6syuive4" path="res://Assets/Art/character_select_bg.png" id="1_hi2nm"]
+[ext_resource type="FontFile" uid="uid://cmpqdb86h7hx4" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="2_dj4hw"]
 [ext_resource type="Texture2D" uid="uid://b37sjvr8gq8c7" path="res://Assets/Art/mage_art.png" id="2_ggp4q"]
 [ext_resource type="Texture2D" uid="uid://dsw6buwxqv1fe" path="res://Assets/Art/hunter_art.png" id="3_7iqaf"]
 
-[node name="ClassSelection" type="HBoxContainer"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg3f0"]
+texture = ExtResource("1_hi2nm")
+
+[node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_mg3f0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dj4hw")
+theme_override_font_sizes/font_size = 35
+text = "Choose your character"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ClassSelection" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 script = ExtResource("1_ggp4q")
 
-[node name="PaladinButton" type="TextureButton" parent="."]
+[node name="PaladinButton" type="TextureButton" parent="VBoxContainer/ClassSelection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -21,7 +42,32 @@ texture_normal = ExtResource("1_5bvf1")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="MageButton" type="TextureButton" parent="."]
+[node name="Panel" type="Panel" parent="VBoxContainer/ClassSelection/PaladinButton"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/ClassSelection/PaladinButton/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_dj4hw")
+theme_override_font_sizes/font_size = 30
+text = "Paladin"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MageButton" type="TextureButton" parent="VBoxContainer/ClassSelection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -29,7 +75,32 @@ texture_normal = ExtResource("2_ggp4q")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="HunterButton" type="TextureButton" parent="."]
+[node name="Panel" type="Panel" parent="VBoxContainer/ClassSelection/MageButton"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/ClassSelection/MageButton/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_dj4hw")
+theme_override_font_sizes/font_size = 30
+text = "Mage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HunterButton" type="TextureButton" parent="VBoxContainer/ClassSelection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -37,6 +108,31 @@ texture_normal = ExtResource("3_7iqaf")
 ignore_texture_size = true
 stretch_mode = 5
 
-[connection signal="pressed" from="PaladinButton" to="." method="SelectPaladin"]
-[connection signal="pressed" from="MageButton" to="." method="SelectMage"]
-[connection signal="pressed" from="HunterButton" to="." method="SelectHunter"]
+[node name="Panel" type="Panel" parent="VBoxContainer/ClassSelection/HunterButton"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/ClassSelection/HunterButton/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_dj4hw")
+theme_override_font_sizes/font_size = 30
+text = "Hunter"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/ClassSelection/PaladinButton" to="VBoxContainer/ClassSelection" method="SelectPaladin"]
+[connection signal="pressed" from="VBoxContainer/ClassSelection/MageButton" to="VBoxContainer/ClassSelection" method="SelectMage"]
+[connection signal="pressed" from="VBoxContainer/ClassSelection/HunterButton" to="VBoxContainer/ClassSelection" method="SelectHunter"]

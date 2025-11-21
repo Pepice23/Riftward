@@ -9,7 +9,7 @@
 bg_color = Color(0, 1, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
-radius = 44.102154
+radius = 45.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_btcbx"]
 radius = 100.0

@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using Godot;
 
 #pragma warning disable CA1050
+// ReSharper disable once CheckNamespace
 public partial class EliteEnemy : CharacterBody2D
 #pragma warning restore CA1050
 {
     // How fast the enemy moves
     [Export] public float Speed = 70.0f;
     [Export] public int MaxHealth = 40;
+    [Export] public int StopDistance = 50;
 
     [Export] public Texture2D EnemySprite;
 
@@ -50,8 +52,19 @@ public partial class EliteEnemy : CharacterBody2D
         // Calculate direction TO the player
         var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
 
+        // Calculate the distance to the player
+        var distance = GlobalPosition.DistanceTo(_player.GlobalPosition);
+
         // Move toward the player
-        Velocity = direction * Speed;
+        if (distance > StopDistance)
+        {
+            Velocity = direction * Speed;
+        }
+        else
+        {
+            Velocity = Vector2.Zero;
+        }
+
         MoveAndSlide();
     }
 

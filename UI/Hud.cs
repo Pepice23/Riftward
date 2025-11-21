@@ -1,6 +1,8 @@
 using Godot;
 
+#pragma warning disable CA1050
 public partial class Hud : CanvasLayer
+#pragma warning restore CA1050
 {
     [Export] public Player Player;
 

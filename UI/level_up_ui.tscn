@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyc7jyn3l0lx8"]
+[gd_scene load_steps=3 format=3 uid="uid://chkttgdg2scpn"]
 
-[ext_resource type="Script" path="res://Player/LevelUpUi.cs" id="1_v3sp3"]
-[ext_resource type="PackedScene" path="res://Player/upgrade_button.tscn" id="2_gc3c4"]
+[ext_resource type="Script" uid="uid://cj4el5qo5jd1p" path="res://UI/LevelUpUi.cs" id="1_v3sp3"]
+[ext_resource type="PackedScene" uid="uid://b8l71klec6nj7" path="res://UI/upgrade_button.tscn" id="2_gc3c4"]
 
 [node name="LevelUpUI" type="CanvasLayer"]
 process_mode = 2

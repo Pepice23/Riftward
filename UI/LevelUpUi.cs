@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
+#pragma warning disable CA1050
 public partial class LevelUpUi : CanvasLayer
+#pragma warning restore CA1050
 {
     [Export] public Player Player;
 

@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
+#pragma warning disable CA1050
 public partial class UpgradeButton : Button
+#pragma warning restore CA1050
 {
     private Label _upgradeName;
     private Label _upgradeDescription;

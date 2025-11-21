@@ -1,5 +1,6 @@
-using Godot;
 using System;
+
+// ReSharper disable once CheckNamespace
 
 public class Upgrade
 {

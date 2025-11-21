@@ -1,6 +1,8 @@
 using Godot;
 
+#pragma warning disable CA1050
 public partial class Projectile : Area2D
+#pragma warning restore CA1050
 {
     // How fast the projectile moves
     [Export] public float Speed = 400.0f;

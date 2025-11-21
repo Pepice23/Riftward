@@ -1,7 +1,7 @@
 using Godot;
-using System;
 
 #pragma warning disable CA1050
+// ReSharper disable once CheckNamespace
 public partial class UpgradeButton : Button
 #pragma warning restore CA1050
 {

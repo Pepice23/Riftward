@@ -1,7 +1,9 @@
 using Godot;
 
 // ReSharper disable once CheckNamespace
+#pragma warning disable CA1050
 public partial class Player
+#pragma warning restore CA1050
 {
     private void SetupPaladin()
     {
@@ -42,10 +44,7 @@ public partial class Player
             var y = radius * Mathf.Sin(angle);
 
             // Set the hammer's position
-            if (hammers[i] is Node2D hammer)
-            {
-                hammer.Position = new Vector2(x, y);
-            }
+            if (hammers[i] is Node2D hammer) hammer.Position = new Vector2(x, y);
         }
     }
 }

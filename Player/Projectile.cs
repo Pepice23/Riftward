@@ -1,6 +1,7 @@
 using Godot;
 
 #pragma warning disable CA1050
+// ReSharper disable once CheckNamespace
 public partial class Projectile : Area2D
 #pragma warning restore CA1050
 {
@@ -25,14 +26,10 @@ public partial class Projectile : Area2D
     {
         _sprite = GetNode<Sprite2D>("%Sprite2D");
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Mage)
-        {
             _sprite.Texture = GD.Load<Texture2D>("res://Assets/Sprites/projectiles/mage_bolt.png");
-        }
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Hunter)
-        {
             _sprite.Texture = GD.Load<Texture2D>("res://Assets/Sprites/projectiles/hunter_arrow.png");
-        }
 
         // When projectile hits something, call this function
         BodyEntered += OnBodyEntered;

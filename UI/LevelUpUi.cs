@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 
 #pragma warning disable CA1050
+// ReSharper disable once CheckNamespace
 public partial class LevelUpUi : CanvasLayer
 #pragma warning restore CA1050
 {
@@ -21,10 +22,7 @@ public partial class LevelUpUi : CanvasLayer
     public override void _Ready()
     {
         Hide();
-        if (Player != null)
-        {
-            Player.GamePaused += ShowUpgradeUi;
-        }
+        if (Player != null) Player.GamePaused += ShowUpgradeUi;
 
         _upgradeButton1 = GetNode<UpgradeButton>("%UpgradeButton1");
         _upgradeButton2 = GetNode<UpgradeButton>("%UpgradeButton2");
@@ -77,10 +75,7 @@ public partial class LevelUpUi : CanvasLayer
 
     public override void _ExitTree()
     {
-        if (Player != null)
-        {
-            Player.GamePaused -= ShowUpgradeUi;
-        }
+        if (Player != null) Player.GamePaused -= ShowUpgradeUi;
     }
 
     private List<Upgrade> GetRandomUpgrades()

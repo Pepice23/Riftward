@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Godot;
 
-
 #pragma warning disable CA1050
+// ReSharper disable once CheckNamespace
 public partial class Player : CharacterBody2D
 #pragma warning restore CA1050
 {

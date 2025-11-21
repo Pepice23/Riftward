@@ -1,6 +1,8 @@
 using Godot;
 
+#pragma warning disable CA1050
 public partial class GameManager : Node
+#pragma warning restore CA1050
 {
     [Signal]
     public delegate void TimeUpdatedEventHandler(float time);

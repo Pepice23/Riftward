@@ -1,7 +1,10 @@
 using Godot;
 
 
+// ReSharper disable once CheckNamespace
+#pragma warning disable CA1050
 public partial class ClassSelection : HBoxContainer
+#pragma warning restore CA1050
 {
     private void SelectPaladin()
     {

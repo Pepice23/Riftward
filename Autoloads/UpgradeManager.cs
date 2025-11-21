@@ -1,7 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
+#pragma warning disable CA1050
 public partial class UpgradeManager : Node
+#pragma warning restore CA1050
 {
     public static UpgradeManager Instance { get; private set; }
     public readonly List<Upgrade> AllUpgrades = [];

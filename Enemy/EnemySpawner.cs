@@ -1,6 +1,8 @@
 ﻿using Godot;
 
+#pragma warning disable CA1050
 public partial class EnemySpawner : Node2D
+#pragma warning restore CA1050
 {
     [Export] public PackedScene EnemyScene; // Assign in Inspector!
     [Export] public PackedScene EliteEnemyScene; // Assign in Inspector!

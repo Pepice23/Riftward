@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Godot;
 
+#pragma warning disable CA1050
 public partial class EliteEnemy : CharacterBody2D
+#pragma warning restore CA1050
 {
     // How fast the enemy moves
     [Export] public float Speed = 70.0f;

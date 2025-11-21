@@ -43,6 +43,17 @@ public partial class UpgradeManager : Node
                 GD.Print($"After upgrade: Movement Speed = {player.Speed}");
             }
         });
+        AllUpgrades.Add(new Upgrade
+        {
+            Name = "Health Regeneration",
+            Description = "Increased Health Regeneration",
+            ApplyEffect = (player) =>
+            {
+                GD.Print($"Before upgrade: Movement Speed = {player.HealthRegen}");
+                player.HealthRegen += 0.01f;
+                GD.Print($"After upgrade: Movement Speed = {player.HealthRegen}");
+            }
+        });
     }
 
     private void PaladinUpgradeList()

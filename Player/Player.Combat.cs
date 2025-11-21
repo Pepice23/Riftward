@@ -8,7 +8,7 @@ public partial class Player
         if (body is CharacterBody2D character and (Enemy or EliteEnemy))
         {
             _enemiesInAura.Add(character);
-            GD.Print("Enemies entered the area");
+            DamageAuraEnemies();
         }
     }
 
@@ -17,7 +17,6 @@ public partial class Player
         if (body is CharacterBody2D character and (Enemy or EliteEnemy))
         {
             _enemiesInAura.Remove(character);
-            GD.Print("Enemies exited the area");
         }
     }
 
@@ -109,8 +108,14 @@ public partial class Player
     private void DamageAuraEnemies()
     {
         foreach (var enemy in _enemiesInAura)
-            if (enemy is Enemy regularEnemy)
-                regularEnemy.TakeDamage(Damage);
-            else if (enemy is EliteEnemy eliteEnemy) eliteEnemy.TakeDamage(Damage);
+            switch (enemy)
+            {
+                case Enemy regularEnemy:
+                    regularEnemy.TakeDamage(Damage);
+                    break;
+                case EliteEnemy eliteEnemy:
+                    eliteEnemy.TakeDamage(Damage);
+                    break;
+            }
     }
 }

@@ -30,6 +30,7 @@ public partial class Player : CharacterBody2D
     [Export] public int ProjectileSpeed = 400;
     [Export] public int ProjectileCount = 1;
 
+
     // Health
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
@@ -44,6 +45,7 @@ public partial class Player : CharacterBody2D
 
     // Paladin Aura
     [Export] public float HammerRotationSpeed = 2.0f; // Rotations per second
+    [Export] public int AuraRadius = 100;
 
     #endregion
 
@@ -69,6 +71,7 @@ public partial class Player : CharacterBody2D
     private int _xpNeededForNextLevel;
 
     private List<CharacterBody2D> _enemiesInAura = [];
+    private CollisionShape2D _collisionShape;
 
     #endregion
 
@@ -82,6 +85,7 @@ public partial class Player : CharacterBody2D
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
         _area = GetNode<Area2D>("Area2D");
         _hammerAura = GetNode<Node2D>("HammerAura");
+        _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
@@ -451,6 +455,8 @@ public partial class Player : CharacterBody2D
         FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
         BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
         _sprite.Texture = FrontSprite;
+
+        UpdateHammerPositions(AuraRadius);
     }
 
     private void SetupMage()
@@ -470,5 +476,27 @@ public partial class Player : CharacterBody2D
     private void PauseGame()
     {
         EmitSignal(SignalName.GamePaused);
+    }
+
+    private void UpdateHammerPositions(float radius)
+    {
+        var hammers = _hammerAura.GetChildren();
+        var hammerCount = hammers.Count;
+
+        for (var i = 0; i < hammerCount; i++)
+        {
+            // Calculate angle for this hammer (evenly distributed)
+            var angle = i * (Mathf.Tau / hammerCount);
+
+            // Calculate position on circle
+            var x = radius * Mathf.Cos(angle);
+            var y = radius * Mathf.Sin(angle);
+
+            // Set the hammer's position
+            if (hammers[i] is Node2D hammer)
+            {
+                hammer.Position = new Vector2(x, y);
+            }
+        }
     }
 }

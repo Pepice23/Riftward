@@ -4,31 +4,29 @@ using Godot;
 // ReSharper disable once CheckNamespace
 public partial class Player
 {
-    //  Separate method to keep things organized
     private void CheckEnemyCollisions()
     {
         // Can't take damage yet? Skip checking
         if (_damageCooldown > 0f)
             return;
 
-        // Loop through everything we just collided with
-        for (var i = 0; i < GetSlideCollisionCount(); i++)
+        // Check if any enemies are in our hitbox
+        if (_enemiesInHitbox.Count > 0)
         {
-            var collision = GetSlideCollision(i);
-            var collider = collision.GetCollider();
-
-            // Is it an enemy?
-            if (collider is Enemy enemy)
+            // Determine damage based on enemy type
+            foreach (var enemy in _enemiesInHitbox)
             {
-                TakeDamage(10);
-                return; // Stop checking - we already got hurt this frame
-            }
+                if (enemy is EliteEnemy)
+                {
+                    TakeDamage(20);
+                    return; // Only take damage from one enemy per cooldown
+                }
 
-            // Is it an elite enemy?
-            if (collider is EliteEnemy eliteEnemy)
-            {
-                TakeDamage(20);
-                return; // Stop checking - we already got hurt this frame
+                if (enemy is Enemy)
+                {
+                    TakeDamage(10);
+                    return; // Only take damage from one enemy per cooldown
+                }
             }
         }
     }
@@ -93,5 +91,21 @@ public partial class Player
         // Don't overheal
         if (_currentHealth > MaxHealth)
             _currentHealth = MaxHealth;
+    }
+
+    private void AddEnemyToHitbox(Node2D body)
+    {
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        {
+            _enemiesInHitbox.Add(character);
+        }
+    }
+
+    private void RemoveEnemyFromHitbox(Node2D body)
+    {
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        {
+            _enemiesInHitbox.Remove(character);
+        }
     }
 }

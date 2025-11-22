@@ -9,7 +9,7 @@ public partial class EliteEnemy : CharacterBody2D
     // How fast the enemy moves
     [Export] public float Speed = 70.0f;
     [Export] public int MaxHealth = 40;
-    [Export] public int StopDistance = 90;
+
 
     [Export] public Texture2D EnemySprite;
 
@@ -52,19 +52,9 @@ public partial class EliteEnemy : CharacterBody2D
         // Calculate direction TO the player
         var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
 
-        // Calculate the distance to the player
-        var distance = GlobalPosition.DistanceTo(_player.GlobalPosition);
-
-        // Move toward the player
-        if (distance > StopDistance)
-        {
-            Velocity = direction * Speed;
-            MoveAndSlide();
-        }
-        else
-        {
-            Velocity = Vector2.Zero;
-        }
+        // Always move toward the player
+        Velocity = direction * Speed;
+        MoveAndSlide();
     }
 
     // This method will be called when the enemy takes damage

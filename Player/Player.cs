@@ -59,6 +59,7 @@ public partial class Player : CharacterBody2D
     private ProgressBar _healthBar;
     private Sprite2D _sprite;
     private Area2D _area;
+    private Area2D _hitboxArea;
     private Node2D _hammerAura;
 
     // Combat state
@@ -76,6 +77,7 @@ public partial class Player : CharacterBody2D
     private int _xpNeededForNextLevel;
 
     private readonly List<CharacterBody2D> _enemiesInAura = [];
+    private readonly List<CharacterBody2D> _enemiesInHitbox = [];
     private CollisionShape2D _collisionShape;
 
     #endregion
@@ -88,9 +90,10 @@ public partial class Player : CharacterBody2D
         // Cache the sprite reference
         _sprite = GetNode<Sprite2D>("Sprite2D");
         _healthBar = GetNode<ProgressBar>("%ProgressBar");
-        _area = GetNode<Area2D>("Area2D");
+        _area = GetNode<Area2D>("%PaladinAura");
+        _hitboxArea = GetNode<Area2D>("%Hitbox");
         _hammerAura = GetNode<Node2D>("HammerAura");
-        _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        _collisionShape = GetNode<CollisionShape2D>("%AuraCollision");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
@@ -117,6 +120,8 @@ public partial class Player : CharacterBody2D
         GameManager.Instance.StartRun();
         _area.BodyEntered += AddEnemiesToAura;
         _area.BodyExited += RemoveEnemiesFromAura;
+        _hitboxArea.BodyEntered += AddEnemyToHitbox;
+        _hitboxArea.BodyExited += RemoveEnemyFromHitbox;
     }
 
     public override void _ExitTree()
@@ -124,6 +129,8 @@ public partial class Player : CharacterBody2D
         // Clean up signal connections to prevent memory leaks
         _area.BodyEntered -= AddEnemiesToAura;
         _area.BodyExited -= RemoveEnemiesFromAura;
+        _hitboxArea.BodyEntered -= AddEnemyToHitbox;
+        _hitboxArea.BodyExited -= RemoveEnemyFromHitbox;
     }
 
     // This runs every physics frame (60 times per second)

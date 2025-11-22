@@ -98,6 +98,18 @@ public partial class UpgradeManager : Node
                 GD.Print($"After upgrade: Attack Cooldown = {player.AttackCooldown}");
             }
         });
+        _mageUpgrades.Add(new Upgrade
+            {
+                Name = "+1 Bolt",
+                Description = "Shoot 1 more bolt at the same time",
+                ApplyEffect = player =>
+                {
+                    GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
+                    player.ProjectileCount += 1;
+                    GD.Print($"After upgrade: Projectile Count = {player.ProjectileCount}");
+                }
+            }
+        );
     }
 
     private void HunterUpgradeList()
@@ -125,6 +137,18 @@ public partial class UpgradeManager : Node
                 GD.Print($"After upgrade: Attack Cooldown = {player.AttackCooldown}");
             }
         });
+        _mageUpgrades.Add(new Upgrade
+            {
+                Name = "+1 Arrow",
+                Description = "Shoot 1 more arrow at the same time",
+                ApplyEffect = player =>
+                {
+                    GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
+                    player.ProjectileCount += 1;
+                    GD.Print($"After upgrade: Projectile Count = {player.ProjectileCount}");
+                }
+            }
+        );
     }
 
     public void InitializeUpgrades()

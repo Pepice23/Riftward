@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 // ReSharper disable once CheckNamespace
@@ -52,36 +53,19 @@ public partial class Player
         if (enemies.Count == 0)
             return; // No enemies to shoot
 
-        // Find the closest enemy
-        CharacterBody2D nearestTarget = null;
-        var nearestDistance = float.MaxValue;
+        // Find the N nearest enemies using LINQ
+        var nearestEnemies = enemies
+            .OfType<CharacterBody2D>() // Only CharacterBody2D nodes
+            .Where(e => e is Enemy or EliteEnemy) // Only Enemy or EliteEnemy types
+            .OrderBy(e => GlobalPosition.DistanceTo(e.GlobalPosition)) // Sort by distance (closest first)
+            .Take(ProjectileCount) // Take only the first N enemies
+            .ToList(); // Convert to a list
 
-        foreach (var node in enemies)
+        // Shoot one projectile at each target
+        foreach (var target in nearestEnemies)
         {
-            if (node is Enemy enemy)
-            {
-                var distance = GlobalPosition.DistanceTo(enemy.GlobalPosition);
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearestTarget = enemy;
-                }
-            }
-
-            if (node is EliteEnemy eliteEnemy)
-            {
-                var distance = GlobalPosition.DistanceTo(eliteEnemy.GlobalPosition);
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearestTarget = eliteEnemy;
-                }
-            }
+            SpawnProjectile(target.GlobalPosition);
         }
-
-
-        // Shoot at the nearest enemy
-        if (nearestTarget != null) SpawnProjectile(nearestTarget.GlobalPosition);
     }
 
     //  Actually create and fire the projectile
@@ -95,6 +79,7 @@ public partial class Player
 
         // Aim it at the target
         var direction = (targetPosition - GlobalPosition).Normalized();
+
         projectile.SetDirection(direction);
 
         // Set the projectile Damage and Speed

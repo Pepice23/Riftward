@@ -137,7 +137,7 @@ public partial class UpgradeManager : Node
                 GD.Print($"After upgrade: Attack Cooldown = {player.AttackCooldown}");
             }
         });
-        _mageUpgrades.Add(new Upgrade
+        _hunterUpgrades.Add(new Upgrade
             {
                 Name = "+1 Arrow",
                 Description = "Shoot 1 more arrow at the same time",

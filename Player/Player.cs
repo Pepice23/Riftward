@@ -38,7 +38,7 @@ public partial class Player : CharacterBody2D
     // Health
     [Export] public int MaxHealth = 100;
     [Export] public float DamageFlashDuration = 0.1f; // How long to flash red when hit
-    [Export] public float HealthRegen = 0.05f;
+    [Export] public float HealthRegen = 0.01f;
 
     // XP
     [Export] public int CurrentLevel = 1;

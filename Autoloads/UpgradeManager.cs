@@ -23,7 +23,7 @@ public partial class UpgradeManager : Node
         AllUpgrades.Add(new Upgrade
         {
             Name = "Damage Boost",
-            Description = "+5 Damage",
+            Description = "Increased Damage",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Damage = {player.Damage}");
@@ -35,7 +35,7 @@ public partial class UpgradeManager : Node
         AllUpgrades.Add(new Upgrade
         {
             Name = "Speed Boost",
-            Description = "+50 Movement Speed",
+            Description = "Increased Movement Speed",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Movement Speed = {player.Speed}");
@@ -61,7 +61,7 @@ public partial class UpgradeManager : Node
         _paladinUpgrades.Add(new Upgrade
             {
                 Name = "Increased Aura Radius",
-                Description = "+25 Increased Aura Radius",
+                Description = "Increased Aura Radius",
                 ApplyEffect = player =>
                 {
                     GD.Print($"Before upgrade: Aura radius = {player.AuraRadius}");
@@ -78,7 +78,7 @@ public partial class UpgradeManager : Node
         _mageUpgrades.Add(new Upgrade
         {
             Name = "Bolt Speed Boost",
-            Description = "+100 Speed to Bolts",
+            Description = "Increased Bolt Speed",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Bolt Speed = {player.ProjectileSpeed}");
@@ -90,7 +90,7 @@ public partial class UpgradeManager : Node
         _mageUpgrades.Add(new Upgrade
         {
             Name = "Faster Shooting",
-            Description = "-0.05 to Attack Cooldown",
+            Description = "Decreased Attack Cooldown",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");
@@ -117,7 +117,7 @@ public partial class UpgradeManager : Node
         _hunterUpgrades.Add(new Upgrade
         {
             Name = "Arrow Speed Boost",
-            Description = "+100 Speed to arrow",
+            Description = "Arrow Speed Increased",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Arrow Speed = {player.ProjectileSpeed}");
@@ -129,7 +129,7 @@ public partial class UpgradeManager : Node
         _hunterUpgrades.Add(new Upgrade
         {
             Name = "Faster Shooting",
-            Description = "-0.05 to Attack Cooldown",
+            Description = "Decreased Attack Cooldown",
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");

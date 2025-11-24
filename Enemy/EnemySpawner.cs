@@ -13,7 +13,13 @@ public partial class EnemySpawner : Node2D
 
     private float _spawnTimer = 1.0f; //First spawn time
     private float _eliteSpawnTimer = 90.0f;
+    private Player _player;
 
+
+    public override void _Ready()
+    {
+        _player = GetTree().Root.FindChild("Player", true, false) as Player;
+    }
 
 // NEW: Spawn system
     public override void _Process(double delta)
@@ -86,26 +92,32 @@ public partial class EnemySpawner : Node2D
 
     private Vector2 SetSpawnPosition()
     {
-        var spawnX = 0;
-        var spawnY = 0;
+        if (_player == null)
+        {
+            return  Vector2.Zero;
+        }
+
+        const float spawnDistance = 1000f; //Distance from player to spawn
+        var spawnX = 0f;
+        var spawnY = 0f;
         var edge = GD.RandRange(1, 4);
         switch (edge)
         {
-            case 1:
-                spawnX = -50;
-                spawnY = (int)GD.RandRange(0, GetViewportRect().Size.Y);
+            case 1: // Left of the player
+                spawnX = _player.GlobalPosition.X - spawnDistance;
+                spawnY = _player.GlobalPosition.Y + (float)GD.RandRange(-spawnDistance, spawnDistance);
                 break;
-            case 2:
-                spawnX = (int)GetViewportRect().Size.X + 50; // Just off-screen to the right
-                spawnY = (int)GD.RandRange(0, GetViewportRect().Size.Y); // Random along height
+            case 2: // Right of the player
+                spawnX = _player.GlobalPosition.X + spawnDistance;
+                spawnY = _player.GlobalPosition.Y + (float)GD.RandRange(-spawnDistance, spawnDistance);
                 break;
-            case 3:
-                spawnX = (int)GD.RandRange(0, GetViewportRect().Size.X);
-                spawnY = -50; // Just off-screen above
+            case 3: // Above the player
+                spawnX = _player.GlobalPosition.X + (float)GD.RandRange(-spawnDistance, spawnDistance);
+                spawnY = _player.GlobalPosition.Y - spawnDistance;
                 break;
-            case 4:
-                spawnX = (int)GD.RandRange(0, GetViewportRect().Size.X); // Random along width
-                spawnY = (int)GetViewportRect().Size.Y + 50; // Just off-screen below
+            case 4: // Below the player
+                spawnX = _player.GlobalPosition.X + (float)GD.RandRange(-spawnDistance, spawnDistance);
+                spawnY = _player.GlobalPosition.Y + spawnDistance;
                 break;
         }
 

@@ -25,6 +25,7 @@ public partial class Player : CharacterBody2D
     [Export] public float Speed = 300.0f;
     [Export] public Texture2D FrontSprite;
     [Export] public Texture2D BackSprite;
+    
 
     // Combat
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
@@ -142,10 +143,10 @@ public partial class Player : CharacterBody2D
 
         HandleMovement(delta);
         // Clamping player to the scene
-        Position = new Vector2(
-            Mathf.Clamp(Position.X, 45, GetViewportRect().Size.X - 45),
-            Mathf.Clamp(Position.Y, 45, GetViewportRect().Size.Y - 45)
-        );
+        // Position = new Vector2(
+        //     Mathf.Clamp(Position.X, ArenaMinX, ArenaMaxX),
+        //     Mathf.Clamp(Position.Y, ArenaMinY, ArenaMaxY)
+        // );
         // Continuously check for collisions with enemies
         CheckEnemyCollisions();
     }

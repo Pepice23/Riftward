@@ -251,64 +251,64 @@ shape = SubResource("CircleShape2D_4c57u")
 position = Vector2(-644, 1936)
 shape = SubResource("CircleShape2D_4c57u")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="Walls/TreeWalls"]
+[node name="TreeWallLR" type="StaticBody2D" parent="Walls/TreeWalls"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(804, 1604)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(965, 1626)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1115, 1632)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1260, 1638)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1393, 1543)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1521, 1421)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D7" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1515, 1299)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D8" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1465, 1110)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D9" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1437, 987)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D10" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1331, 842)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D11" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1259, 731)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D12" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1637, 1192)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D13" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1793, 1109)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D14" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1876, 992)
 shape = SubResource("CircleShape2D_efxa6")
 
-[node name="CollisionShape2D15" type="CollisionShape2D" parent="Walls/TreeWalls/StaticBody2D2"]
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1943, 875)
 shape = SubResource("CircleShape2D_efxa6")

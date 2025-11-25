@@ -16,15 +16,15 @@ public partial class Player
             // Determine damage based on enemy type
             foreach (var enemy in _enemiesInHitbox)
             {
-                if (enemy is EliteEnemy)
+                if (enemy is EliteEnemy eliteEnemy)
                 {
-                    TakeDamage(20);
+                    TakeDamage(eliteEnemy.Damage);
                     return; // Only take damage from one enemy per cooldown
                 }
 
-                if (enemy is Enemy)
+                if (enemy is Enemy regularEnemy)
                 {
-                    TakeDamage(10);
+                    TakeDamage(regularEnemy.Damage);
                     return; // Only take damage from one enemy per cooldown
                 }
             }
@@ -91,6 +91,17 @@ public partial class Player
         // Don't overheal
         if (_currentHealth > MaxHealth)
             _currentHealth = MaxHealth;
+    }
+    
+    private void Heal(int amount)
+    {
+        _currentHealth += amount;
+
+        // Don't overheal
+        if (_currentHealth > MaxHealth)
+            _currentHealth = MaxHealth;
+
+        UpdatePlayerHP();
     }
 
     private void AddEnemyToHitbox(Node2D body)

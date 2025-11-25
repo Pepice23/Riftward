@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cawvcld7fy85x"]
+[gd_scene load_steps=16 format=3 uid="uid://cawvcld7fy85x"]
 
 [ext_resource type="Texture2D" uid="uid://c7sjqsc60q2l0" path="res://Assets/Sprites/floor/grass_big.png" id="1_5vw27"]
 [ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://Player/player.tscn" id="1_ig7tw"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://Enemy/enemy_spawner.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://c17k7nhx0uckv" path="res://UI/hud.tscn" id="6_272bh"]
 [ext_resource type="PackedScene" uid="uid://chkttgdg2scpn" path="res://UI/level_up_ui.tscn" id="8_5vw27"]
+[ext_resource type="Texture2D" uid="uid://0mj2bwwe8mis" path="res://Assets/Sprites/barrier/barrier.png" id="9_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
 size = Vector2(100, 1172.5)
@@ -178,15 +179,15 @@ position = Vector2(1871, -1133)
 shape = SubResource("CircleShape2D_kek77")
 
 [node name="CollisionShape2D14" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallUR"]
-position = Vector2(1959, -942)
+position = Vector2(1880, -921)
 shape = SubResource("CircleShape2D_kek77")
 
 [node name="CollisionShape2D15" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallUR"]
-position = Vector2(2025, -747)
+position = Vector2(1911, -754)
 shape = SubResource("CircleShape2D_kek77")
 
 [node name="CollisionShape2D16" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallUR"]
-position = Vector2(2022, -606)
+position = Vector2(1912, -603)
 shape = SubResource("CircleShape2D_kek77")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/TreeWalls"]
@@ -312,3 +313,28 @@ shape = SubResource("CircleShape2D_efxa6")
 [node name="CollisionShape2D15" type="CollisionShape2D" parent="Walls/TreeWalls/TreeWallLR"]
 position = Vector2(1943, 875)
 shape = SubResource("CircleShape2D_efxa6")
+
+[node name="Barriers" type="Node2D" parent="."]
+
+[node name="BarrierR" type="Sprite2D" parent="Barriers"]
+position = Vector2(2563, 1.8599634)
+rotation = 1.5707964
+scale = Vector2(4.0034738, 1)
+texture = ExtResource("9_kek77")
+
+[node name="BarrierU" type="Sprite2D" parent="Barriers"]
+position = Vector2(5.9997787, -2568)
+scale = Vector2(4.0019526, 1)
+texture = ExtResource("9_kek77")
+
+[node name="BarrierD" type="Sprite2D" parent="Barriers"]
+position = Vector2(6, 2568)
+rotation = -3.1415925
+scale = Vector2(4.0019526, 1)
+texture = ExtResource("9_kek77")
+
+[node name="BarrierL" type="Sprite2D" parent="Barriers"]
+position = Vector2(-2563, 1.86)
+rotation = -1.5707964
+scale = Vector2(4.0034738, 1)
+texture = ExtResource("9_kek77")

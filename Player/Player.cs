@@ -51,6 +51,7 @@ public partial class Player : CharacterBody2D
     // Paladin Aura
     [Export] public float HammerRotationSpeed = 2.0f; // Rotations per second
     [Export] public int AuraRadius = 100;
+    [Export] public float AuraLifeLeech;
 
     #endregion
 
@@ -73,6 +74,7 @@ public partial class Player : CharacterBody2D
     private const float DamageCooldownTime = 0.5f;
     private bool _isDead;
     private float _regenAccumulator;
+    private float _lifeLeechAccumulator;
 
     // XP
     private int _xpNeededForNextLevel;

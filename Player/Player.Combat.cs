@@ -93,14 +93,25 @@ public partial class Player
     private void DamageAuraEnemies()
     {
         foreach (var enemy in _enemiesInAura)
+        {
             switch (enemy)
             {
                 case Enemy regularEnemy:
                     regularEnemy.TakeDamage(Damage);
+                    _lifeLeechAccumulator += regularEnemy.Damage * AuraLifeLeech;
                     break;
                 case EliteEnemy eliteEnemy:
                     eliteEnemy.TakeDamage(Damage);
+                    _lifeLeechAccumulator += eliteEnemy.Damage * AuraLifeLeech;
                     break;
             }
+        }
+        // After damaging all enemies, check if we've accumulated enough to heal
+        if (_lifeLeechAccumulator >= 1f)
+        {
+            var healAmount = (int)_lifeLeechAccumulator;
+            Heal(healAmount);
+            _lifeLeechAccumulator -= healAmount; // Keep the leftover fraction
+        }
     }
 }

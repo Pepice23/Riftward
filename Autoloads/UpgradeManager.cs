@@ -49,9 +49,9 @@ public partial class UpgradeManager : Node
             Description = "Increased Health Regeneration",
             ApplyEffect = (player) =>
             {
-                GD.Print($"Before upgrade: Movement Speed = {player.HealthRegen}");
+                GD.Print($"Before upgrade: Health Regeneration = {player.HealthRegen}");
                 player.HealthRegen += 0.01f;
-                GD.Print($"After upgrade: Movement Speed = {player.HealthRegen}");
+                GD.Print($"After upgrade: Health Regeneration = {player.HealthRegen}");
             }
         });
     }
@@ -71,6 +71,30 @@ public partial class UpgradeManager : Node
                 }
             }
         );
+        
+        _paladinUpgrades.Add (new Upgrade
+        {
+            Name = "Blazing Aura",
+            Description = "Aura damages enemies more frequently",
+            ApplyEffect = player =>
+            {
+                GD.Print($"Before upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
+                player.AuraDamageCooldown -= 0.05f;
+                GD.Print($"After upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
+            } 
+        });
+        
+        _paladinUpgrades.Add (new Upgrade
+        {
+            Name = "Divine Retribution",
+            Description = " Aura heals back for damage dealt",
+            ApplyEffect = player =>
+            {
+                GD.Print($"Before upgrade: Aura Life Leech = {player.AuraLifeLeech}");
+                player.AuraLifeLeech += 0.1f;
+                GD.Print($"After upgrade: Aura Life Leech = {player.AuraLifeLeech}");
+            } 
+        });
     }
 
     private void MageUpgradeList()

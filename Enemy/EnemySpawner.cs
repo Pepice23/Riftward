@@ -14,7 +14,7 @@ public partial class EnemySpawner : Node2D
 
     private float _spawnTimer = 1.0f; //First spawn time
     private float _eliteSpawnTimer = 90.0f;
-    private float _bossSpawnTimer = 15.0f;
+    private float _bossSpawnTimer = 600.0f;
     private Player _player;
 
 

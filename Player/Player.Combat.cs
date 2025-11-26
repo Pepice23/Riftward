@@ -6,7 +6,7 @@ public partial class Player
 {
     private void AddEnemiesToAura(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
         {
             _enemiesInAura.Add(character);
             DamageAuraEnemies();
@@ -15,7 +15,7 @@ public partial class Player
 
     private void RemoveEnemiesFromAura(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
         {
             _enemiesInAura.Remove(character);
         }
@@ -56,7 +56,7 @@ public partial class Player
         // Find the N nearest enemies using LINQ
         var nearestEnemies = enemies
             .OfType<CharacterBody2D>() // Only CharacterBody2D nodes
-            .Where(e => e is Enemy or EliteEnemy) // Only Enemy or EliteEnemy types
+            .Where(e => e is Enemy or EliteEnemy or BossEnemy) // Only Enemy or EliteEnemy types
             .OrderBy(e => GlobalPosition.DistanceTo(e.GlobalPosition)) // Sort by distance (closest first)
             .Take(ProjectileCount) // Take only the first N enemies
             .ToList(); // Convert to a list
@@ -103,6 +103,10 @@ public partial class Player
                 case EliteEnemy eliteEnemy:
                     eliteEnemy.TakeDamage(Damage);
                     _lifeLeechAccumulator += eliteEnemy.Damage * AuraLifeLeech;
+                    break;
+                case BossEnemy bossEnemy:
+                    bossEnemy.TakeDamage(Damage);
+                    _lifeLeechAccumulator += bossEnemy.Damage * AuraLifeLeech;
                     break;
             }
         }

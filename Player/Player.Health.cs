@@ -27,6 +27,12 @@ public partial class Player
                     TakeDamage(regularEnemy.Damage);
                     return; // Only take damage from one enemy per cooldown
                 }
+                
+                if (enemy is BossEnemy bossEnemy)
+                {
+                    TakeDamage(bossEnemy.Damage);
+                    return; // Only take damage from one enemy per cooldown
+                }
             }
         }
     }
@@ -106,7 +112,7 @@ public partial class Player
 
     private void AddEnemyToHitbox(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
         {
             _enemiesInHitbox.Add(character);
         }
@@ -114,7 +120,7 @@ public partial class Player
 
     private void RemoveEnemyFromHitbox(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy))
+        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
         {
             _enemiesInHitbox.Remove(character);
         }

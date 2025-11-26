@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cawvcld7fy85x"]
+[gd_scene load_steps=17 format=3 uid="uid://cawvcld7fy85x"]
 
 [ext_resource type="Texture2D" uid="uid://c7sjqsc60q2l0" path="res://Assets/Sprites/floor/grass_big.png" id="1_5vw27"]
 [ext_resource type="PackedScene" uid="uid://424u4bwgvyw2" path="res://Player/player.tscn" id="1_ig7tw"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dngq7wfty3sla" path="res://Enemy/elite_enemy.tscn" id="6_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dt6wtjur46yb2" path="res://Enemy/enemy_spawner.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://c17k7nhx0uckv" path="res://UI/hud.tscn" id="6_272bh"]
+[ext_resource type="PackedScene" uid="uid://dkolkj7b813qx" path="res://Enemy/boss_enemy.tscn" id="7_4c57u"]
 [ext_resource type="PackedScene" uid="uid://chkttgdg2scpn" path="res://UI/level_up_ui.tscn" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://0mj2bwwe8mis" path="res://Assets/Sprites/barrier/barrier.png" id="9_kek77"]
 
@@ -43,6 +44,7 @@ HammerRotationSpeed = 0.5
 [node name="EnemySpawner" parent="." instance=ExtResource("6_7mycd")]
 EnemyScene = ExtResource("5_lquwl")
 EliteEnemyScene = ExtResource("6_5vw27")
+BossEnemyScene = ExtResource("7_4c57u")
 SpawnCooldown = 3.0
 
 [node name="LevelUpUI" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("8_5vw27")]

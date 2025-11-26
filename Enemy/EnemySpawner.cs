@@ -8,11 +8,13 @@ public partial class EnemySpawner : Node2D
 {
     [Export] public PackedScene EnemyScene; // Assign in Inspector!
     [Export] public PackedScene EliteEnemyScene; // Assign in Inspector!
+    [Export] public PackedScene BossEnemyScene; // Assign in Inspector!
     [Export] public float SpawnCooldown = 2.0f; // Spawn every 2 seconds
     [Export] public float EliteSpawnCooldown = 90.0f; // Spawn an elite in every 90 seconds
 
     private float _spawnTimer = 1.0f; //First spawn time
     private float _eliteSpawnTimer = 90.0f;
+    private float _bossSpawnTimer = 15.0f;
     private Player _player;
 
 
@@ -27,6 +29,7 @@ public partial class EnemySpawner : Node2D
         // Count down the spawn timer
         _spawnTimer -= (float)delta;
         _eliteSpawnTimer -= (float)delta;
+        _bossSpawnTimer -= (float)delta;
 
         // Time to spawn?
         if (_spawnTimer <= 0f)
@@ -49,6 +52,12 @@ public partial class EnemySpawner : Node2D
             }
 
             _eliteSpawnTimer = EliteSpawnCooldown; // Reset timer
+        }
+
+        if (_bossSpawnTimer <= 0f)
+        {
+            SpawnBossEnemy();
+            _bossSpawnTimer = 600f;
         }
     }
 
@@ -82,6 +91,21 @@ public partial class EnemySpawner : Node2D
         enemy.MaxHealth = GameManager.Instance.CurrentEliteEnemyMaxHealth;
 
 
+        // Spawn it at player's position
+        enemy.GlobalPosition = position;
+
+
+        // Add it to the scene (as child of main scene, not player!)
+        AddChild(enemy);
+    }
+    
+    private void SpawnBossEnemy()
+    {
+        var position = SetSpawnPosition();
+
+        // Create the enemy
+        var enemy = BossEnemyScene.Instantiate<BossEnemy>();
+        
         // Spawn it at player's position
         enemy.GlobalPosition = position;
 

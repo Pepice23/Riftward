@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkolkj7b813qx"]
+
+[ext_resource type="Script" uid="uid://baj8vmjebj8id" path="res://Enemy/BossEnemy.cs" id="1_e7bxs"]
+[ext_resource type="Texture2D" uid="uid://d151nyn5fqsrr" path="res://Assets/Sprites/enemies/boss/abyssal_tyrant.png" id="2_e7bxs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gyqm"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7k104"]
+radius = 105.0
+
+[node name="BossEnemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_e7bxs")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -94.0
+offset_top = -97.0
+offset_right = 96.0
+offset_bottom = -88.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_4gyqm")
+step = 1.0
+show_percentage = false
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_e7bxs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7k104")

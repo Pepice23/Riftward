@@ -27,7 +27,7 @@ public partial class Player
                     TakeDamage(regularEnemy.Damage);
                     return; // Only take damage from one enemy per cooldown
                 }
-                
+
                 if (enemy is BossEnemy bossEnemy)
                 {
                     TakeDamage(bossEnemy.Damage);
@@ -98,7 +98,7 @@ public partial class Player
         if (_currentHealth > MaxHealth)
             _currentHealth = MaxHealth;
     }
-    
+
     private void Heal(int amount)
     {
         _currentHealth += amount;
@@ -112,17 +112,17 @@ public partial class Player
 
     private void AddEnemyToHitbox(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
+        if (body is BaseEnemy enemy)
         {
-            _enemiesInHitbox.Add(character);
+            _enemiesInHitbox.Add(enemy);
         }
     }
 
     private void RemoveEnemyFromHitbox(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
+        if (body is BaseEnemy enemy)
         {
-            _enemiesInHitbox.Remove(character);
+            _enemiesInHitbox.Remove(enemy);
         }
     }
 }

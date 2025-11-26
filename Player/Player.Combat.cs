@@ -6,18 +6,18 @@ public partial class Player
 {
     private void AddEnemiesToAura(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
+        if (body is BaseEnemy enemy)
         {
-            _enemiesInAura.Add(character);
+            _enemiesInAura.Add(enemy);
             DamageAuraEnemies();
         }
     }
 
     private void RemoveEnemiesFromAura(Node2D body)
     {
-        if (body is CharacterBody2D character and (Enemy or EliteEnemy or BossEnemy))
+        if (body is BaseEnemy enemy)
         {
-            _enemiesInAura.Remove(character);
+            _enemiesInAura.Remove(enemy);
         }
     }
 
@@ -55,8 +55,7 @@ public partial class Player
 
         // Find the N nearest enemies using LINQ
         var nearestEnemies = enemies
-            .OfType<CharacterBody2D>() // Only CharacterBody2D nodes
-            .Where(e => e is Enemy or EliteEnemy or BossEnemy) // Only Enemy or EliteEnemy types
+            .OfType<BaseEnemy>() // Only CharacterBody2D nodes
             .OrderBy(e => GlobalPosition.DistanceTo(e.GlobalPosition)) // Sort by distance (closest first)
             .Take(ProjectileCount) // Take only the first N enemies
             .ToList(); // Convert to a list
@@ -94,22 +93,10 @@ public partial class Player
     {
         foreach (var enemy in _enemiesInAura)
         {
-            switch (enemy)
-            {
-                case Enemy regularEnemy:
-                    regularEnemy.TakeDamage(Damage);
-                    _lifeLeechAccumulator += regularEnemy.Damage * AuraLifeLeech;
-                    break;
-                case EliteEnemy eliteEnemy:
-                    eliteEnemy.TakeDamage(Damage);
-                    _lifeLeechAccumulator += eliteEnemy.Damage * AuraLifeLeech;
-                    break;
-                case BossEnemy bossEnemy:
-                    bossEnemy.TakeDamage(Damage);
-                    _lifeLeechAccumulator += bossEnemy.Damage * AuraLifeLeech;
-                    break;
-            }
+            enemy.TakeDamage(Damage);
+            _lifeLeechAccumulator += enemy.Damage * AuraLifeLeech;
         }
+
         // After damaging all enemies, check if we've accumulated enough to heal
         if (_lifeLeechAccumulator >= 1f)
         {

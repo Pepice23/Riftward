@@ -25,7 +25,7 @@ public partial class Player : CharacterBody2D
     [Export] public float Speed = 300.0f;
     [Export] public Texture2D FrontSprite;
     [Export] public Texture2D BackSprite;
-    
+
 
     // Combat
     [Export] public PackedScene ProjectileScene; // Assign in Inspector!
@@ -79,8 +79,8 @@ public partial class Player : CharacterBody2D
     // XP
     private int _xpNeededForNextLevel;
 
-    private readonly List<CharacterBody2D> _enemiesInAura = [];
-    private readonly List<CharacterBody2D> _enemiesInHitbox = [];
+    private readonly List<BaseEnemy> _enemiesInAura = [];
+    private readonly List<BaseEnemy> _enemiesInHitbox = [];
     private CollisionShape2D _collisionShape;
 
     #endregion

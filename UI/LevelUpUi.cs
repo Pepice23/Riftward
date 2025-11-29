@@ -81,7 +81,7 @@ public partial class LevelUpUi : CanvasLayer
     private List<Upgrade> GetRandomUpgrades()
     {
         var randomUpgrades = UpgradeManager.Instance.AllUpgrades
-            .OrderBy(x => GD.Randf()) // Shuffle randomly
+            .OrderBy(_ => GD.Randf()) // Shuffle randomly
             .Take(3) // Take first 3
             .ToList(); // Convert to List
 

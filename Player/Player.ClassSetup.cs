@@ -7,8 +7,16 @@ public partial class Player
 {
     private void SetupPaladin()
     {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/winter_paladin_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/winter_paladin_back.png");
+        }
+        else
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/paladin/paladin_back.png");   
+        }
         _sprite.Texture = FrontSprite;
 
         UpdateHammerPositions(AuraRadius);
@@ -16,15 +24,33 @@ public partial class Player
 
     private void SetupMage()
     {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/winter_mage_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/winter_mage_back.png");
+        }
+        else
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/mage/mage_back.png");
+        }
+        
         _sprite.Texture = FrontSprite;
     }
 
     private void SetupHunter()
     {
-        FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
-        BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/winter_hunter_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/winter_hunter_back.png");
+        }
+        else
+        {
+            FrontSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_front.png");
+            BackSprite = GD.Load<Texture2D>("res://Assets/Sprites/hunter/hunter_back.png");
+        }
+        
         _sprite.Texture = FrontSprite;
     }
 

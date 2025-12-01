@@ -63,6 +63,7 @@ public partial class Player : CharacterBody2D
     private Area2D _area;
     private Area2D _hitboxArea;
     private Node2D _hammerAura;
+    private GpuParticles2D _snowFall;
 
     // Combat state
     private float _attackTimer = 1.0f; //Track time until next shot
@@ -97,11 +98,21 @@ public partial class Player : CharacterBody2D
         _hitboxArea = GetNode<Area2D>("%Hitbox");
         _hammerAura = GetNode<Node2D>("HammerAura");
         _collisionShape = GetNode<CollisionShape2D>("%AuraCollision");
+        _snowFall = GetNode<GpuParticles2D>("%SnowFall");
         // Initialize health
         _currentHealth = MaxHealth;
         UpdatePlayerHP();
         // Initialize XP
         CalculateXPNeeded();
+
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            _snowFall.Emitting = true;
+        }
+        else
+        {
+            _snowFall.Emitting = false;
+        }
 
         switch (GameManager.Instance.SelectedClass)
         {

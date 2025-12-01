@@ -21,6 +21,7 @@ public partial class GameManager : Node
     public int CurrentEnemyMaxHealth = 10;
     public int CurrentEliteEnemyMaxHealth = 40;
     public PlayerClass SelectedClass = PlayerClass.Paladin;
+    public bool IsWinterModeEnabled = false;
 
 
     private float _lastUpdateTime; // Track when we last updated

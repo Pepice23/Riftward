@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://424u4bwgvyw2"]
+[gd_scene load_steps=10 format=3 uid="uid://424u4bwgvyw2"]
 
 [ext_resource type="Script" uid="uid://b26qscjpqbcd2" path="res://Player/Player.cs" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://c4ub6vcdyvuv3" path="res://Assets/Sprites/paladin/paladin_back.png" id="3_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://bt2j3onxqui50" path="res://Assets/Sprites/paladin/paladin_front.png" id="4_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dolyrp7tt4kvh" path="res://Assets/Sprites/projectiles/paladin_hammer.png" id="5_hammer"]
+[ext_resource type="Texture2D" uid="uid://dsl3aqiiiktsq" path="res://Assets/Sprites/snow/snow.png" id="5_k53q1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3pqv"]
 bg_color = Color(0, 1, 0, 1)
@@ -14,14 +15,18 @@ radius = 29.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_btcbx"]
 radius = 100.0
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fhl08"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1000, 50, 0)
+gravity = Vector3(0, 80, 0)
+scale_min = 0.02
+scale_max = 0.049999997
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_onrkg")
 FrontSprite = ExtResource("4_hqtel")
 BackSprite = ExtResource("3_i3pqv")
-ArenaMinX = -4096.0
-ArenaMaxX = 4096.0
-ArenaMinY = -4096.0
-ArenaMaxY = 4096.0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
@@ -97,3 +102,10 @@ shape = SubResource("CircleShape2D_4flbx")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.7, 0.7)
 position_smoothing_enabled = true
+
+[node name="SnowFall" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -460)
+amount = 20
+texture = ExtResource("5_k53q1")
+process_material = SubResource("ParticleProcessMaterial_fhl08")

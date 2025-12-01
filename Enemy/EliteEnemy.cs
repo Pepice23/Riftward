@@ -12,6 +12,12 @@ public partial class EliteEnemy : BaseEnemy
         "res://Assets/Sprites/enemies/elite/corrupted_paladin.png",
         "res://Assets/Sprites/enemies/elite/fel_warlock.png", "res://Assets/Sprites/enemies/elite/beastmaster.png"
     ];
+    private readonly List<string> _enemyWinterSpritePaths =
+    [
+        "res://Assets/Sprites/enemies/elite/winter_gingerbread.png",
+        "res://Assets/Sprites/enemies/elite/winter_warlock.png",
+        "res://Assets/Sprites/enemies/elite/winter_reindeer.png", 
+    ];
 
     public override void _Ready()
     {
@@ -19,7 +25,16 @@ public partial class EliteEnemy : BaseEnemy
         Speed = 70;
         MaxHealth = 40;
         Damage = 20;
-        UpdateSprite(_enemySpritePaths);
+        
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            UpdateSprite(_enemyWinterSpritePaths); 
+        }
+        else
+        {
+            UpdateSprite(_enemySpritePaths);
+        }
+        
         CurrentHealth = MaxHealth;
         UpdateEnemyHPBar();
     }

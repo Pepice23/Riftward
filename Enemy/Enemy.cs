@@ -10,6 +10,12 @@ public partial class Enemy : BaseEnemy
         "res://Assets/Sprites/enemies/swarm/bandit.png", "res://Assets/Sprites/enemies/swarm/gnoll.png",
         "res://Assets/Sprites/enemies/swarm/kobold.png"
     ];
+    
+    private readonly List<string> _enemyWinterSpritePaths =
+    [
+        "res://Assets/Sprites/enemies/swarm/winter_tree.png", "res://Assets/Sprites/enemies/swarm/winter_ball.png",
+        "res://Assets/Sprites/enemies/swarm/winter_imp.png"
+    ];
 
     public override void _Ready()
     {
@@ -17,7 +23,16 @@ public partial class Enemy : BaseEnemy
         Speed = 100;
         MaxHealth = 10;
         Damage = 10;
-        UpdateSprite(_enemySpritePaths);
+        
+        if (GameManager.Instance.IsWinterModeEnabled)
+        {
+            UpdateSprite(_enemyWinterSpritePaths); 
+        }
+        else
+        {
+            UpdateSprite(_enemySpritePaths);
+        }
+
         CurrentHealth = MaxHealth;
         UpdateEnemyHPBar();
     }

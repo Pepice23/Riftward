@@ -56,7 +56,7 @@ public partial class Player
         if (_isDead) return; // Already dead dont die twice
 
         _isDead = true;
-        GameManager.Instance.EndRun(false);
+        GameManager.Instance.EndRun();
         GD.Print("Player died!");
 
         // Stop moving

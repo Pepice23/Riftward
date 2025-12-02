@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 
 #pragma warning disable CA1050
@@ -37,5 +38,12 @@ public partial class BossEnemy : BaseEnemy
         
         CurrentHealth = MaxHealth;
         UpdateEnemyHPBar();
+    }
+    
+    protected override void Die()
+    {
+        GD.Print("Boss died!");
+        GameManager.Instance.Victory =  true;
+        QueueFree(); // Remove from scene
     }
 }

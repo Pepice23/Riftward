@@ -14,13 +14,13 @@ public partial class EnemySpawner : Node2D
 
     private float _spawnTimer = 1.0f; //First spawn time
     private float _eliteSpawnTimer = 90.0f;
-    private float _bossSpawnTimer = 300.0f;
     private Player _player;
 
 
     public override void _Ready()
     {
         _player = GetTree().Root.FindChild("Player", true, false) as Player;
+        if (GameManager.Instance != null) GameManager.Instance.BossTime += SpawnBossEnemy;
     }
 
 // NEW: Spawn system
@@ -29,7 +29,6 @@ public partial class EnemySpawner : Node2D
         // Count down the spawn timer
         _spawnTimer -= (float)delta;
         _eliteSpawnTimer -= (float)delta;
-        _bossSpawnTimer -= (float)delta;
 
         // Time to spawn?
         if (_spawnTimer <= 0f)
@@ -54,11 +53,7 @@ public partial class EnemySpawner : Node2D
             _eliteSpawnTimer = EliteSpawnCooldown; // Reset timer
         }
 
-        if (_bossSpawnTimer <= 0f)
-        {
-            SpawnBossEnemy();
-            _bossSpawnTimer = 600f;
-        }
+        
     }
 
     private void SpawnInTheCorner()
@@ -67,6 +62,7 @@ public partial class EnemySpawner : Node2D
 
         // Create the enemy
         var enemy = EnemyScene.Instantiate<Enemy>();
+        enemy.AddToGroup("normal_enemies");
 
         // Set the enemy's health to the current scaled value
         enemy.MaxHealth = GameManager.Instance.CurrentEnemyMaxHealth;
@@ -87,6 +83,7 @@ public partial class EnemySpawner : Node2D
 
         // Create the enemy
         var enemy = EliteEnemyScene.Instantiate<EliteEnemy>();
+        enemy.AddToGroup("normal_enemies");
 
         enemy.MaxHealth = GameManager.Instance.CurrentEliteEnemyMaxHealth;
 
@@ -153,14 +150,19 @@ public partial class EnemySpawner : Node2D
     {
         var minutes = GameManager.Instance.RunTime / 60f; // Convert seconds to minutes
 
-        if (minutes < 2f)
-            return 1;
-        if (minutes < 4f)
-            return 2;
-        if (minutes < 6f)
-            return 3;
-        if (minutes < 8f)
-            return 4;
-        return 5; // Minute 8+s
+        switch (minutes)
+        {
+            case < 2f:
+                return 3;
+            case < 5f:
+                return 4;
+        }
+
+        return 0;
+    }
+    
+    public override void _ExitTree()
+    {
+        if (GameManager.Instance != null) GameManager.Instance.BossTime -= SpawnBossEnemy;
     }
 }

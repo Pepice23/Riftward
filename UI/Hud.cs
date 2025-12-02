@@ -49,7 +49,7 @@ public partial class Hud : CanvasLayer
 
     private void UpdateTimerBar(float seconds)
     {
-        _timerBar.MaxValue = 600;
+        _timerBar.MaxValue = GameManager.Instance.MaxRunTime;
         _timerBar.Value = seconds;
         var mins = (int)(seconds / 60);
         var secs = (int)(seconds % 60);

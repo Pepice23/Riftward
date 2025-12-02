@@ -65,7 +65,7 @@ public partial class BaseEnemy : CharacterBody2D
         if (CurrentHealth <= 0) Die();
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         GD.Print("Kobold died!");
         _player?.GainXP(3);

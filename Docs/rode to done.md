@@ -21,7 +21,7 @@ Phase 2: The Boss Fight
 Goal: Create a climactic finale
 
 Design boss enemy (extra beefy + simple attack pattern)
-Boss spawns at 10:00
+Boss spawns at 05:00
 Implement victory condition (kill boss)
 Implement defeat condition (boss kills player)
 Test: Can the player actually win with good upgrades?

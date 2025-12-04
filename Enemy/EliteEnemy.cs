@@ -25,6 +25,8 @@ public partial class EliteEnemy : BaseEnemy
         Speed = 70;
         MaxHealth = 40;
         Damage = 20;
+
+        EnemyName = "Elite Enemy";
         
         if (GameManager.Instance.IsWinterModeEnabled)
         {

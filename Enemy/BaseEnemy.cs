@@ -10,6 +10,8 @@ public partial class BaseEnemy : CharacterBody2D
     [Export] public int MaxHealth;
     [Export] public int Damage;
 
+    protected string EnemyName;
+
     protected int CurrentHealth;
     private Player _player;
     private Sprite2D _sprite;
@@ -60,7 +62,7 @@ public partial class BaseEnemy : CharacterBody2D
         CurrentHealth -= amount;
         UpdateEnemyHPBar();
 
-        GD.Print($"Kobold took {amount} damage! Health: {CurrentHealth}/{MaxHealth}");
+        GD.Print($"{EnemyName} took {amount} of damage! Health: {CurrentHealth}/{MaxHealth}");
 
         if (CurrentHealth <= 0) Die();
     }

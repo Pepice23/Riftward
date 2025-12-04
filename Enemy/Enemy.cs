@@ -23,6 +23,8 @@ public partial class Enemy : BaseEnemy
         Speed = 100;
         MaxHealth = 10;
         Damage = 10;
+
+        EnemyName = "Regular Enemy";
         
         if (GameManager.Instance.IsWinterModeEnabled)
         {

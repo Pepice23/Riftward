@@ -26,6 +26,8 @@ public partial class BossEnemy : BaseEnemy
         Speed = 50;
         MaxHealth = 200;
         Damage = 30;
+
+        EnemyName = "Boss Enemy";
         
         if (GameManager.Instance.IsWinterModeEnabled)
         {

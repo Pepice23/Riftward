@@ -61,6 +61,8 @@ public partial class Player
 
         // Stop moving
         Velocity = Vector2.Zero;
+
+        GetTree().ChangeSceneToFile("res://UI/lose_screen.tscn");
     }
 
     private void UpdatePlayerHP()

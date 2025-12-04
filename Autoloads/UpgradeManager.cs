@@ -206,4 +206,12 @@ public partial class UpgradeManager : Node
             }
         }
     }
+    
+    public void ResetUpgradeLists()
+    {
+        AllUpgrades.Clear();
+        _paladinUpgrades.Clear();
+        _mageUpgrades.Clear();
+        _hunterUpgrades.Clear();
+    }
 }

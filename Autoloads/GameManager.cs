@@ -83,7 +83,7 @@ public partial class GameManager : Node
         CurrentEnemyMaxHealth = 10;
         CurrentEliteEnemyMaxHealth = 40;
         _lastUpdateTime = 0f;
-
+        GD.Print("Game Reset!");
         UpgradeManager.Instance.ResetUpgradeLists();
     }
 

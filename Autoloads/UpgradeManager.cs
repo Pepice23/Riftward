@@ -213,5 +213,6 @@ public partial class UpgradeManager : Node
         _paladinUpgrades.Clear();
         _mageUpgrades.Clear();
         _hunterUpgrades.Clear();
+        GD.Print("All Upgrades Reset!");
     }
 }

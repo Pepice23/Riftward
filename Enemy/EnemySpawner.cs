@@ -26,34 +26,35 @@ public partial class EnemySpawner : Node2D
 // NEW: Spawn system
     public override void _Process(double delta)
     {
-        // Count down the spawn timer
-        _spawnTimer -= (float)delta;
-        _eliteSpawnTimer -= (float)delta;
-
-        // Time to spawn?
-        if (_spawnTimer <= 0f)
+        if (GameManager.Instance.IsRunActive)
         {
-            var enemiesToSpawn = CalculateSpawnCount();
+            // Count down the spawn timer
+            _spawnTimer -= (float)delta;
+            _eliteSpawnTimer -= (float)delta;
 
-            for (var i = 0; i < enemiesToSpawn; i++)
+            // Time to spawn?
+            if (_spawnTimer <= 0f)
             {
-                SpawnInTheCorner();
+                var enemiesToSpawn = CalculateSpawnCount();
+
+                for (var i = 0; i < enemiesToSpawn; i++)
+                {
+                    SpawnInTheCorner();
+                }
+
+                _spawnTimer = SpawnCooldown; //Reset timer
             }
 
-            _spawnTimer = SpawnCooldown; //Reset timer
-        }
-
-        if (_eliteSpawnTimer <= 0f)
-        {
-            for (var i = 0; i < 3; i++)
+            if (_eliteSpawnTimer <= 0f)
             {
-                SpawnEliteEnemy();
+                for (var i = 0; i < 3; i++)
+                {
+                    SpawnEliteEnemy();
+                }
+
+                _eliteSpawnTimer = EliteSpawnCooldown; // Reset timer
             }
-
-            _eliteSpawnTimer = EliteSpawnCooldown; // Reset timer
         }
-
-        
     }
 
     private void SpawnInTheCorner()
@@ -95,14 +96,14 @@ public partial class EnemySpawner : Node2D
         // Add it to the scene (as child of main scene, not player!)
         AddChild(enemy);
     }
-    
+
     private void SpawnBossEnemy()
     {
         var position = SetSpawnPosition();
 
         // Create the enemy
         var enemy = BossEnemyScene.Instantiate<BossEnemy>();
-        
+
         // Spawn it at player's position
         enemy.GlobalPosition = position;
 
@@ -115,7 +116,7 @@ public partial class EnemySpawner : Node2D
     {
         if (_player == null)
         {
-            return  Vector2.Zero;
+            return Vector2.Zero;
         }
 
         const float spawnDistance = 1000f; //Distance from player to spawn
@@ -160,7 +161,7 @@ public partial class EnemySpawner : Node2D
 
         return 0;
     }
-    
+
     public override void _ExitTree()
     {
         if (GameManager.Instance != null) GameManager.Instance.BossTime -= SpawnBossEnemy;

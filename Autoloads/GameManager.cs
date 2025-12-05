@@ -7,7 +7,7 @@ public partial class GameManager : Node
 {
     [Signal]
     public delegate void TimeUpdatedEventHandler(float time);
-    
+
     [Signal]
     public delegate void BossTimeEventHandler();
 
@@ -26,7 +26,6 @@ public partial class GameManager : Node
     public int MaxRunTime = 300;
     public PlayerClass SelectedClass = PlayerClass.Paladin;
     public bool IsWinterModeEnabled = false;
-    public bool Victory;
 
 
     private float _lastUpdateTime; // Track when we last updated
@@ -47,12 +46,11 @@ public partial class GameManager : Node
             {
                 EmitSignal(SignalName.BossTime);
                 EndRun();
-                
             }
 
             // Check if 10 seconds have passed since last update
             if (RunTime - _lastUpdateTime >= 10f)
-            { 
+            {
                 GD.Print($"SCALING: RunTime={RunTime}, Old Health={CurrentEnemyMaxHealth}");
                 CurrentEnemyMaxHealth += 3;
                 CurrentEliteEnemyMaxHealth += 3;
@@ -71,13 +69,6 @@ public partial class GameManager : Node
         {
             enemy.QueueFree();
         }
-
-        if (Victory)
-        {
-            GD.Print("Victory! You survived 5 minutes! and Defeated the Boss!");
-            GetTree().ChangeSceneToFile("res://UI/win_screen.tscn");
-        }
-        ResetGame();
     }
 
     public void StartRun()
@@ -92,7 +83,14 @@ public partial class GameManager : Node
         CurrentEnemyMaxHealth = 10;
         CurrentEliteEnemyMaxHealth = 40;
         _lastUpdateTime = 0f;
-        Victory = false;
+
         UpgradeManager.Instance.ResetUpgradeLists();
+    }
+
+    public void Victory()
+    {
+        GD.Print("Victory! You survived 5 minutes! and Defeated the Boss!");
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://UI/win_screen.tscn");
+        ResetGame();
     }
 }

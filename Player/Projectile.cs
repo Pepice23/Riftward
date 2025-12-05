@@ -47,15 +47,9 @@ public partial class Projectile : Area2D
     private void OnBodyEntered(Node2D body)
     {
         // If we hit an enemy, damage it
-        if (body is Enemy enemy)
+        if (body is BaseEnemy enemy)
         {
             enemy.TakeDamage(Damage);
-            QueueFree(); // Destroy the projectile
-        }
-
-        if (body is EliteEnemy eliteEnemy)
-        {
-            eliteEnemy.TakeDamage(Damage);
             QueueFree(); // Destroy the projectile
         }
     }

@@ -13,11 +13,12 @@ public partial class BossEnemy : BaseEnemy
         "res://Assets/Sprites/enemies/boss/void_star.png",
         "res://Assets/Sprites/enemies/boss/lich_king.png", "res://Assets/Sprites/enemies/boss/dragon_lord.png"
     ];
+
     private readonly List<string> _enemyWinterSpritePaths =
     [
         "res://Assets/Sprites/enemies/boss/winter_xmas_tree.png",
         "res://Assets/Sprites/enemies/boss/winter_yule_lord.png",
-        "res://Assets/Sprites/enemies/boss/winter_lich.png", 
+        "res://Assets/Sprites/enemies/boss/winter_lich.png"
     ];
 
     public override void _Ready()
@@ -28,24 +29,24 @@ public partial class BossEnemy : BaseEnemy
         Damage = 30;
 
         EnemyName = "Boss Enemy";
-        
+
         if (GameManager.Instance.IsWinterModeEnabled)
         {
-           UpdateSprite(_enemyWinterSpritePaths); 
+            UpdateSprite(_enemyWinterSpritePaths);
         }
         else
         {
             UpdateSprite(_enemySpritePaths);
         }
-        
+
         CurrentHealth = MaxHealth;
         UpdateEnemyHPBar();
     }
-    
+
     protected override void Die()
     {
         GD.Print("Boss died!");
-        GameManager.Instance.Victory =  true;
+        GameManager.Instance.Victory();
         QueueFree(); // Remove from scene
     }
 }

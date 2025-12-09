@@ -10,6 +10,9 @@ public partial class GameManager : Node
 
     [Signal]
     public delegate void BossTimeEventHandler();
+    
+    [Signal]
+    public delegate void RunGoldUpdatedEventHandler(int gold);
 
     public enum PlayerClass
     {
@@ -26,6 +29,8 @@ public partial class GameManager : Node
     public int MaxRunTime = 300;
     public PlayerClass SelectedClass = PlayerClass.Paladin;
     public bool IsWinterModeEnabled = false;
+    public int RunGold;
+    public int HubGold;
 
 
     private float _lastUpdateTime; // Track when we last updated
@@ -79,10 +84,12 @@ public partial class GameManager : Node
 
     public void ResetGame()
     {
+        HubGold += RunGold;
         RunTime = 0f;
         CurrentEnemyMaxHealth = 10;
         CurrentEliteEnemyMaxHealth = 40;
         _lastUpdateTime = 0f;
+        RunGold = 0;
         GD.Print("Game Reset!");
         UpgradeManager.Instance.ResetUpgradeLists();
     }
@@ -91,6 +98,11 @@ public partial class GameManager : Node
     {
         GD.Print("Victory! You survived 5 minutes! and Defeated the Boss!");
         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://UI/win_screen.tscn");
-        ResetGame();
+    }
+
+    public void AddRunGold(int gold)
+    {
+        RunGold += gold;
+        EmitSignal(SignalName.RunGoldUpdated, RunGold);
     }
 }

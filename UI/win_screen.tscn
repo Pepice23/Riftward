@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3bs6t4hsci1c"]
+[gd_scene load_steps=6 format=3 uid="uid://c3bs6t4hsci1c"]
 
 [ext_resource type="Texture2D" uid="uid://bpwan6nip1wf3" path="res://Assets/Art/win_bg.png" id="1_w024j"]
 [ext_resource type="Script" uid="uid://chf3a4lgoli3j" path="res://UI/WinScreen.cs" id="2_w024j"]
 [ext_resource type="FontFile" uid="uid://cmpqdb86h7hx4" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="3_oqmmh"]
+[ext_resource type="Texture2D" uid="uid://bq4q788tphdow" path="res://Assets/Art/gold-icon.png" id="4_qpj51"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h3ym8"]
 texture = ExtResource("1_w024j")
@@ -44,5 +45,27 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 25
 text = "Go back to town"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Earned Gold During the run:"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("4_qpj51")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="RunGoldLabel" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0"
 
 [connection signal="pressed" from="Panel/VBoxContainer/Button" to="." method="GoBackToMainMenu"]

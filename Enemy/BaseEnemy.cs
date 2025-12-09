@@ -11,6 +11,7 @@ public partial class BaseEnemy : CharacterBody2D
     [Export] public int Damage;
 
     protected string EnemyName;
+    protected int GoldReward;
 
     protected int CurrentHealth;
     private Player _player;
@@ -71,6 +72,7 @@ public partial class BaseEnemy : CharacterBody2D
     {
         GD.Print("Kobold died!");
         _player?.GainXP(3);
+        GameManager.Instance.AddRunGold(GoldReward);
         QueueFree(); // Remove from scene
     }
 

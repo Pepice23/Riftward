@@ -25,6 +25,7 @@ public partial class Enemy : BaseEnemy
         Damage = 10;
 
         EnemyName = "Regular Enemy";
+        GoldReward = 3;
         
         if (GameManager.Instance.IsWinterModeEnabled)
         {

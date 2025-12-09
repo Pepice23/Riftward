@@ -27,6 +27,7 @@ public partial class EliteEnemy : BaseEnemy
         Damage = 20;
 
         EnemyName = "Elite Enemy";
+        GoldReward = 20;
         
         if (GameManager.Instance.IsWinterModeEnabled)
         {

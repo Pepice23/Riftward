@@ -29,6 +29,7 @@ public partial class BossEnemy : BaseEnemy
         Damage = 30;
 
         EnemyName = "Boss Enemy";
+        GoldReward = 100;
 
         if (GameManager.Instance.IsWinterModeEnabled)
         {
@@ -46,6 +47,7 @@ public partial class BossEnemy : BaseEnemy
     protected override void Die()
     {
         GD.Print("Boss died!");
+        GameManager.Instance.AddRunGold(GoldReward);
         GameManager.Instance.Victory();
         QueueFree(); // Remove from scene
     }

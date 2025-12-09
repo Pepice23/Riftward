@@ -14,6 +14,7 @@ public partial class Hud : CanvasLayer
     private Label _levelNumber;
     private ProgressBar _timerBar;
     private Label _currentTime;
+    private Label _currentRunGold;
 
 
     public override void _Ready()
@@ -24,13 +25,18 @@ public partial class Hud : CanvasLayer
         _levelNumber = GetNode<Label>("%LevelNumber");
         _timerBar = GetNode<ProgressBar>("%TimerProgressBar");
         _currentTime = GetNode<Label>("%SecondsNumber");
+        _currentRunGold = GetNode<Label>("%RunGoldLabel");
         if (Player != null)
         {
             Player.XPUpdated += UpdateXP;
             Player.LevelUpdated += UpdateLevelNumber;
         }
 
-        if (GameManager.Instance != null) GameManager.Instance.TimeUpdated += UpdateTimerBar;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TimeUpdated += UpdateTimerBar;
+            GameManager.Instance.RunGoldUpdated += UpdateRunGold;
+        }
     }
 
 
@@ -56,6 +62,11 @@ public partial class Hud : CanvasLayer
         _currentTime.Text = $"{mins}:{secs:D2}";
     }
 
+    private void UpdateRunGold(int runGold)
+    {
+        _currentRunGold.Text = runGold.ToString();
+    }
+
     public override void _ExitTree()
     {
         if (Player != null)
@@ -64,6 +75,10 @@ public partial class Hud : CanvasLayer
             Player.LevelUpdated -= UpdateLevelNumber;
         }
 
-        if (GameManager.Instance != null) GameManager.Instance.TimeUpdated -= UpdateTimerBar;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TimeUpdated -= UpdateTimerBar;
+            GameManager.Instance.RunGoldUpdated -= UpdateRunGold;
+        }
     }
 }

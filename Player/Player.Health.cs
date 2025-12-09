@@ -63,7 +63,6 @@ public partial class Player
         Velocity = Vector2.Zero;
 
         GetTree().ChangeSceneToFile("res://UI/lose_screen.tscn");
-        GameManager.Instance.ResetGame();
     }
 
     private void UpdatePlayerHP()

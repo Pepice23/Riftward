@@ -132,6 +132,7 @@ public partial class Player : CharacterBody2D
 
 
         GameManager.Instance.StartRun();
+        HubUpgradeManager.Instance.ApplyHubUpgrades(this);
         _area.BodyEntered += AddEnemiesToAura;
         _area.BodyExited += RemoveEnemiesFromAura;
         _hitboxArea.BodyEntered += AddEnemyToHitbox;

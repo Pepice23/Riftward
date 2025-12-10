@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Autoloads/GameManager.cs"
 UpgradeManager="*res://Autoloads/UpgradeManager.cs"
+HubUpgradeManager="*res://Autoloads/HubUpgradeManager.cs"
 
 [display]
 

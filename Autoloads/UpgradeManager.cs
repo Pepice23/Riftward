@@ -24,6 +24,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Damage Boost",
             Description = "Increased Damage",
+            MaxRank = 5,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Damage = {player.Damage}");
@@ -36,6 +37,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Speed Boost",
             Description = "Increased Movement Speed",
+            MaxRank = 4,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Movement Speed = {player.Speed}");
@@ -47,6 +49,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Health Regeneration",
             Description = "Increased Health Regeneration",
+            MaxRank = 5,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Health Regeneration = {player.HealthRegen}");
@@ -62,6 +65,7 @@ public partial class UpgradeManager : Node
             {
                 Name = "Increased Aura Radius",
                 Description = "Increased Aura Radius",
+                MaxRank = 4,
                 ApplyEffect = player =>
                 {
                     GD.Print($"Before upgrade: Aura radius = {player.AuraRadius}");
@@ -71,29 +75,31 @@ public partial class UpgradeManager : Node
                 }
             }
         );
-        
-        _paladinUpgrades.Add (new Upgrade
+
+        _paladinUpgrades.Add(new Upgrade
         {
             Name = "Blazing Aura",
             Description = "Aura damages enemies more frequently",
+            MaxRank = 3,
             ApplyEffect = player =>
             {
                 GD.Print($"Before upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
                 player.AuraDamageCooldown -= 0.05f;
                 GD.Print($"After upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
-            } 
+            }
         });
-        
-        _paladinUpgrades.Add (new Upgrade
+
+        _paladinUpgrades.Add(new Upgrade
         {
             Name = "Divine Retribution",
-            Description = " Aura heals back for damage dealt",
+            Description = "Aura heals back for damage dealt",
+            MaxRank = 3,
             ApplyEffect = player =>
             {
                 GD.Print($"Before upgrade: Aura Life Leech = {player.AuraLifeLeech}");
                 player.AuraLifeLeech += 0.1f;
                 GD.Print($"After upgrade: Aura Life Leech = {player.AuraLifeLeech}");
-            } 
+            }
         });
     }
 
@@ -103,6 +109,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Bolt Speed Boost",
             Description = "Increased Bolt Speed",
+            MaxRank = 3,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Bolt Speed = {player.ProjectileSpeed}");
@@ -115,6 +122,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Faster Shooting",
             Description = "Decreased Attack Cooldown",
+            MaxRank = 3,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");
@@ -126,6 +134,7 @@ public partial class UpgradeManager : Node
             {
                 Name = "+1 Bolt",
                 Description = "Shoot 1 more bolt at the same time",
+                MaxRank = 3,
                 ApplyEffect = player =>
                 {
                     GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
@@ -142,6 +151,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Arrow Speed Boost",
             Description = "Arrow Speed Increased",
+            MaxRank = 3,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Arrow Speed = {player.ProjectileSpeed}");
@@ -154,6 +164,7 @@ public partial class UpgradeManager : Node
         {
             Name = "Faster Shooting",
             Description = "Decreased Attack Cooldown",
+            MaxRank = 3,
             ApplyEffect = (player) =>
             {
                 GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");
@@ -165,6 +176,7 @@ public partial class UpgradeManager : Node
             {
                 Name = "+1 Arrow",
                 Description = "Shoot 1 more arrow at the same time",
+                MaxRank = 3,
                 ApplyEffect = player =>
                 {
                     GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
@@ -182,31 +194,22 @@ public partial class UpgradeManager : Node
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Paladin)
         {
             PaladinUpgradeList();
-            foreach (var upgrade in _paladinUpgrades)
-            {
-                AllUpgrades.Add(upgrade);
-            }
+            foreach (var upgrade in _paladinUpgrades) AllUpgrades.Add(upgrade);
         }
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Mage)
         {
             MageUpgradeList();
-            foreach (var upgrade in _mageUpgrades)
-            {
-                AllUpgrades.Add(upgrade);
-            }
+            foreach (var upgrade in _mageUpgrades) AllUpgrades.Add(upgrade);
         }
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Hunter)
         {
             HunterUpgradeList();
-            foreach (var upgrade in _hunterUpgrades)
-            {
-                AllUpgrades.Add(upgrade);
-            }
+            foreach (var upgrade in _hunterUpgrades) AllUpgrades.Add(upgrade);
         }
     }
-    
+
     public void ResetUpgradeLists()
     {
         AllUpgrades.Clear();

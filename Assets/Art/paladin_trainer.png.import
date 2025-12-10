@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxu6ik7sfog60"
-path="res://.godot/imported/paladin trainer.png-34907d16dfc3ff6da1e532bea97f373a.ctex"
+uid="uid://b0d6biquxhbgg"
+path="res://.godot/imported/paladin_trainer.png-0569f96f5d7078b0656e10e1c4e84f79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/paladin trainer.png"
-dest_files=["res://.godot/imported/paladin trainer.png-34907d16dfc3ff6da1e532bea97f373a.ctex"]
+source_file="res://Assets/Art/paladin_trainer.png"
+dest_files=["res://.godot/imported/paladin_trainer.png-0569f96f5d7078b0656e10e1c4e84f79.ctex"]
 
 [params]
 

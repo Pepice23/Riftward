@@ -29,10 +29,6 @@ public partial class LevelUpUi : CanvasLayer
         _upgradeButton3 = GetNode<UpgradeButton>("%UpgradeButton3");
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
 
     private void ShowUpgradeUi()
     {
@@ -58,18 +54,21 @@ public partial class LevelUpUi : CanvasLayer
     private void OnUpgrade1Selected()
     {
         _currentUpgrade1.ApplyEffect(Player);
+        _currentUpgrade1.CurrentRank++;
         HideUpgradeUi();
     }
 
     private void OnUpgrade2Selected()
     {
         _currentUpgrade2.ApplyEffect(Player);
+        _currentUpgrade2.CurrentRank++;
         HideUpgradeUi();
     }
 
     private void OnUpgrade3Selected()
     {
         _currentUpgrade3.ApplyEffect(Player);
+        _currentUpgrade3.CurrentRank++;
         HideUpgradeUi();
     }
 
@@ -81,6 +80,7 @@ public partial class LevelUpUi : CanvasLayer
     private List<Upgrade> GetRandomUpgrades()
     {
         var randomUpgrades = UpgradeManager.Instance.AllUpgrades
+            .Where(upgrade => upgrade.CurrentRank < upgrade.MaxRank)
             .OrderBy(_ => GD.Randf()) // Shuffle randomly
             .Take(3) // Take first 3
             .ToList(); // Convert to List

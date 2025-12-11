@@ -1,0 +1,94 @@
+[gd_scene load_steps=4 format=3 uid="uid://du2om51as3qf7"]
+
+[ext_resource type="Script" uid="uid://yebtgju8a36s" path="res://UI/HubUpgradeButton.cs" id="1_tfjlx"]
+[ext_resource type="FontFile" uid="uid://cmpqdb86h7hx4" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="2_tfjlx"]
+[ext_resource type="Texture2D" uid="uid://bq4q788tphdow" path="res://Assets/Art/gold-icon.png" id="3_tfjlx"]
+
+[node name="HubUpgradeButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_tfjlx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UpgradeContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="UpgradeName" type="Label" parent="HBoxContainer/UpgradeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_tfjlx")
+theme_override_font_sizes/font_size = 25
+text = "Damage Boost"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeDescription" type="Label" parent="HBoxContainer/UpgradeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "+5 to Damage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RankContainer" type="HBoxContainer" parent="HBoxContainer/UpgradeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RankLabel" type="Label" parent="HBoxContainer/UpgradeContainer/RankContainer"]
+layout_mode = 2
+text = "Rank:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentRank" type="Label" parent="HBoxContainer/UpgradeContainer/RankContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Slash" type="Label" parent="HBoxContainer/UpgradeContainer/RankContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="MaxRank" type="Label" parent="HBoxContainer/UpgradeContainer/RankContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="PriceContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="HBoxContainer/PriceContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_tfjlx")
+theme_override_font_sizes/font_size = 25
+text = "Cost:"
+horizontal_alignment = 1
+
+[node name="CostNumber" type="Label" parent="HBoxContainer/PriceContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_tfjlx")
+theme_override_font_sizes/font_size = 25
+text = "200"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/PriceContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("3_tfjlx")
+expand_mode = 1

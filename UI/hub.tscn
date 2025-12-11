@@ -1,15 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://bhanpcj1f6ko1"]
+[gd_scene load_steps=9 format=3 uid="uid://bhanpcj1f6ko1"]
 
 [ext_resource type="Script" uid="uid://b8f03ormm7rr0" path="res://UI/Hub.cs" id="1_kwald"]
 [ext_resource type="Texture2D" uid="uid://capqu1x7lq02l" path="res://Assets/Art/hub_city_bg.png" id="1_o21na"]
+[ext_resource type="PackedScene" uid="uid://cq7xhg3c0hoou" path="res://UI/trainer.tscn" id="2_83htc"]
 [ext_resource type="Texture2D" uid="uid://b0d6biquxhbgg" path="res://Assets/Art/paladin_trainer.png" id="2_edmqn"]
 [ext_resource type="Texture2D" uid="uid://bunpeprltrxbk" path="res://Assets/Art/mage_trainer.png" id="3_ryj5n"]
-[ext_resource type="Texture2D" uid="uid://bk6qwm4qqn2xp" path="res://Assets/Art/hunter trainer.png" id="4_bjd2i"]
+[ext_resource type="Texture2D" uid="uid://bk6qwm4qqn2xp" path="res://Assets/Art/hunter_trainer.png" id="4_bjd2i"]
 [ext_resource type="FontFile" uid="uid://cmpqdb86h7hx4" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="5_ryj5n"]
 [ext_resource type="Texture2D" uid="uid://dsl3aqiiiktsq" path="res://Assets/Sprites/snow/snow.png" id="6_bjd2i"]
 
 [node name="HUB" type="Node2D"]
 script = ExtResource("1_kwald")
+TrainerScene = ExtResource("2_83htc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(664, 323)
@@ -104,6 +106,9 @@ text = "Trainers"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="pressed" from="PaladinTrainer" to="." method="PaladinTrainerSelected"]
+[connection signal="pressed" from="MageTrainer" to="." method="MageTrainerSelected"]
+[connection signal="pressed" from="HunterTrainer" to="." method="HunterTrainerSelected"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/NewGame" to="." method="OnNewGameButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/QuitGame" to="." method="OnExitButtonPressed"]
 [connection signal="toggled" from="CanvasLayer/WinterCheck" to="." method="OnWinterModeButtonPressed"]

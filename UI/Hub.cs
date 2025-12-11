@@ -1,11 +1,12 @@
 using Godot;
-using System;
+
 
 // ReSharper disable once CheckNamespace
 #pragma warning disable CA1050
 public partial class Hub : Node2D
 #pragma warning restore CA1050
 {
+    [Export] public PackedScene TrainerScene; // Assign in Inspector!
     private TextureButton _paladinButton;
 
     private TextureButton _mageButton;
@@ -70,6 +71,24 @@ public partial class Hub : Node2D
         {
             GD.Print("Winter mode is disabled");
         }
+    }
+
+    private void PaladinTrainerSelected()
+    {
+        Trainer.SelectedTrainer = Trainer.TrainerType.Paladin;
+        GetTree().ChangeSceneToFile("res://UI/trainer.tscn");
+    }
+
+    private void MageTrainerSelected()
+    {
+        Trainer.SelectedTrainer = Trainer.TrainerType.Mage;
+        GetTree().ChangeSceneToFile("res://UI/trainer.tscn");
+    }
+
+    private void HunterTrainerSelected()
+    {
+        Trainer.SelectedTrainer = Trainer.TrainerType.Hunter;
+        GetTree().ChangeSceneToFile("res://UI/trainer.tscn");
     }
 
     private void OnNewGameButtonPressed()

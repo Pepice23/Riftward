@@ -42,3 +42,27 @@ theme_override_font_sizes/font_size = 20
 text = "+5 to Damage"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RankLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Rank:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentRank" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Slash" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="MaxRank" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"

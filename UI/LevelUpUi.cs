@@ -38,9 +38,12 @@ public partial class LevelUpUi : CanvasLayer
         _currentUpgrade2 = randomUpgrades[1];
         _currentUpgrade3 = randomUpgrades[2];
 
-        _upgradeButton1.SetUpgradeNameAndDescription(_currentUpgrade1.Name, _currentUpgrade1.Description);
-        _upgradeButton2.SetUpgradeNameAndDescription(_currentUpgrade2.Name, _currentUpgrade2.Description);
-        _upgradeButton3.SetUpgradeNameAndDescription(_currentUpgrade3.Name, _currentUpgrade3.Description);
+        _upgradeButton1.SetUpgradeNameAndDescription(_currentUpgrade1.Name, _currentUpgrade1.Description,
+            _currentUpgrade1.CurrentRank, _currentUpgrade1.MaxRank);
+        _upgradeButton2.SetUpgradeNameAndDescription(_currentUpgrade2.Name, _currentUpgrade2.Description,
+            _currentUpgrade2.CurrentRank, _currentUpgrade2.MaxRank);
+        _upgradeButton3.SetUpgradeNameAndDescription(_currentUpgrade3.Name, _currentUpgrade3.Description,
+            _currentUpgrade3.CurrentRank, _currentUpgrade3.MaxRank);
         GetTree().Paused = true;
         Show();
     }

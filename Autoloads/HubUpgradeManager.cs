@@ -8,10 +8,10 @@ public partial class HubUpgradeManager : Node
 #pragma warning restore CA1050
 {
     public static HubUpgradeManager Instance { get; private set; }
-    private readonly List<HubUpgrade> _genericUpgrades = [];
-    private readonly List<HubUpgrade> _paladinUpgrades = [];
-    private readonly List<HubUpgrade> _mageUpgrades = [];
-    private readonly List<HubUpgrade> _hunterUpgrades = [];
+    public List<HubUpgrade> GenericUpgrades { get; } = [];
+    public List<HubUpgrade> PaladinUpgrades { get; } = [];
+    public List<HubUpgrade> MageUpgrades { get; } = [];
+    public List<HubUpgrade> HunterUpgrades { get; } = [];
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -22,7 +22,7 @@ public partial class HubUpgradeManager : Node
 
     private void GenericUpgradesList()
     {
-        _genericUpgrades.Add(new HubUpgrade
+        GenericUpgrades.Add(new HubUpgrade
         {
             Name = "Max Health",
             Description = "Increased Health",
@@ -36,7 +36,7 @@ public partial class HubUpgradeManager : Node
             }
         });
 
-        _genericUpgrades.Add(new HubUpgrade
+        GenericUpgrades.Add(new HubUpgrade
         {
             Name = "Base Damage",
             Description = "Base Damage",
@@ -50,7 +50,7 @@ public partial class HubUpgradeManager : Node
             }
         });
 
-        _genericUpgrades.Add(new HubUpgrade
+        GenericUpgrades.Add(new HubUpgrade
         {
             Name = "Movement Speed",
             Description = "Increased Movement Speed",
@@ -64,7 +64,7 @@ public partial class HubUpgradeManager : Node
             }
         });
 
-        _genericUpgrades.Add(new HubUpgrade
+        GenericUpgrades.Add(new HubUpgrade
         {
             Name = "Health Regen",
             Description = "Increased Health Regen",
@@ -81,7 +81,7 @@ public partial class HubUpgradeManager : Node
 
     private void MageUpgradesList()
     {
-        _mageUpgrades.Add(new HubUpgrade
+        MageUpgrades.Add(new HubUpgrade
             {
                 Name = "Bolt Speed",
                 Description = "Increased Bolt Speed",
@@ -96,7 +96,7 @@ public partial class HubUpgradeManager : Node
             }
         );
 
-        _mageUpgrades.Add(new HubUpgrade
+        MageUpgrades.Add(new HubUpgrade
             {
                 Name = "Starting Bolt Count",
                 Description = "+1 Bolt per rank",
@@ -111,7 +111,7 @@ public partial class HubUpgradeManager : Node
             }
         );
 
-        _mageUpgrades.Add(new HubUpgrade
+        MageUpgrades.Add(new HubUpgrade
             {
                 Name = "Attack Cooldown",
                 Description = "Decreased Attack Cooldown",
@@ -129,7 +129,7 @@ public partial class HubUpgradeManager : Node
 
     private void HunterUpgradesList()
     {
-        _hunterUpgrades.Add(new HubUpgrade
+        HunterUpgrades.Add(new HubUpgrade
             {
                 Name = "Arrow Speed",
                 Description = "Increased Arrow Speed",
@@ -144,7 +144,7 @@ public partial class HubUpgradeManager : Node
             }
         );
 
-        _hunterUpgrades.Add(new HubUpgrade
+        HunterUpgrades.Add(new HubUpgrade
             {
                 Name = "Starting Arrow Count",
                 Description = "+1 Arrow per rank",
@@ -159,7 +159,7 @@ public partial class HubUpgradeManager : Node
             }
         );
 
-        _hunterUpgrades.Add(new HubUpgrade
+        HunterUpgrades.Add(new HubUpgrade
             {
                 Name = "Attack Cooldown",
                 Description = "Decreased Attack Cooldown",
@@ -177,7 +177,7 @@ public partial class HubUpgradeManager : Node
 
     private void PaladinUpgradesList()
     {
-        _paladinUpgrades.Add(new HubUpgrade
+        PaladinUpgrades.Add(new HubUpgrade
             {
                 Name = "Aura Radius",
                 Description = "Increased Aura Radius",
@@ -193,7 +193,7 @@ public partial class HubUpgradeManager : Node
             }
         );
 
-        _paladinUpgrades.Add(new HubUpgrade
+        PaladinUpgrades.Add(new HubUpgrade
             {
                 Name = "Divine Retribution",
                 Description = "Aura heals back for damage dealt",
@@ -219,7 +219,7 @@ public partial class HubUpgradeManager : Node
 
     public void ApplyHubUpgrades(Player player)
     {
-        foreach (var upgrade in _genericUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
+        foreach (var upgrade in GenericUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
         {
             for (var i = 0; i < upgrade.CurrentRank; i++)
                 upgrade.ApplyEffect(player);
@@ -227,14 +227,14 @@ public partial class HubUpgradeManager : Node
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Paladin)
         {
-            foreach (var upgrade in _paladinUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
+            foreach (var upgrade in PaladinUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
                 for (var i = 0; i < upgrade.CurrentRank; i++)
                     upgrade.ApplyEffect(player);
         }
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Mage)
         {
-            foreach (var upgrade in _mageUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
+            foreach (var upgrade in MageUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
                 for (var i = 0; i < upgrade.CurrentRank; i++)
                 {
                     upgrade.ApplyEffect(player);
@@ -242,7 +242,7 @@ public partial class HubUpgradeManager : Node
         }
 
         if (GameManager.Instance.SelectedClass == GameManager.PlayerClass.Hunter)
-            foreach (var upgrade in _hunterUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
+            foreach (var upgrade in HunterUpgrades.Where(upgrade => upgrade.CurrentRank > 0))
                 for (var i = 0; i < upgrade.CurrentRank; i++)
                 {
                     upgrade.ApplyEffect(player);

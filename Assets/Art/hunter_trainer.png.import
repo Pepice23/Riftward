@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bk6qwm4qqn2xp"
-path="res://.godot/imported/hunter trainer.png-01edbffc1e04d4754148a815c1fc363f.ctex"
+path="res://.godot/imported/hunter_trainer.png-86b7d8a1bd3b6c9f8a3ac7d18921f740.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/hunter trainer.png"
-dest_files=["res://.godot/imported/hunter trainer.png-01edbffc1e04d4754148a815c1fc363f.ctex"]
+source_file="res://Assets/Art/hunter_trainer.png"
+dest_files=["res://.godot/imported/hunter_trainer.png-86b7d8a1bd3b6c9f8a3ac7d18921f740.ctex"]
 
 [params]
 

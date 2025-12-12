@@ -48,6 +48,19 @@ public partial class Player
         if (ProjectileScene == null)
             return;
 
+        // Get the camera and viewport info
+        var camera = GetViewport().GetCamera2D();
+        if (camera == null)
+            return; // No camera, can't determine viewport
+
+        var viewportSize = GetViewportRect().Size;
+
+        // Calculate the visible area in world coordinates
+        var visibleRect = new Rect2(
+            camera.GlobalPosition - viewportSize / 2, // Top-left corner
+            viewportSize // Width and height
+        );
+
         // Find all enemies
         var enemies = GetTree().GetNodesInGroup("enemies");
         if (enemies.Count == 0)
@@ -56,11 +69,12 @@ public partial class Player
         // Find the N nearest enemies using LINQ
         var nearestEnemies = enemies
             .OfType<BaseEnemy>() // Only CharacterBody2D nodes
+            .Where(e => visibleRect.HasPoint(e.GlobalPosition)) //Only enemies in the viewport
             .OrderBy(e => GlobalPosition.DistanceTo(e.GlobalPosition)) // Sort by distance (closest first)
             .Take(ProjectileCount) // Take only the first N enemies
             .ToList(); // Convert to a list
 
-        // Shoot one projectile at each target
+        // Shoot one projectile at each visible target
         foreach (var target in nearestEnemies)
         {
             SpawnProjectile(target.GlobalPosition);

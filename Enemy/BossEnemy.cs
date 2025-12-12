@@ -46,7 +46,6 @@ public partial class BossEnemy : BaseEnemy
 
     protected override void Die()
     {
-        GD.Print("Boss died!");
         GameManager.Instance.AddRunGold(GoldReward);
         GameManager.Instance.Victory();
         QueueFree(); // Remove from scene

@@ -63,14 +63,12 @@ public partial class BaseEnemy : CharacterBody2D
         CurrentHealth -= amount;
         UpdateEnemyHPBar();
 
-        GD.Print($"{EnemyName} took {amount} of damage! Health: {CurrentHealth}/{MaxHealth}");
 
         if (CurrentHealth <= 0) Die();
     }
 
     protected virtual void Die()
     {
-        GD.Print("Kobold died!");
         _player?.GainXP(2);
         GameManager.Instance.AddRunGold(GoldReward);
         QueueFree(); // Remove from scene

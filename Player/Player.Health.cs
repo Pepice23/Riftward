@@ -57,7 +57,6 @@ public partial class Player
 
         _isDead = true;
         GameManager.Instance.EndRun();
-        GD.Print("Player died!");
 
         // Stop moving
         Velocity = Vector2.Zero;

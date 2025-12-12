@@ -18,7 +18,6 @@ public partial class Player
     public void GainXP(int amount)
     {
         CurrentXP += amount;
-        GD.Print($"Gained {amount} XP! Total: {CurrentXP}/{_xpNeededForNextLevel}");
 
         // Did we level up?
         if (CurrentXP >= _xpNeededForNextLevel) LevelUp();

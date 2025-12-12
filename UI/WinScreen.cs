@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 // ReSharper disable once CheckNamespace
 #pragma warning disable CA1050

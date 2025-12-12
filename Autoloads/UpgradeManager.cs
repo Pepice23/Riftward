@@ -25,12 +25,7 @@ public partial class UpgradeManager : Node
             Name = "Damage Boost",
             Description = "Increased Damage",
             MaxRank = 5,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Damage = {player.Damage}");
-                player.Damage += 5;
-                GD.Print($"After upgrade: Damage = {player.Damage}");
-            }
+            ApplyEffect = (player) => { player.Damage += 5; }
         });
 
         AllUpgrades.Add(new Upgrade
@@ -38,24 +33,14 @@ public partial class UpgradeManager : Node
             Name = "Speed Boost",
             Description = "Increased Movement Speed",
             MaxRank = 4,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Movement Speed = {player.Speed}");
-                player.Speed += 50;
-                GD.Print($"After upgrade: Movement Speed = {player.Speed}");
-            }
+            ApplyEffect = (player) => { player.Speed += 25; }
         });
         AllUpgrades.Add(new Upgrade
         {
             Name = "Health Regeneration",
             Description = "Increased Health Regeneration",
             MaxRank = 5,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Health Regeneration = {player.HealthRegen}");
-                player.HealthRegen += 0.01f;
-                GD.Print($"After upgrade: Health Regeneration = {player.HealthRegen}");
-            }
+            ApplyEffect = (player) => { player.HealthRegen += 0.01f; }
         });
     }
 
@@ -68,10 +53,8 @@ public partial class UpgradeManager : Node
                 MaxRank = 4,
                 ApplyEffect = player =>
                 {
-                    GD.Print($"Before upgrade: Aura radius = {player.AuraRadius}");
                     player.AuraRadius += 25;
                     player.UpdateHammerPositions(player.AuraRadius);
-                    GD.Print($"After upgrade: Aura Radius = {player.AuraRadius}");
                 }
             }
         );
@@ -81,12 +64,7 @@ public partial class UpgradeManager : Node
             Name = "Blazing Aura",
             Description = "Aura damages enemies more frequently",
             MaxRank = 3,
-            ApplyEffect = player =>
-            {
-                GD.Print($"Before upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
-                player.AuraDamageCooldown -= 0.05f;
-                GD.Print($"After upgrade: Aura Damage Cooldown = {player.AuraDamageCooldown}");
-            }
+            ApplyEffect = player => { player.AuraDamageCooldown -= 0.05f; }
         });
 
         _paladinUpgrades.Add(new Upgrade
@@ -94,12 +72,7 @@ public partial class UpgradeManager : Node
             Name = "Divine Retribution",
             Description = "Aura heals back for damage dealt",
             MaxRank = 3,
-            ApplyEffect = player =>
-            {
-                GD.Print($"Before upgrade: Aura Life Leech = {player.AuraLifeLeech}");
-                player.AuraLifeLeech += 0.1f;
-                GD.Print($"After upgrade: Aura Life Leech = {player.AuraLifeLeech}");
-            }
+            ApplyEffect = player => { player.AuraLifeLeech += 0.1f; }
         });
     }
 
@@ -110,12 +83,7 @@ public partial class UpgradeManager : Node
             Name = "Bolt Speed Boost",
             Description = "Increased Bolt Speed",
             MaxRank = 3,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Bolt Speed = {player.ProjectileSpeed}");
-                player.ProjectileSpeed += 100;
-                GD.Print($"After upgrade: Bolt Speed = {player.ProjectileSpeed}");
-            }
+            ApplyEffect = (player) => { player.ProjectileSpeed += 100; }
         });
 
         _mageUpgrades.Add(new Upgrade
@@ -123,24 +91,14 @@ public partial class UpgradeManager : Node
             Name = "Faster Shooting",
             Description = "Decreased Attack Cooldown",
             MaxRank = 3,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");
-                player.AttackCooldown -= 0.05f;
-                GD.Print($"After upgrade: Attack Cooldown = {player.AttackCooldown}");
-            }
+            ApplyEffect = (player) => { player.AttackCooldown -= 0.05f; }
         });
         _mageUpgrades.Add(new Upgrade
             {
                 Name = "+1 Bolt",
                 Description = "Shoot 1 more bolt at the same time",
                 MaxRank = 3,
-                ApplyEffect = player =>
-                {
-                    GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
-                    player.ProjectileCount += 1;
-                    GD.Print($"After upgrade: Projectile Count = {player.ProjectileCount}");
-                }
+                ApplyEffect = player => { player.ProjectileCount += 1; }
             }
         );
     }
@@ -152,12 +110,7 @@ public partial class UpgradeManager : Node
             Name = "Arrow Speed Boost",
             Description = "Arrow Speed Increased",
             MaxRank = 3,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Arrow Speed = {player.ProjectileSpeed}");
-                player.ProjectileSpeed += 100;
-                GD.Print($"After upgrade: Arrow Speed = {player.ProjectileSpeed}");
-            }
+            ApplyEffect = (player) => { player.ProjectileSpeed += 100; }
         });
 
         _hunterUpgrades.Add(new Upgrade
@@ -165,24 +118,14 @@ public partial class UpgradeManager : Node
             Name = "Faster Shooting",
             Description = "Decreased Attack Cooldown",
             MaxRank = 3,
-            ApplyEffect = (player) =>
-            {
-                GD.Print($"Before upgrade: Attack Cooldown = {player.AttackCooldown}");
-                player.AttackCooldown -= 0.05f;
-                GD.Print($"After upgrade: Attack Cooldown = {player.AttackCooldown}");
-            }
+            ApplyEffect = (player) => { player.AttackCooldown -= 0.05f; }
         });
         _hunterUpgrades.Add(new Upgrade
             {
                 Name = "+1 Arrow",
                 Description = "Shoot 1 more arrow at the same time",
                 MaxRank = 3,
-                ApplyEffect = player =>
-                {
-                    GD.Print($"Before upgrade: Projectile Count = {player.ProjectileCount}");
-                    player.ProjectileCount += 1;
-                    GD.Print($"After upgrade: Projectile Count = {player.ProjectileCount}");
-                }
+                ApplyEffect = player => { player.ProjectileCount += 1; }
             }
         );
     }

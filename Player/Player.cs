@@ -99,9 +99,6 @@ public partial class Player : CharacterBody2D
         _hammerAura = GetNode<Node2D>("HammerAura");
         _collisionShape = GetNode<CollisionShape2D>("%AuraCollision");
         _snowFall = GetNode<GpuParticles2D>("%SnowFall");
-        // Initialize health
-        _currentHealth = MaxHealth;
-        UpdatePlayerHP();
         // Initialize XP
         CalculateXPNeeded();
 
@@ -137,6 +134,10 @@ public partial class Player : CharacterBody2D
         _area.BodyExited += RemoveEnemiesFromAura;
         _hitboxArea.BodyEntered += AddEnemyToHitbox;
         _hitboxArea.BodyExited += RemoveEnemyFromHitbox;
+
+        // Initialize health
+        _currentHealth = MaxHealth;
+        UpdatePlayerHP();
     }
 
     public override void _ExitTree()

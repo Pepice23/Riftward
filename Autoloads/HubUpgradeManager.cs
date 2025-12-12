@@ -202,7 +202,7 @@ public partial class HubUpgradeManager : Node
                 ApplyEffect = player =>
                 {
                     GD.Print($"Before upgrade: Aura Life Leech = {player.AuraLifeLeech}");
-                    player.AuraLifeLeech *= 1.05f;
+                    player.AuraLifeLeech += 0.05f;
                     GD.Print($"After upgrade: Aura Life Leech = {player.AuraLifeLeech}");
                 }
             }

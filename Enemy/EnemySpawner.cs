@@ -153,10 +153,14 @@ public partial class EnemySpawner : Node2D
 
         switch (minutes)
         {
-            case < 2f:
-                return 3;
-            case < 5f:
+            case < 1f:
                 return 4;
+            case < 2f:
+                return 8;
+            case < 3f:
+                return 12;
+            case < 5f:
+                return 20;
         }
 
         return 0;

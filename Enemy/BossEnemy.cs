@@ -25,7 +25,7 @@ public partial class BossEnemy : BaseEnemy
     {
         base._Ready();
         Speed = 50;
-        MaxHealth = 200;
+        MaxHealth = 400;
         Damage = 30;
 
         EnemyName = "Boss Enemy";

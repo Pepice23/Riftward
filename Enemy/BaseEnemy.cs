@@ -71,7 +71,7 @@ public partial class BaseEnemy : CharacterBody2D
     protected virtual void Die()
     {
         GD.Print("Kobold died!");
-        _player?.GainXP(3);
+        _player?.GainXP(2);
         GameManager.Instance.AddRunGold(GoldReward);
         QueueFree(); // Remove from scene
     }

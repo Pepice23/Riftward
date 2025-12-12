@@ -10,7 +10,7 @@ public partial class Player
         // Level 2: 10 * 1.15^0 = 10
         // Level 3: 10 * 1.15^1 = 11.5 → 12
         // Level 4: 10 * 1.15^2 = 13.2 → 14
-        _xpNeededForNextLevel = Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.25f, CurrentLevel - 1));
+        _xpNeededForNextLevel = Mathf.CeilToInt(BaseXPNeeded * Mathf.Pow(1.43f, CurrentLevel - 1));
         EmitSignal(SignalName.XPUpdated, _xpNeededForNextLevel, CurrentXP);
     }
 

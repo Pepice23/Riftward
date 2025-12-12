@@ -56,10 +56,8 @@ public partial class GameManager : Node
             // Check if 10 seconds have passed since last update
             if (RunTime - _lastUpdateTime >= 10f)
             {
-                GD.Print($"SCALING: RunTime={RunTime}, Old Health={CurrentEnemyMaxHealth}");
                 CurrentEnemyMaxHealth += 5;
                 CurrentEliteEnemyMaxHealth += 5;
-                GD.Print($"SCALING: New Health={CurrentEnemyMaxHealth}");
                 _lastUpdateTime = RunTime; // Remember this time for next check
             }
         }
@@ -97,7 +95,6 @@ public partial class GameManager : Node
 
     public void Victory()
     {
-        GD.Print("Victory! You survived 5 minutes! and Defeated the Boss!");
         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://UI/win_screen.tscn");
     }
 

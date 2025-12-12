@@ -105,6 +105,7 @@ public partial class Trainer : PanelContainer
         GameManager.Instance.HubGold -= cost;
         _availableGold.Text = GameManager.Instance.HubGold.ToString();
         upgrade.CurrentRank++;
+        SaveManager.Instance.Save();
 
         GD.Print($"Purchased {upgrade.Name}! Rank {upgrade.CurrentRank}/{upgrade.MaxRank}");
 

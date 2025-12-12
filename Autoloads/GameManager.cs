@@ -10,7 +10,7 @@ public partial class GameManager : Node
 
     [Signal]
     public delegate void BossTimeEventHandler();
-    
+
     [Signal]
     public delegate void RunGoldUpdatedEventHandler(int gold);
 
@@ -25,7 +25,7 @@ public partial class GameManager : Node
     public bool IsRunActive;
     public float RunTime;
     public int CurrentEnemyMaxHealth = 10;
-    public int CurrentEliteEnemyMaxHealth = 40;
+    public int CurrentEliteEnemyMaxHealth = 50;
     public int MaxRunTime = 300;
     public PlayerClass SelectedClass = PlayerClass.Paladin;
     public bool IsWinterModeEnabled = false;
@@ -57,8 +57,8 @@ public partial class GameManager : Node
             if (RunTime - _lastUpdateTime >= 10f)
             {
                 GD.Print($"SCALING: RunTime={RunTime}, Old Health={CurrentEnemyMaxHealth}");
-                CurrentEnemyMaxHealth += 3;
-                CurrentEliteEnemyMaxHealth += 3;
+                CurrentEnemyMaxHealth += 5;
+                CurrentEliteEnemyMaxHealth += 5;
                 GD.Print($"SCALING: New Health={CurrentEnemyMaxHealth}");
                 _lastUpdateTime = RunTime; // Remember this time for next check
             }
@@ -90,6 +90,7 @@ public partial class GameManager : Node
         CurrentEliteEnemyMaxHealth = 40;
         _lastUpdateTime = 0f;
         RunGold = 0;
+        SaveManager.Instance.Save();
         GD.Print("Game Reset!");
         UpgradeManager.Instance.ResetUpgradeLists();
     }
